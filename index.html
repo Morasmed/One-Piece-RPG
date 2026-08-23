@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Piece - Ultimate Adventure RPG</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="side-art left"></div>
+  <div class="side-art right"></div>
+
+  <div class="app-screen">
+    <div class="header-box">
+      <div class="badge-stage" id="stageBadge">LOADING...</div>
+      <div class="status-bar" id="statusBar">Wins: 0 | Bounty: 0 Beli</div>
+      <div class="current-result-text" id="resultDisplay">Ready</div>
+    </div>
+
+    <div class="wheel-container">
+      <div class="pointer"></div>
+      <div class="center-hub"></div>
+      <canvas id="wheelCanvas" width="800" height="800"></canvas>
+    </div>
+
+    <button class="action-btn" id="spinBtn">SPIN THE WHEEL</button>
+
+    <div class="overlay-backdrop" id="transitionScreen">
+      <div class="popup-box">
+        <div class="popup-title" id="popupTitleLabel">You Rolled:</div>
+        <div class="popup-value" id="popupResultValue">-</div>
+        <div class="popup-next" id="transitionNextName">Next up: Category</div>
+        <button class="action-btn" id="continueBtn" style="width: 100%; margin: 0;">CONTINUE</button>
+      </div>
+    </div>
+
+    <div class="summary-overlay" id="summaryCard">
+      <div id="cardContainer"></div>
+      <button class="action-btn" id="restartBtn" style="margin-top: 25px; width: 100%; max-width: none;">NEW ADVENTURE</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

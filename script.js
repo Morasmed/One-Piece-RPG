@@ -93,6 +93,7 @@ let enemyBounty = 0;
 let victoryCount = 0; 
 let roadPoneglyphs = 0;
 let hasEscaped = false; 
+
 let inFinalWar = false;
 let finalBossTier = 0;
 
@@ -485,14 +486,13 @@ function drawWheel(stage) {
   });
 }
 
-// --- NOWA, NIEZAWODNA ANIMACJA KRĘCENIA ---
+// --- NOWA, NIEZAWODNA ANIMACJA (USUNIĘTY BŁĄD CACHE) ---
 function spin() {
   initAudio();
   const btn = document.getElementById("spinBtn");
   if(btn) btn.disabled = true;
   
-  let randomDegrees = Math.floor(Math.random() * 360);
-  let targetRotation = 1800 + randomDegrees;
+  let targetRotation = 1800 + Math.floor(Math.random() * 360);
   
   const cvs = document.getElementById("wheelCanvas");
   if(!cvs) return;
@@ -509,13 +509,11 @@ function spin() {
   isSpinning = true; lastTickSegment = -1; 
   trackSpinSound(targetRotation, performance.now(), 4500);
 
-  // Wymuszenie przez podwójny Request Animation Frame (gwarantuje, że się nie zatnie)
+  // Wymuszenie przez przeglądarkę odświeżenia klatki przed ruchem:
   cvs.style.transition = 'transform 4.5s cubic-bezier(0.12, 0.95, 0.2, 1)';
-  requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-          cvs.style.transform = `rotate(${targetRotation}deg)`;
-      });
-  });
+  setTimeout(() => {
+      cvs.style.transform = `rotate(${targetRotation}deg)`;
+  }, 20);
 
   setTimeout(() => {
     isSpinning = false;
@@ -623,7 +621,6 @@ function handleResult(res) {
   }, 1000);
 }
 
-// --- NATYCHMIASTOWY RESET KOŁA PO ZAMKNIĘCIU POPUPU ---
 function prepareNextStage() {
   let ts = document.getElementById("transitionScreen");
   if(ts) ts.classList.remove("active");
@@ -644,7 +641,7 @@ function prepareNextStage() {
   
   const cvs = document.getElementById("wheelCanvas");
   if(cvs) {
-      // Usuwamy animację i brutalnie resetujemy pozycję na 0
+      // Usunięto błędy w resrtowaniu rotacji koła
       cvs.style.transition = 'none';
       cvs.style.transform = 'rotate(0deg)';
   }

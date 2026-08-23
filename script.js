@@ -688,3 +688,20 @@ window.onload = () => {
   let sb = document.getElementById("stageBadge");
   if(sb) sb.innerText = currentStage.badge;
 };
+window.onload = () => {
+  const sbtn = document.getElementById("spinBtn");
+  if(sbtn) sbtn.addEventListener("click", spin);
+  
+  const cbtn = document.getElementById("continueBtn");
+  if(cbtn) cbtn.addEventListener("click", prepareNextStage);
+  
+  const rbtn = document.getElementById("restartBtn");
+  if(rbtn) rbtn.addEventListener("click", () => location.reload());
+
+  updateStatusBar();
+  updateLiveSheet(); // <-- Ta linijka rysuje list gończy od razu na starcie!
+  currentStage = getNextStage(); 
+  drawWheel(currentStage); 
+  let sb = document.getElementById("stageBadge");
+  if(sb) sb.innerText = currentStage.badge;
+};

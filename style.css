@@ -176,9 +176,11 @@ body::after {
 /* --- INTERAKTYWNA KARTA POSTACI (LIST GOŃCZY) --- */
 .live-sheet {
   position: fixed;
+  /* Ukrycie karty na telefonach, by nie nachodziła na koło */
+@media (max-width: 1000px) { .live-sheet { display: none !important; } }
   left: 2vw;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 20px; /* Zmienione na sztywny odstęp od samej góry */
+  /* Usunięto transform, żeby karta nie zjeżdżała w dół */
   width: 270px;
   background: #e6c280;
   border: 4px solid #3e2723;
@@ -190,15 +192,5 @@ body::after {
   z-index: 50;
   background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
   transition: all 0.3s ease;
-  display: none; /* Pokazuje się automatycznie po pierwszym losowaniu */
+  display: none; 
 }
-.live-sheet.active { display: block; }
-.live-sheet-header { font-size: 1.8rem; font-weight: 900; text-align: center; letter-spacing: 4px; border-bottom: 2px solid #3e2723; margin-bottom: 8px; color: #3e2723;}
-.live-sheet-bounty { font-size: 1.4rem; font-weight: 900; text-align: center; color: #8b0000; margin-bottom: 12px; border-bottom: 2px dashed #8b4513; padding-bottom: 8px;}
-.live-sheet-bounty span { font-size: 0.8rem; color: #3e2723; letter-spacing: 1px;}
-.live-row { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 5px; border-bottom: 1px solid rgba(139, 69, 19, 0.2); padding-bottom: 2px;}
-.live-label { font-weight: bold; text-transform: uppercase; width: 45%; }
-.live-val { font-weight: 900; color: #8b0000; text-align: right; width: 55%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-/* Ukrycie karty na telefonach, by nie nachodziła na koło */
-@media (max-width: 1250px) { .live-sheet { display: none !important; } }

@@ -51,7 +51,6 @@ function trackSpinSound(targetRotation, startTime, duration) {
 
 const colors = ['#0284c7', '#7c3aed', '#dc2626', '#16a34a', '#db2777', '#d97706', '#2563eb', '#9333ea', '#be185d', '#0f766e', '#ea580c', '#65a30d'];
 
-// --- STATYSTYKI ---
 const levelStats = [
   { label: "Civilian", pwr: 0 }, { label: "East Blue Rookie", pwr: 5000000 }, { label: "Grand Line Pirate", pwr: 20000000 },
   { label: "Supernova Level", pwr: 100000000 }, { label: "Warlord Level", pwr: 250000000 }, { label: "Yonko Commander", pwr: 400000000 },
@@ -63,15 +62,9 @@ const masteryLevels = [
   { label: "Skilled", pwr: 80000000 }, { label: "Expert", pwr: 200000000 }, { label: "Mastered", pwr: 400000000 }, { label: "Perfection", pwr: 800000000 }
 ];
 
-const obsHakiLevels = [
-  { label: "Basic", pwr: 50000000 }, { label: "Intermediate", pwr: 150000000 }, { label: "Advanced (Future Sight)", pwr: 400000000 }, { label: "Mastered (Future Sight)", pwr: 1000000000 }
-];
-const armHakiLevels = [
-  { label: "Basic", pwr: 50000000 }, { label: "Intermediate", pwr: 150000000 }, { label: "Advanced (Internal Dest.)", pwr: 400000000 }, { label: "Mastered (Internal Dest.)", pwr: 1000000000 }
-];
-const conqHakiLevels = [
-  { label: "Basic", pwr: 100000000 }, { label: "Intermediate", pwr: 300000000 }, { label: "Advanced (ACoC)", pwr: 1000000000 }, { label: "Mastered (ACoC)", pwr: 2000000000 }
-];
+const obsHakiLevels = [{ label: "Basic", pwr: 50000000 }, { label: "Intermediate", pwr: 150000000 }, { label: "Advanced (Future Sight)", pwr: 400000000 }, { label: "Mastered (Future Sight)", pwr: 1000000000 }];
+const armHakiLevels = [{ label: "Basic", pwr: 50000000 }, { label: "Intermediate", pwr: 150000000 }, { label: "Advanced (Internal Dest.)", pwr: 400000000 }, { label: "Mastered (Internal Dest.)", pwr: 1000000000 }];
+const conqHakiLevels = [{ label: "Basic", pwr: 100000000 }, { label: "Intermediate", pwr: 300000000 }, { label: "Advanced (ACoC)", pwr: 1000000000 }, { label: "Mastered (ACoC)", pwr: 2000000000 }];
 
 const opWeapons = ["Supreme Grade Sword", "Great Grade Sword", "Skillful Grade Sword", "Black Blade", "Clima-Tact", "Germa Raid Suit", "Seastone Jitte", "Seastone Knuckles", "Pacifista Lasers", "Kuja Snake Bow", "Iron Mace (Kanabo)", "Sniper Rifle", "Cyborg Enhancements", "Dial Arsenal", "Pop Greens", "Fish-Man Karate Water Bullets", "Standard Flintlock", "Kikoku", "Raiu"];
 const opFruitsParamecia = ["Gura Gura (Quake)", "Ope Ope (Room)", "Zushi Zushi (Gravity)", "Ito Ito (String)", "Mochi Mochi", "Nikyu Nikyu (Paw)", "Doku Doku (Poison)", "Soru Soru (Soul)", "Gomu Gomu (Gum)", "Bari Bari (Barrier)", "Bara Bara (Chop)", "Mero Mero (Love)", "Horo Horo (Ghost)", "Yomi Yomi (Revive)", "Jiki Jiki (Magnet)", "Kage Kage (Shadow)", "Horu Horu (Hormone)", "Fuwa Fuwa (Float)", "Supa Supa (Dice)", "Bomu Bomu (Bomb)", "Bane Bane (Spring)", "Kilo Kilo (Weight)", "Ton Ton (Ton)", "Woshu Woshu (Wash)", "Choki Choki (Snip)", "Sui Sui (Swim)", "Memo Memo (Memory)", "Buki Buki (Weapon)", "Doru Doru (Wax)", "Mane Mane (Clone)", "Toge Toge (Spike)", "Noko Noko (Mushroom)", "Sube Sube (Smooth)", "Hira Hira (Flag)", "Ishi Ishi (Stone)"];
@@ -91,20 +84,18 @@ const enemies = {
   "Belo Betty": 850000000, "Karasu": 900000000, "Lindbergh": 800000000, "Morley": 800000000, "Emporio Ivankov": 1000000000, "Ginny": 150000000, "Sabo (Flame Emperor)": 2500000000, "Monkey D. Dragon": 5000000000, "Enel": 500000000
 };
 
-// SYSTEM ZMIENNYCH
 let characterState = {}; 
 let characterSheet = [];
 let currentStage = null;
 let stepIndex = 0;
 let currentRotation = 0;
-
 let totalBounty = 0;
 let enemyBounty = 0;
 let victoryCount = 0; 
 let roadPoneglyphs = 0;
 let hasEscaped = false; 
 
-// --- ZMIENNE GAUNTLETU (FINAŁOWEJ WOJNY) ---
+// ZMIENNE GAUNTLETU (FINAŁOWEJ WOJNY)
 let inFinalWar = false;
 let finalBossTier = 0;
 
@@ -176,7 +167,6 @@ function applyUpgrade(statName, tiers) {
   return { msg: `${key} UPGRADED to ${newObj.label}!`, pwrDiff: diff, key: key, newLabel: newObj.label };
 }
 
-// --- SILNIK FABULARNY ---
 function getNextStage() {
   switch(stepIndex) {
     case 0: return createStage("⚓ 1. Race", "Race", [{label: "Human", weight: 45}, {label: "Fishman", weight: 15, pwr: 10000000}, {label: "Mink", weight: 10, pwr: 20000000}, {label: "Giant", weight: 8, pwr: 50000000}, {label: "Cyborg", weight: 8, pwr: 30000000}, {label: "Lunarian", weight: 4, pwr: 300000000}, {label: "Celestial Dragon", weight: 8, pwr: 100000000, color: '#f59e0b'}]);
@@ -235,24 +225,20 @@ function getNextStage() {
     case 16: { 
       let currFac = characterState["Faction"];
       
-      // JEŚLI JESTEŚ W FINAŁOWEJ WOJNIE (GAUNTLET BSSÓW)
       if (inFinalWar) {
           let g = getGauntlet(currFac);
           if (finalBossTier < g.length) {
               return createStage("⚔️ Final War", "Event", [
-                  {label: "Face " + g[finalBossTier], weight: 80, color: '#dc2626', pwr: 0},
-                  {label: "Intense Training", weight: 20, color: '#2563eb', pwr: 0}
+                  {label: "Face " + g[finalBossTier], weight: 100, color: '#dc2626', pwr: 0}
               ]);
           }
       }
 
-      // JEŚLI JESTEŚ W TRAKCIE ZWYKŁEJ PODRÓŻY
       let opts = [];
       let isEarly = victoryCount < 3, isMid = victoryCount >= 3 && victoryCount < 5, isLate = victoryCount >= 5;
       
       opts.push({label: "Intense Training", weight: 12, pwr: 0}); 
       
-      // Lore / Peaceful Events
       if (isEarly) {
           opts.push({label: "Discover Sunken Treasure", weight: 12, color: '#eab308', pwr: 0});
           opts.push({label: "Grand Banquet", weight: 10, color: '#10b981', pwr: 0});
@@ -265,12 +251,10 @@ function getNextStage() {
           opts.push({label: "Underworld Auction", weight: 10, color: '#ef4444', pwr: 0});
       }
 
-      // Nauka Owocu / Haki w locie
       let learnWeight = isLate ? 4 : 10;
       if (characterState["Fruit Category"] === "None") opts.push({label: "Found a Mysterious Fruit", weight: learnWeight, color: '#db2777', pwr: 0});
       if (characterState["Haki Potential"] === "No Haki" && victoryCount >= 1) opts.push({label: "Haki Awakening", weight: learnWeight, color: '#9333ea', pwr: 0});
 
-      // Zwykłe Walki
       if (currFac === "Pirate") {
           if (isEarly) {
               opts.push({label: "Clash with Warlord", weight: 25, pwr: 0}); opts.push({label: "Marine Ambush", weight: 25, pwr: 0}); opts.push({label: "Supernova Clash", weight: 20, pwr: 0});
@@ -315,22 +299,19 @@ function getNextStage() {
       
       return createStage("🗺️ The Journey", "Event", opts);
     }
-    case 17: { // OBSŁUGA WYDARZEŃ
+    case 17: { 
       let ev = characterState["Event"];
 
-      // Rozpoczęcie Finałowej Wojny
       if (ev && ev.includes("FINAL GOAL")) {
           inFinalWar = true;
-          stepIndex = 16; return getNextStage(); // Wraca do koła, ale nadpisze je koło Wojny
+          stepIndex = 16; return getNextStage(); 
       }
 
-      // Generowanie Bossa z Gauntletu (Krok wojny)
       if (ev && ev.startsWith("Face ")) {
           let g = getGauntlet(characterState["Faction"]);
           return createStage("👑 Final Legend", "Enemy", [{label: g[finalBossTier], weight: 100, color: '#dc2626'}]);
       }
 
-      // Pokojowe wydarzenia
       let storyEvents = ["Discover Sunken Treasure", "Grand Banquet", "Navigate a Deadly Anomaly", "Meet a Legendary Mentor", "Recruit a Powerful Ally", "Discover an Ancient Ruin", "Underworld Auction"];
       if (storyEvents.includes(ev)) {
           if (ev === "Discover Sunken Treasure") totalBounty += 100000000;
@@ -345,7 +326,6 @@ function getNextStage() {
           stepIndex = 16; return getNextStage(); 
       }
 
-      // Znaleziska w locie
       if (ev === "Haki Awakening") { 
           characterState["Haki Potential"] = "Two Colors (Obs & Arm)";
           characterState["Observation Haki"] = "Basic";
@@ -358,7 +338,6 @@ function getNextStage() {
       }
       if (ev === "Found a Mysterious Fruit") { stepIndex = 23; return getNextStage(); }
       
-      // Trening
       if (ev === "Intense Training") { stepIndex = 21; return getNextStage(); }
 
       if (ev === "Liberate Island" || ev === "Search for Road Poneglyph") {
@@ -367,7 +346,6 @@ function getNextStage() {
         updateStatusBar(); updateLiveSheet(); stepIndex = 16; return getNextStage();
       }
 
-      // Generowanie zwykłego Wroga
       if (ev === "Clash with Warlord") return createStage("⚔️ Warlord", "Enemy", toWeighted(["Buggy the Clown", "Gecko Moria", "Bartholomew Kuma", "Sir Crocodile", "Donquixote Doflamingo", "Boa Hancock", "Trafalgar Law", "Edward Weevil", "Dracule Mihawk", "Jinbe"]));
       if (ev === "Marine Ambush" || ev === "Buster Call Operations") return createStage("⚓ Marines", "Enemy", toWeighted(["Vice Admiral Smoker", "Vice Admiral Momonga", "Captain Koby", "Admiral Fujitora", "Admiral Kizaru", "Admiral Aokiji", "Fleet Admiral Akainu", "Magellan"]));
       if (ev === "Admiral Ambush") return createStage("⚓ Admiral", "Enemy", toWeighted(["Admiral Ryokugyu", "Admiral Fujitora", "Admiral Kizaru", "Admiral Aokiji", "Fleet Admiral Akainu"]));
@@ -379,7 +357,7 @@ function getNextStage() {
 
       stepIndex = 16; return getNextStage();
     }
-    case 18: { // Walka survival kalkulacja
+    case 18: { 
       if (characterState["Enemy"]) {
         enemyBounty = enemies[characterState["Enemy"]] || 1000000000;
         let scaledPwr = totalBounty / 1000000;
@@ -390,24 +368,23 @@ function getNextStage() {
       }
       stepIndex = 16; return getNextStage();
     }
-    case 19: {
+    case 19: { // <--- ZMIANA: AUTOMATYCZNY TRENING PO WALCE
       let o = characterState["Outcome"];
       if (o === "VICTORY") {
          victoryCount++; updateLiveSheet();
          
-         // Zwycięstwo w Gauntlecie!
          if (inFinalWar) {
              finalBossTier++;
              let g = getGauntlet(characterState["Faction"]);
              if (finalBossTier >= g.length) {
                  stepIndex = 26; return getNextStage(); // Przeszedł całą wojnę, KONIEC GRY
              } else {
-                 totalBounty += 1000000000; // Haki Bloom za legendarnego bossa!
+                 totalBounty += 1000000000; // Haki Bloom
                  updateLiveSheet();
-                 stepIndex = 16; return getNextStage(); // Powrót do menu Final War
+                 stepIndex = 21; return getNextStage(); // Automatyczny trening przed kolejnym bossem!
              }
          } else {
-             stepIndex = 16; return getNextStage(); 
+             stepIndex = 21; return getNextStage(); // Automatyczny trening po normalnej walce na Grand Line!
          }
       } else {
          if (!hasEscaped) { stepIndex = 20; return getNextStage(); } 
@@ -418,7 +395,7 @@ function getNextStage() {
       return createStage("🏃 Desperate Escape", "Escape Attempt", [{label: "ESCAPED BARELY", weight: 20, color: '#eab308'}, {label: "CAPTURED / KILLED", weight: 80, color: '#dc2626'}]);
     }
     
-    case 21: { // Koło Treningu
+    case 21: { 
         let tOpts = [{label: "Strength", weight: 20, color: '#dc2626'}, {label: "Speed", weight: 20, color: '#2563eb'}, {label: "Battle IQ", weight: 20, color: '#16a34a'}];
         if (characterState["Weapon"] && characterState["Weapon"] !== "None") tOpts.push({label: "Weapon Mastery", weight: 20, color: '#f59e0b'});
         if (characterState["Fruit Category"] && characterState["Fruit Category"] !== "None") tOpts.push({label: "Fruit Mastery", weight: 20, color: '#db2777'});
@@ -427,7 +404,7 @@ function getNextStage() {
         if (characterState["Conqueror's Haki"]) tOpts.push({label: "Conqueror's Haki", weight: 10, color: '#f59e0b'});
         return createStage("🏋️ Train Which Stat?", "Trained Stat", tOpts);
     }
-    case 22: { // Wynik Treningu
+    case 22: { 
         return createStage("🎲 Training Outcome", "Training Outcome", [
             {label: "Huge Success! (+2 Tiers)", weight: 10, color: '#10b981'},
             {label: "Success! (+1 Tier)", weight: 50, color: '#3b82f6'},
@@ -449,10 +426,10 @@ function getNextStage() {
         return createStage("🍎 Specific Fruit", "Late Devil Fruit", toWeighted(fList));
     }
     
-    case 26: { // FINAL FATE
+    case 26: { 
       if (characterState["Escape Attempt"] === "ESCAPED BARELY") {
          hasEscaped = true; characterState["Escape Attempt"] = ""; characterState["Outcome"] = "ESCAPED";
-         stepIndex = 16; return getNextStage(); // Powrót na pętlę (wciąż trwa Final War)
+         stepIndex = 16; return getNextStage(); 
       }
       let finO = characterState["Outcome"];
       if (finO !== "VICTORY" && finO !== "ESCAPED") return createStage("⛓️ Fate", "Final Status", [{label: "Defeated & Imprisoned in Impel Down", weight: 10, color: '#dc2626'}]);
@@ -539,7 +516,7 @@ function handleResult(res) {
       } else {
           popupTitle = "Training Failed. No improvements.";
       }
-      stepIndex = 15; // Wraca do pętli morskiej
+      stepIndex = 15; // Zawsze kieruje z powrotem na morze / do kolejnego bossa w Gauntlecie
   } 
   else {
       characterState[currentStage.key] = res.label;
@@ -683,23 +660,7 @@ window.onload = () => {
   if(rbtn) rbtn.addEventListener("click", () => location.reload());
 
   updateStatusBar();
-  currentStage = getNextStage(); 
-  drawWheel(currentStage); 
-  let sb = document.getElementById("stageBadge");
-  if(sb) sb.innerText = currentStage.badge;
-};
-window.onload = () => {
-  const sbtn = document.getElementById("spinBtn");
-  if(sbtn) sbtn.addEventListener("click", spin);
-  
-  const cbtn = document.getElementById("continueBtn");
-  if(cbtn) cbtn.addEventListener("click", prepareNextStage);
-  
-  const rbtn = document.getElementById("restartBtn");
-  if(rbtn) rbtn.addEventListener("click", () => location.reload());
-
-  updateStatusBar();
-  updateLiveSheet(); // <-- Ta linijka rysuje list gończy od razu na starcie!
+  updateLiveSheet();
   currentStage = getNextStage(); 
   drawWheel(currentStage); 
   let sb = document.getElementById("stageBadge");

@@ -51,74 +51,31 @@ function trackSpinSound(targetRotation, startTime, duration) {
 
 const colors = ['#0284c7', '#7c3aed', '#dc2626', '#16a34a', '#db2777', '#d97706', '#2563eb', '#9333ea', '#be185d', '#0f766e', '#ea580c', '#65a30d'];
 
+// --- STATYSTYKI ---
 const levelStats = [
-  { label: "Civilian", pwr: 0 }, 
-  { label: "East Blue Rookie", pwr: 5000000 }, 
-  { label: "Grand Line Pirate", pwr: 20000000 },
-  { label: "Supernova Level", pwr: 100000000 }, 
-  { label: "Warlord Level", pwr: 250000000 }, 
-  { label: "Yonko Commander", pwr: 400000000 },
-  { label: "Admiral Level", pwr: 700000000 }, 
-  { label: "Yonko Level", pwr: 1000000000 }, 
-  { label: "Pirate King Level", pwr: 1500000000 }
+  { label: "Civilian", pwr: 0 }, { label: "East Blue Rookie", pwr: 5000000 }, { label: "Grand Line Pirate", pwr: 20000000 },
+  { label: "Supernova Level", pwr: 100000000 }, { label: "Warlord Level", pwr: 250000000 }, { label: "Yonko Commander", pwr: 400000000 },
+  { label: "Admiral Level", pwr: 700000000 }, { label: "Yonko Level", pwr: 1000000000 }, { label: "Pirate King Level", pwr: 1500000000 }
 ];
 
 const masteryLevels = [
-  { label: "No Talent", pwr: 0 }, 
-  { label: "Learning / Amateur", pwr: 10000000 }, 
-  { label: "Average", pwr: 30000000 },
-  { label: "Skilled", pwr: 80000000 }, 
-  { label: "Expert", pwr: 200000000 }, 
-  { label: "Mastered", pwr: 400000000 }, 
-  { label: "Perfection", pwr: 800000000 }
+  { label: "No Talent", pwr: 0 }, { label: "Learning / Amateur", pwr: 10000000 }, { label: "Average", pwr: 30000000 },
+  { label: "Skilled", pwr: 80000000 }, { label: "Expert", pwr: 200000000 }, { label: "Mastered", pwr: 400000000 }, { label: "Perfection", pwr: 800000000 }
 ];
 
 const hakiProgression = [
-  { label: "None", pwr: 0 },
-  { label: "Basic Tri-Color", pwr: 50000000 },
-  { label: "Advanced Observation", pwr: 250000000 },
-  { label: "Advanced Armament", pwr: 250000000 },
-  { label: "Adv. Conqueror's (ACoC)", pwr: 1000000000 }
+  { label: "None", pwr: 0 }, { label: "Basic Tri-Color", pwr: 50000000 }, { label: "Advanced Observation", pwr: 250000000 },
+  { label: "Advanced Armament", pwr: 250000000 }, { label: "Adv. Conqueror's (ACoC)", pwr: 1000000000 }
 ];
 
-const opWeapons = [
-  "Supreme Grade Sword", "Great Grade Sword", "Skillful Grade Sword", "Black Blade", 
-  "Clima-Tact", "Germa Raid Suit", "Seastone Jitte", "Seastone Knuckles", "Pacifista Lasers", 
-  "Kuja Snake Bow", "Iron Mace (Kanabo)", "Sniper Rifle", "Cyborg Enhancements", "Dial Arsenal", 
-  "Pop Greens", "Fish-Man Karate Water Bullets", "Standard Flintlock", "Kikoku", "Raiu"
-];
+const opWeapons = ["Supreme Grade Sword", "Great Grade Sword", "Skillful Grade Sword", "Black Blade", "Clima-Tact", "Germa Raid Suit", "Seastone Jitte", "Seastone Knuckles", "Pacifista Lasers", "Kuja Snake Bow", "Iron Mace (Kanabo)", "Sniper Rifle", "Cyborg Enhancements", "Dial Arsenal", "Pop Greens", "Fish-Man Karate Water Bullets", "Standard Flintlock", "Kikoku", "Raiu"];
+const opFruitsParamecia = ["Gura Gura (Quake)", "Ope Ope (Room)", "Zushi Zushi (Gravity)", "Ito Ito (String)", "Mochi Mochi", "Nikyu Nikyu (Paw)", "Doku Doku (Poison)", "Soru Soru (Soul)", "Gomu Gomu (Gum)", "Bari Bari (Barrier)", "Bara Bara (Chop)", "Mero Mero (Love)", "Horo Horo (Ghost)", "Yomi Yomi (Revive)", "Jiki Jiki (Magnet)", "Kage Kage (Shadow)", "Horu Horu (Hormone)", "Fuwa Fuwa (Float)", "Supa Supa (Dice)", "Bomu Bomu (Bomb)", "Bane Bane (Spring)", "Kilo Kilo (Weight)", "Ton Ton (Ton)", "Woshu Woshu (Wash)", "Choki Choki (Snip)", "Sui Sui (Swim)", "Memo Memo (Memory)", "Buki Buki (Weapon)", "Doru Doru (Wax)", "Mane Mane (Clone)", "Toge Toge (Spike)", "Noko Noko (Mushroom)", "Sube Sube (Smooth)", "Hira Hira (Flag)", "Ishi Ishi (Stone)"];
+const opFruitsLogia = ["Mera Mera (Fire)", "Goro Goro (Lightning)", "Hie Hie (Ice)", "Magu Magu (Magma)", "Pika Pika (Light)", "Yami Yami (Darkness)", "Suna Suna (Sand)", "Moku Moku (Smoke)", "Mori Mori (Woods)", "Gasu Gasu (Gas)", "Yuki Yuki (Snow)", "Numa Numa (Swamp)"];
+const opFruitsZoan = ["Neko: Leopard", "Inu: Wolf", "Ushi: Giraffe", "Zou: Elephant", "Mogu: Mole", "Tori: Falcon", "Inu: Dachshund", "Inu: Jackal", "Ushi: Bison", "Hito: Human", "Kumo: Rosamygale", "Hebi: Anaconda", "Hebi: Cobra", "Kame: Turtle"];
+const opFruitsAncient = ["Ryu: Pteranodon", "Ryu: Brachiosaurus", "Ryu: Allosaurus", "Ryu: Spinosaurus", "Ryu: Triceratops", "Zou: Mammoth", "Kumo: Rosamygale (Ancient)", "Neko: Saber Tiger"];
+const opFruitsMythical = ["Hito: Nika (Sun God)", "Uo: Seiryu (Dragon)", "Tori: Phoenix", "Hito: Daibutsu (Buddha)", "Inu: Okuchi no Makami", "Inu: Kitsune", "Hebi: Yamata no Orochi", "Hito: Onyudo", "Uma: Pegasus", "Batto: Vampire"];
 
-const opFruitsParamecia = [
-  "Gura Gura (Quake)", "Ope Ope (Room)", "Zushi Zushi (Gravity)", "Ito Ito (String)", "Mochi Mochi",
-  "Nikyu Nikyu (Paw)", "Doku Doku (Poison)", "Soru Soru (Soul)", "Gomu Gomu (Gum)", "Bari Bari (Barrier)",
-  "Bara Bara (Chop)", "Mero Mero (Love)", "Horo Horo (Ghost)", "Yomi Yomi (Revive)", "Jiki Jiki (Magnet)",
-  "Kage Kage (Shadow)", "Horu Horu (Hormone)", "Fuwa Fuwa (Float)", "Supa Supa (Dice)", "Bomu Bomu (Bomb)",
-  "Bane Bane (Spring)", "Kilo Kilo (Weight)", "Ton Ton (Ton)", "Woshu Woshu (Wash)", "Choki Choki (Snip)",
-  "Sui Sui (Swim)", "Memo Memo (Memory)", "Buki Buki (Weapon)", "Doru Doru (Wax)", "Mane Mane (Clone)",
-  "Toge Toge (Spike)", "Noko Noko (Mushroom)", "Sube Sube (Smooth)", "Hira Hira (Flag)", "Ishi Ishi (Stone)"
-];
-
-const opFruitsLogia = [
-  "Mera Mera (Fire)", "Goro Goro (Lightning)", "Hie Hie (Ice)", "Magu Magu (Magma)", "Pika Pika (Light)",
-  "Yami Yami (Darkness)", "Suna Suna (Sand)", "Moku Moku (Smoke)", "Mori Mori (Woods)", "Gasu Gasu (Gas)",
-  "Yuki Yuki (Snow)", "Numa Numa (Swamp)"
-];
-
-const opFruitsZoan = [
-  "Neko: Leopard", "Inu: Wolf", "Ushi: Giraffe", "Zou: Elephant", "Mogu: Mole", "Tori: Falcon",
-  "Inu: Dachshund", "Inu: Jackal", "Ushi: Bison", "Hito: Human", "Kumo: Rosamygale", "Hebi: Anaconda", "Hebi: Cobra", "Kame: Turtle"
-];
-
-const opFruitsAncient = [
-  "Ryu: Pteranodon", "Ryu: Brachiosaurus", "Ryu: Allosaurus", "Ryu: Spinosaurus", "Ryu: Triceratops",
-  "Zou: Mammoth", "Kumo: Rosamygale (Ancient)", "Neko: Saber Tiger"
-];
-
-const opFruitsMythical = [
-  "Hito: Nika (Sun God)", "Uo: Seiryu (Dragon)", "Tori: Phoenix", "Hito: Daibutsu (Buddha)",
-  "Inu: Okuchi no Makami", "Inu: Kitsune", "Hebi: Yamata no Orochi", "Hito: Onyudo", "Uma: Pegasus", "Batto: Vampire"
-];
-
+// --- WROGOWIE ---
 const enemies = {
   "Buggy the Clown": 15000000, "Gecko Moria": 320000000, "Bartholomew Kuma": 296000000, "Sir Crocodile": 1965000000,
   "Jinbe": 1100000000, "Donquixote Doflamingo": 1000000000, "Boa Hancock": 1659000000, "Trafalgar Law": 3000000000,
@@ -173,9 +130,9 @@ function updateStatusBar() {
   let sb = document.getElementById("statusBar");
   if(!sb) return;
   if (characterState["Faction"] === "Pirate") {
-      sb.innerText = `Wins: ${victoryCount} | Poneglyphs: ${roadPoneglyphs}/4 | Bounty: ${totalBounty.toLocaleString()}`;
+      sb.innerText = `Journey Progress: ${victoryCount} | Poneglyphs: ${roadPoneglyphs}/4 | Bounty: ${totalBounty.toLocaleString()}`;
   } else {
-      sb.innerText = `Wins: ${victoryCount} | Bounty: ${totalBounty.toLocaleString()}`;
+      sb.innerText = `Journey Progress: ${victoryCount} | Bounty: ${totalBounty.toLocaleString()}`;
   }
 }
 
@@ -202,6 +159,7 @@ function applyUpgrade(statName) {
   return { msg: `${key} UPGRADED to ${newObj.label}!`, pwrDiff: diff, key: key, newLabel: newObj.label };
 }
 
+// --- SILNIK FABULARNY Z PROGRESJĄ I EVENTAMI NIESPODZIANKAMI ---
 function getNextStage() {
   switch(stepIndex) {
     case 0: {
@@ -278,45 +236,157 @@ function getNextStage() {
     case 11: { return createStage("⚡ Speed", "Speed", levelStats); }
     case 12: { return createStage("🧠 Battle IQ", "Battle IQ", levelStats); }
     
+    // --- FAZA PODRÓŻY Z NOWYMI EVENTAMI ---
     case 13: {
       let currFac = characterState["Faction"];
-      let goalWeight = 0;
-      if (currFac === "Pirate") { if (roadPoneglyphs >= 4) goalWeight = 60; } 
-      else { if (victoryCount >= 3) goalWeight = victoryCount * 12; }
+      let opts = [];
       
-      isGoalEvent = false; 
-
-      if (currFac === "Pirate") {
-        let pGlyphW = roadPoneglyphs < 4 ? 25 : 0;
-        return createStage("🗺️ Pirate Journey", "Event", [
-          {label: "Intense Training", weight: 15, pwr: 0}, {label: "Clash with Warlord", weight: 15, pwr: 0},
-          {label: "Marine Ambush", weight: 20, pwr: 0}, {label: "Supernova Clash", weight: 15, pwr: 0},
-          {label: "Yonko Commander Duel", weight: 15, pwr: 0}, {label: "Search for Road Poneglyph", weight: pGlyphW, pwr: 0}, 
-          {label: "Reach Laugh Tale (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0}
-        ]);
-      } else if (currFac === "Marine") {
-        return createStage("🗺️ Marine Duty", "Event", [
-          {label: "Intense Training", weight: 20, pwr: 0}, {label: "Raid Pirate Crew", weight: 20, pwr: 0},
-          {label: "Clash with Warlord", weight: 15, pwr: 0}, {label: "Supernova Clash", weight: 15, pwr: 0},
-          {label: "Revolutionary Encounter", weight: 15, pwr: 0}, {label: "The Great Pirate Cleansing (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0}
-        ]);
-      } else if (currFac === "Revolutionary") {
-        return createStage("🗺️ Revolution", "Event", [
-          {label: "Intense Training", weight: 20, pwr: 0}, {label: "Liberate Island", weight: 25, pwr: 0},
-          {label: "Clash with Cipher Pol", weight: 20, pwr: 0}, {label: "Admiral Ambush", weight: 15, pwr: 0},
-          {label: "Storm Mariejois (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0}
-        ]);
-      } else {
-        return createStage("🗺️ The Journey", "Event", [
-          {label: "Intense Training", weight: 25, pwr: 0}, {label: "Clash with Warlord", weight: 20, pwr: 0},
-          {label: "Supernova Clash", weight: 20, pwr: 0}, {label: "Yonko Commander Duel", weight: 15, pwr: 0},
-          {label: "Achieve Ultimate Dominance (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0}
-        ]);
+      let isEarly = victoryCount < 3;
+      let isMid = victoryCount >= 3 && victoryCount < 5;
+      let isLate = victoryCount >= 5;
+      
+      // Zawsze dostępny trening
+      opts.push({label: "Intense Training", weight: 12, pwr: 0});
+      
+      // Eventy fabularne (Peaceful / Lore Events) - kolorowane specjalnie
+      if (isEarly) {
+          opts.push({label: "Discover Sunken Treasure", weight: 12, color: '#eab308', pwr: 0});
+          opts.push({label: "Grand Banquet", weight: 10, color: '#10b981', pwr: 0});
+          opts.push({label: "Navigate a Deadly Anomaly", weight: 10, color: '#3b82f6', pwr: 0});
+      } else if (isMid) {
+          opts.push({label: "Meet a Legendary Mentor", weight: 10, color: '#8b5cf6', pwr: 0});
+          opts.push({label: "Recruit a Powerful Ally", weight: 12, color: '#3b82f6', pwr: 0});
+      } else if (isLate) {
+          opts.push({label: "Discover an Ancient Ruin", weight: 10, color: '#6366f1', pwr: 0});
+          opts.push({label: "Underworld Auction", weight: 10, color: '#ef4444', pwr: 0});
       }
+
+      // Nauka w locie
+      let learnWeight = isLate ? 4 : 10;
+      if (characterState["Fruit Category"] === "None") {
+          opts.push({label: "Found a Mysterious Fruit", weight: learnWeight, color: '#db2777', pwr: 0});
+      }
+      if (characterState["Haki"] === "None" && victoryCount >= 1) {
+          opts.push({label: "Haki Awakening", weight: learnWeight, color: '#9333ea', pwr: 0});
+      }
+
+      // Eventy Walki (Główna progresja)
+      if (currFac === "Pirate") {
+          if (isEarly) {
+              opts.push({label: "Clash with Warlord", weight: 25, pwr: 0});
+              opts.push({label: "Marine Ambush", weight: 25, pwr: 0});
+              opts.push({label: "Supernova Clash", weight: 20, pwr: 0});
+              if (roadPoneglyphs < 4) opts.push({label: "Search for Road Poneglyph", weight: 15, pwr: 0});
+          } else if (isMid) {
+              opts.push({label: "Yonko Commander Duel", weight: 30, pwr: 0});
+              opts.push({label: "Admiral Ambush", weight: 20, pwr: 0});
+              opts.push({label: "Clash with Warlord", weight: 15, pwr: 0});
+              if (roadPoneglyphs < 4) opts.push({label: "Search for Road Poneglyph", weight: 25, pwr: 0});
+          } else if (isLate) {
+              opts.push({label: "Yonko Conflict", weight: 30, pwr: 0});
+              opts.push({label: "Admiral Ambush", weight: 25, pwr: 0});
+              opts.push({label: "Marine Fleet Ambush", weight: 20, pwr: 0});
+              if (roadPoneglyphs < 4) opts.push({label: "Search for Road Poneglyph", weight: 40, pwr: 0});
+              
+              let goalWeight = roadPoneglyphs >= 4 ? Math.max(0, (victoryCount - 4) * 30) : 0;
+              if (goalWeight > 0) opts.push({label: "Reach Laugh Tale (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0});
+          }
+      } 
+      else if (currFac === "Marine") {
+          if (isEarly) {
+              opts.push({label: "Raid Pirate Crew", weight: 30, pwr: 0});
+              opts.push({label: "Supernova Clash", weight: 25, pwr: 0});
+              opts.push({label: "Clash with Warlord", weight: 20, pwr: 0});
+          } else if (isMid) {
+              opts.push({label: "Yonko Commander Duel", weight: 30, pwr: 0});
+              opts.push({label: "Revolutionary Encounter", weight: 25, pwr: 0});
+              opts.push({label: "Clash with Warlord", weight: 15, pwr: 0});
+          } else if (isLate) {
+              opts.push({label: "Yonko Conflict", weight: 35, pwr: 0});
+              opts.push({label: "Revolutionary Encounter", weight: 25, pwr: 0});
+              opts.push({label: "Buster Call Operations", weight: 20, pwr: 0});
+              
+              let goalWeight = Math.max(0, (victoryCount - 4) * 30);
+              if (goalWeight > 0) opts.push({label: "The Great Pirate Cleansing (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0});
+          }
+      } 
+      else if (currFac === "Revolutionary") {
+          if (isEarly) {
+              opts.push({label: "Liberate Island", weight: 30, pwr: 0});
+              opts.push({label: "Marine Ambush", weight: 25, pwr: 0});
+              opts.push({label: "Clash with Cipher Pol", weight: 20, pwr: 0});
+          } else if (isMid) {
+              opts.push({label: "Clash with Cipher Pol", weight: 30, pwr: 0});
+              opts.push({label: "Admiral Ambush", weight: 25, pwr: 0});
+              opts.push({label: "Liberate Island", weight: 20, pwr: 0});
+          } else if (isLate) {
+              opts.push({label: "Admiral Ambush", weight: 35, pwr: 0});
+              opts.push({label: "Clash with Cipher Pol", weight: 30, pwr: 0});
+              opts.push({label: "Clash with Warlord", weight: 10, pwr: 0});
+              
+              let goalWeight = Math.max(0, (victoryCount - 4) * 30);
+              if (goalWeight > 0) opts.push({label: "Storm Mariejois (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0});
+          }
+      } 
+      else { // Pozostałe frakcje
+          if (isEarly) {
+              opts.push({label: "Supernova Clash", weight: 30, pwr: 0});
+              opts.push({label: "Marine Ambush", weight: 20, pwr: 0});
+              opts.push({label: "Clash with Warlord", weight: 20, pwr: 0});
+          } else if (isMid) {
+              opts.push({label: "Yonko Commander Duel", weight: 30, pwr: 0});
+              opts.push({label: "Revolutionary Encounter", weight: 25, pwr: 0});
+          } else if (isLate) {
+              opts.push({label: "Yonko Conflict", weight: 35, pwr: 0});
+              opts.push({label: "Admiral Ambush", weight: 25, pwr: 0});
+              
+              let goalWeight = Math.max(0, (victoryCount - 4) * 30);
+              if (goalWeight > 0) opts.push({label: "Achieve Ultimate Dominance (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0});
+          }
+      }
+      
+      isGoalEvent = false;
+      return createStage("🗺️ The Journey", "Event", opts);
     }
     case 14: {
       let ev = characterState["Event"];
       if (ev && ev.includes("FINAL GOAL")) isGoalEvent = true;
+
+      // --- NOWE POKOJOWE EVENTY ---
+      let storyEvents = [
+          "Discover Sunken Treasure", "Grand Banquet", "Navigate a Deadly Anomaly",
+          "Meet a Legendary Mentor", "Recruit a Powerful Ally", "Discover an Ancient Ruin", "Underworld Auction"
+      ];
+      if (storyEvents.includes(ev)) {
+          if (ev === "Discover Sunken Treasure") totalBounty += 100000000;
+          else if (ev === "Grand Banquet") totalBounty += 50000000;
+          else if (ev === "Navigate a Deadly Anomaly") totalBounty += 80000000;
+          else if (ev === "Recruit a Powerful Ally") totalBounty += 200000000;
+          else if (ev === "Meet a Legendary Mentor") totalBounty += 300000000;
+          else if (ev === "Discover an Ancient Ruin") totalBounty += 150000000;
+          else if (ev === "Underworld Auction") totalBounty += 250000000;
+          
+          victoryCount++; // To wciąż liczy się jako postęp w podróży!
+          updateStatusBar();
+          stepIndex = 13; // Brak walki, wracasz na morze z nową potęgą!
+          return getNextStage();
+      }
+
+      // Eventy specjalne w locie
+      if (ev === "Haki Awakening") { 
+          characterState["Haki"] = "Basic Tri-Color";
+          totalBounty += 50000000;
+          let existIdx = characterSheet.findIndex(e => e.key === "Haki");
+          if(existIdx !== -1) characterSheet[existIdx].val = "Basic Tri-Color";
+          else characterSheet.push({ key: "Haki", val: "Basic Tri-Color" });
+          
+          updateStatusBar();
+          stepIndex = 13; return getNextStage(); 
+      }
+      if (ev === "Found a Mysterious Fruit") {
+          stepIndex = 22; 
+          return getNextStage();
+      }
 
       if (ev === "Intense Training") { stepIndex = 20; return getNextStage(); }
 
@@ -326,11 +396,12 @@ function getNextStage() {
         updateStatusBar(); stepIndex = 13; return getNextStage();
       }
 
-      if (ev === "Clash with Warlord") return createStage("⚔️ Warlord Foe", "Enemy", toWeighted(["Buggy the Clown", "Gecko Moria", "Bartholomew Kuma", "Sir Crocodile", "Donquixote Doflamingo", "Boa Hancock", "Trafalgar Law", "Edward Weevil", "Dracule Mihawk", "Jinbe"]));
-      if (ev === "Marine Ambush") return createStage("⚓ Marine Foe", "Enemy", toWeighted(["Vice Admiral Smoker", "Vice Admiral Momonga", "Captain Koby", "Admiral Fujitora", "Admiral Kizaru", "Admiral Aokiji", "Fleet Admiral Akainu", "Magellan"]));
+      // Eventy Walki
+      if (ev === "Clash with Warlord") return createStage("⚔️ Warlord", "Enemy", toWeighted(["Buggy the Clown", "Gecko Moria", "Bartholomew Kuma", "Sir Crocodile", "Donquixote Doflamingo", "Boa Hancock", "Trafalgar Law", "Edward Weevil", "Dracule Mihawk", "Jinbe"]));
+      if (ev === "Marine Ambush" || ev === "Buster Call Operations") return createStage("⚓ Marines", "Enemy", toWeighted(["Vice Admiral Smoker", "Vice Admiral Momonga", "Captain Koby", "Admiral Fujitora", "Admiral Kizaru", "Admiral Aokiji", "Fleet Admiral Akainu", "Magellan"]));
       if (ev === "Admiral Ambush") return createStage("⚓ Admiral", "Enemy", toWeighted(["Admiral Ryokugyu", "Admiral Fujitora", "Admiral Kizaru", "Admiral Aokiji", "Fleet Admiral Akainu"]));
       if (ev === "Supernova Clash") return createStage("💥 Supernova", "Enemy", toWeighted(["Eustass Kid", "Killer", "Capone Bege", "Jewelry Bonney", "Basil Hawkins", "X Drake", "Scratchmen Apoo", "Urouge"]));
-      if (ev === "Yonko Commander Duel" || ev === "Raid Pirate Crew") return createStage("☠️ Commander", "Enemy", toWeighted(["Jack the Drought", "Cracker", "Smoothie", "Queen the Plague", "King the Wildfire", "Katakuri", "Marco the Phoenix", "Jozu", "Vista", "Shiryu of the Rain", "Lucky Roux", "Yasopp", "Benn Beckman"]));
+      if (ev === "Yonko Commander Duel" || ev === "Raid Pirate Crew" || ev === "Marine Fleet Ambush") return createStage("☠️ Commander", "Enemy", toWeighted(["Jack the Drought", "Cracker", "Smoothie", "Queen the Plague", "King the Wildfire", "Katakuri", "Marco the Phoenix", "Jozu", "Vista", "Shiryu of the Rain", "Lucky Roux", "Yasopp", "Benn Beckman"]));
       if (ev === "Yonko Conflict") return createStage("☠️ Yonko", "Enemy", toWeighted(["Emperor Buggy", "Blackbeard", "Big Mom", "Kaido", "Shanks"]));
       if (ev === "Clash with Cipher Pol") return createStage("🎭 Gov Agent", "Enemy", toWeighted(["Rob Lucci (CP0)", "Kaku (CP0)", "Stussy (CP0)", "Guernika (CP0)", "Maha (CP0)", "Joseph (CP0)", "Gismonda (CP0)", "Jabra", "Blueno", "Kalifa", "Kumadori", "Fukurou", "Spandam"]));
       if (ev === "Revolutionary Encounter") return createStage("🔥 Revolutionary", "Enemy", toWeighted(["Belo Betty", "Karasu", "Lindbergh", "Morley", "Emporio Ivankov", "Ginny", "Sabo (Flame Emperor)", "Monkey D. Dragon"]));
@@ -408,6 +479,28 @@ function getNextStage() {
     case 21: {
         stepIndex = 13; return getNextStage();
     }
+    
+    case 22: {
+        return createStage("🍖 Eat Fruit", "Fruit Category", [
+            {label: "Paramecia", weight: 40}, {label: "Zoan (Incl. Ancient)", weight: 30}, 
+            {label: "Logia", weight: 20}, {label: "Mythical Zoan", weight: 10}
+        ]);
+    }
+    case 23: {
+        let cat = characterState["Fruit Category"];
+        let fList = cat === "Logia" ? opFruitsLogia : (cat === "Mythical Zoan" ? opFruitsMythical : (cat === "Zoan (Incl. Ancient)" ? opFruitsAncient.concat(opFruitsZoan) : opFruitsParamecia));
+        
+        characterState["Fruit Mastery"] = "Learning / Amateur";
+        let existIdx = characterSheet.findIndex(e => e.key === "Fruit Mastery");
+        if(existIdx !== -1) characterSheet[existIdx].val = "Learning / Amateur";
+        else characterSheet.push({ key: "Fruit Mastery", val: "Learning / Amateur" });
+
+        return createStage("🍎 Specific Fruit", "Devil Fruit", toWeighted(fList));
+    }
+    case 24: {
+        stepIndex = 13; return getNextStage(); 
+    }
+
     default: return null; 
   }
 }
@@ -491,7 +584,14 @@ function handleResult(res) {
 
   setTimeout(() => {
     let pLabel = document.querySelector(".popup-title");
-    if (pLabel) pLabel.innerText = (currentStage && currentStage.key === "Trained Stat") ? "Training Result:" : "You Rolled:";
+    if (pLabel) {
+        let storyEvents = ["Discover Sunken Treasure", "Grand Banquet", "Navigate a Deadly Anomaly", "Meet a Legendary Mentor", "Recruit a Powerful Ally", "Discover an Ancient Ruin", "Underworld Auction"];
+        
+        if(currentStage && currentStage.key === "Trained Stat") pLabel.innerText = "Training Result:";
+        else if (res.label === "Haki Awakening" || res.label === "Found a Mysterious Fruit") pLabel.innerText = "Rare Discovery!";
+        else if (storyEvents.includes(res.label)) pLabel.innerText = "Event Completed!";
+        else pLabel.innerText = "You Rolled:";
+    }
     
     let pVal = document.getElementById("popupResultValue");
     if (pVal) pVal.innerText = popupTitle;

@@ -1010,4 +1010,23 @@ window.onload = () => {
   
   const btn = document.getElementById("spinBtn");
   if(btn && currentStage && currentStage.options.length === 1) btn.innerText = "CONTINUE (100%)";
+  // --- CHANGELOG MODAL LOGIC ---
+  const clBtn = document.getElementById("changelogBtn");
+  const clModal = document.getElementById("changelogModal");
+  const clClose = document.querySelector(".changelog-close");
+
+  if (clBtn && clModal && clClose) {
+      clBtn.addEventListener("click", () => {
+          clModal.classList.add("active");
+      });
+      clClose.addEventListener("click", () => {
+          clModal.classList.remove("active");
+      });
+      // Zamykanie przy kliknięciu poza okienko
+      window.addEventListener("click", (e) => {
+          if (e.target === clModal) {
+              clModal.classList.remove("active");
+          }
+      });
+  }
 };

@@ -130,6 +130,7 @@ body::after {
 }
 }
 /* --- CHANGELOG BUTTON & MODAL --- */
+/* --- CHANGELOG BUTTON & MODAL --- */
 .changelog-btn {
     position: fixed;
     top: 20px;
@@ -225,6 +226,7 @@ body::after {
     font-weight: bold;
     text-align: left;
     transition: all 0.2s;
+    font-family: inherit;
 }
 .version-btn:hover {
     background-color: #5c3a21;
@@ -270,4 +272,9 @@ body::after {
 @media (max-width: 768px) {
     .changelog-layout { flex-direction: column; }
     .changelog-sidebar { width: 100%; height: 150px; border-right: none; border-bottom: 2px solid #5c3a21; padding-bottom: 15px; }
+}
+
+/* ODBLOKOWANIE RAMEK PLAKATU DLA TOOLTIPÓW */
+.live-sheet {
+    overflow: visible !important;
 }

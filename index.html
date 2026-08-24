@@ -7,7 +7,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!-- PRZYCISK I OKIENKO CHANGELOGA -->
+<button id="changelogBtn" class="changelog-btn">Patch Notes</button>
 
+<div id="changelogModal" class="changelog-modal">
+  <div class="changelog-content">
+    <span class="changelog-close">&times;</span>
+    <div class="changelog-layout">
+        <!-- Lewy panel z listą wersji -->
+        <div class="changelog-sidebar" id="changelogSidebar"></div>
+        
+        <!-- Prawy panel z wyświetlanym tekstem -->
+        <div class="changelog-body">
+            <h2 id="changelogTitle">Wybierz wersję</h2>
+            <pre id="changelogText">Wybierz wersję z menu po lewej, aby zobaczyć szczegóły aktualizacji.</pre>
+        </div>
+    </div>
+  </div>
+</div>
   <div class="side-art left"></div>
   <div class="side-art right"></div>
 

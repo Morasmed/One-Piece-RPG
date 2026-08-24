@@ -130,6 +130,73 @@ const tooltipData = {
    
    "Mastered (ACoC)": "Haki Pinnacle: (Requires Max in all 3 Haki types) Once per battle, you can foresee a fatal blow and get a free Re-Spin upon Defeat!"
 };
+// --- BAZA DANYCH CHANGELOGÓW ---
+const changelogHistory = [
+    {
+        version: "v1.0 - Ultimate Update",
+        text: `ONE PIECE: THE JOURNEY - CHANGELOG (The Ultimate Update)
+
+1. Engine Optimization & Quality of Life
+- Wheel Animation Fix: Implemented a new system based on requestAnimationFrame and forced reflows, completely eliminating stuttering animations and aggressive browser caching issues.
+- Auto-Skip (100% Chance): If there is only one option on the wheel, the spin button changes to "CONTINUE (100%)" and instantly provides the result.
+- UI Responsiveness: Fixed the disappearing Wanted Poster on narrower screens.
+
+2. Races & Lineage Overhaul
+- Fishman: +10M Bounty, min. Strength: East Blue, guaranteed Fish-Man Karate, 85% chance to survive falling into the sea.
+- Mink: +20M Bounty, min. Speed: Grand Line, guaranteed Electro fighting style.
+- Giant: +50M Bounty, min. Strength: Supernova. Max Speed is permanently locked at Yonko Commander.
+- Cyborg: +30M Bounty, guaranteed unique weapon (Lasers/Enhancements), 0% chance to awaken Conqueror's Haki.
+- Lunarian: +300M Bounty, min. Strength: Yonko Commander, guaranteed potential for all 3 types of Haki.
+- Celestial Dragon (Split Paths):
+  -- Spoiled Tenryubito: +500M starting Bounty, guaranteed Logia/Mythical fruit. Physical stats locked at "Civilian" with zero Haki.
+  -- Holy Knight: +200M Bounty, min. Strength & Speed: Warlord, a powerful legendary weapon, and minimum 2 types of Haki.
+- Will of D.: Automatically guarantees the potential to unlock all 3 types of Haki.
+
+3. Passive Fruit Category Bonuses
+- Logia: +10% win chance in every battle.
+- Zoan / Ancient Zoan: Increased chance for "Huge Success! (+2 Tiers)" when training Strength and Speed.
+- Paramecia: Increased chance for "Huge Success! (+2 Tiers)" when training Battle IQ and Fruit Mastery.
+- Mythical Zoan: Passive +30% chance to successfully escape ("ESCAPED BARELY") after a defeat.
+
+4. Unique Legendary Fruit Scripts
+- Hito Hito, Model: Nika: If killed (with Mastered+ mastery), you automatically awaken Gear 5, revive, and win the battle.
+- Yami Yami: Removes "Training Failed" from the training wheel and heavily boosts +2 Tiers chances.
+- Nikyu Nikyu: Repels the pain of training. Replaces "Training Failed" with a guaranteed "Success! (+1 Tier)".
+- Gura Gura: 10-15% chance in every battle to cast "One-Shot (Earthquake)" for a free win.
+- Mero Mero: 50% chance for a "One-Shot (Petrified)" win (only if base win chance is 65%+).
+- Ope Ope: Grants exactly 1 guaranteed escape from death ("Room: Shambles") per playthrough.
+- Hie Hie: Total immunity to the Sea Curse. Grants "FROZEN ESCAPE" before a battle if win chance is <30%.
+- Pika Pika: Instantly boosts Speed to Pirate King Level.
+- Tori Tori, Model: Phoenix: Forces your escape chance after a defeat to a strict 80%.
+- Soru Soru: Soul steal! Every battle won permanently adds +20,000,000 to your overall Bounty.
+- Magu Magu: +15% win chance, but escape chance after defeat drops drastically to 5%.
+- Goro Goro: Every successful Observation Haki training grants +1 free extra Tier.
+- Horo Horo: 25% chance to One-Shot a depressed enemy (unless they possess Conqueror's Haki).
+- Uo Uo, Model: Seiryu: The game treats every enemy's Bounty as 20% lower.
+- Yomi Yomi: Second Life. Revive once after being killed, but lose 20% of your current Bounty.
+
+5. The Sea Curse (Fell into the Sea)
+- Devil Fruit users (except Hie Hie) have a 10% chance of rolling drowning events.
+- 70% chance to be saved vs 30% Game Over (85% save chance for Fishmen).
+
+6. Haki Pinnacle (Miracle)
+- Requirements: All 3 Haki types maxed out (Mastered).
+- Effect: Once per battle, if you roll "DEFEAT", activates future sight, canceling the defeat and granting a free Re-spin.
+
+7. Interactive UI (Tooltips)
+- Special stats on the Wanted Poster are highlighted. Hovering reveals tooltip explanations.`
+    },
+    {
+        version: "v0.5 - Beta Release",
+        text: `EARLY BETA RELEASE
+
+- Created the core game engine.
+- Implemented the spinning wheel mechanics and probability weights.
+- Added base stats: Strength, Speed, Battle IQ.
+- Created the wanted poster display system.
+- Added the basic progression loop (Journey vs Final War).`
+    }
+];
 
 let characterState = {}; 
 let characterSheet = [];

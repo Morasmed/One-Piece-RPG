@@ -122,5 +122,10 @@ body::after {
 @media (max-width: 1000px) {
   .tooltip-box {
       left: 50%; top: 110%; transform: translateX(-50%);
+    
   }
+  /* ODBLOKOWANIE RAMEK PLAKATU DLA TOOLTIPÓW */
+.live-sheet {
+    overflow: visible !important;
+}
 }

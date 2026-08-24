@@ -85,49 +85,50 @@ const enemies = {
 };
 
 // --- ROZBUDOWANE DANE DLA TOOLTIPÓW ---
+// --- ROZBUDOWANE DANE DLA TOOLTIPÓW (ENGLISH) ---
 const tooltipData = {
-   "Human": "Ludzie: Najbardziej wszechstronna rasa, ale pozbawiona startowych bonusów. Musisz zapracować na potęgę od absolutnego zera.",
-   "Fishman": "Rybolud: +10M Bounty. Mistrzowie wód – 85% szans na przeżycie wpadnięcia do morza. Gwarantowane Fish-Man Karate.",
-   "Mink": "Wojownik Sulong: +20M Bounty. Startowa szybkość min. Grand Line Pirate. Gwarantowany styl walki Electro.",
-   "Giant": "Olbrzym: +50M Bounty. Startowa siła min. Supernova. Ze względu na gabaryty, szybkość nigdy nie przekroczy Yonko Commander.",
-   "Cyborg": "Maszyna: +30M Bounty. Startowa potężna broń. Jako pół-maszyna masz 0% szans na przebudzenie Królewskiego Haki.",
-   "Lunarian": "Rasa Bogów: +300M Bounty. Gwarantowany potencjał 3 rodzajów Haki. Startowa siła min. Yonko Commander.",
-   "Celestial Dragon": "Niebiański Smok: Omijasz standardowe losowanie frakcji i stajesz się Arystokratą lub elitarnym Boskim Rycerzem.",
+   "Human": "Human: The most versatile race, but lacks starting bonuses. You must build your power from absolute zero.",
+   "Fishman": "Fishman: +10M Bounty. Masters of the sea – 85% chance to survive falling into the ocean. Guaranteed Fish-Man Karate.",
+   "Mink": "Sulong Warrior: +20M Bounty. Starting speed min. Grand Line Pirate. Guaranteed Electro fighting style.",
+   "Giant": "Giant: +50M Bounty. Starting strength min. Supernova. Due to your massive size, speed will never exceed Yonko Commander.",
+   "Cyborg": "Cyborg: +30M Bounty. Starts with a powerful weapon. As a half-machine, you have a 0% chance of awakening Conqueror's Haki.",
+   "Lunarian": "Race of Gods: +300M Bounty. Guaranteed potential for all 3 types of Haki. Starting strength min. Yonko Commander.",
+   "Celestial Dragon": "Celestial Dragon: You bypass the standard faction roll and become a World Noble or an elite Holy Knight.",
    
-   "Pirate": "Pirat: Wolność na morzach! Twoim ostatecznym celem jest odnalezienie 4 Poneglyphów i dotarcie do Laugh Tale.",
-   "Marine": "Marynarka: Walczysz o sprawiedliwość. Gwarantowany startowy poziom siły (min. East Blue) i wczesne Haki.",
-   "Revolutionary": "Rewolucjonista: Twoim celem jest obalenie Rządu. Zmierzysz się z najpotężniejszymi agentami CP0 i Admirałami.",
-   "Bounty Hunter": "Łowca Nagród: Polujesz na piratów dla zysku. Twój Battle IQ jest automatycznie podwyższony na starcie.",
-   "Spoiled Tenryubito": "Arystokrata: +500M Bounty i gwarantowany owoc Logia/Mythical. Zablokowane statystyki fizyczne (Civilian) i zero Haki.",
-   "Holy Knight": "Boski Rycerz: Elita rządu. Min. siła i szybkość na Warlord Level, potężne Haki i legendarna broń na start.",
+   "Pirate": "Pirate: Freedom on the seas! Your ultimate goal is to find 4 Road Poneglyphs and reach Laugh Tale.",
+   "Marine": "Marine: Fighting for absolute justice. Guaranteed starting strength level (min. East Blue) and early Haki.",
+   "Revolutionary": "Revolutionary: Your goal is to overthrow the World Government. You will face the strongest CP0 agents and Admirals.",
+   "Bounty Hunter": "Bounty Hunter: Hunting pirates for profit. Your Battle IQ is automatically boosted at the start.",
+   "Spoiled Tenryubito": "Aristocrat: +500M starting Bounty and a guaranteed Logia/Mythical fruit. Physical stats are locked (Civilian) with zero Haki.",
+   "Holy Knight": "Holy Knight: Government elite. Min. strength and speed at Warlord Level, powerful Haki, and a legendary weapon at the start.",
    
-   "Standard Bloodline": "Zwykły Rodowód: Brak specjalnych modyfikatorów genetycznych czy historycznych.",
-   "Marine Hero Descendant": "Potomek Bohatera: Startujesz z +100M Bounty dzięki potężnej reputacji swojej rodziny w szeregach Marynarki.",
-   "Will of D. (Monkey/Gol/Rocks)": "Wola D.: Śmiertelny wróg Bogów. Masz z góry zagwarantowany potencjał wszystkich 3 rodzajów Haki.",
+   "Standard Bloodline": "Standard Bloodline: No special genetic or historical modifiers.",
+   "Marine Hero Descendant": "Hero's Descendant: Start with +100M Bounty thanks to your family's powerful reputation in the Marines.",
+   "Will of D. (Monkey/Gol/Rocks)": "Will of D.: The natural enemy of the Gods. You are guaranteed the potential to unlock all 3 types of Haki.",
 
-   "Logia": "Nietykalność: Zawsze daje pasywne +10% szans na wygraną w każdej walce.",
-   "Mythical Zoan": "Mityczna witalność: Dodaje stałe +30% do szans na ucieczkę po przegranej walce.",
-   "Zoan (Incl. Ancient)": "Zwierzęca Siła: Zwiększa szansę na Huge Success (+2 Tiers) podczas trenowania Siły i Szybkości.",
-   "Paramecia": "Kreatywność: Zwiększa szansę na Huge Success (+2 Tiers) podczas trenowania Battle IQ oraz Fruit Mastery.",
-   "None": "Brak Owocu: Walczysz polegając wyłącznie na czystym Haki, własnej sile i technice (oraz nie utoniesz w morzu!).",
+   "Logia": "Intangibility: Always provides a passive +10% win chance in every battle.",
+   "Mythical Zoan": "Mythical Vitality: Adds a flat +30% chance to escape after losing a battle.",
+   "Zoan (Incl. Ancient)": "Animal Strength: Increases the chance of a Huge Success (+2 Tiers) when training Strength and Speed.",
+   "Paramecia": "Creativity: Increases the chance of a Huge Success (+2 Tiers) when training Battle IQ and Fruit Mastery.",
+   "None": "No Devil Fruit: You fight relying purely on Haki, physical strength, and technique (and you won't drown!).",
 
-   "Gura Gura (Quake)": "Moc niszczenia świata: Przy losowaniu przeciwnika masz 10-15% szans na rzucenie 'One-Shot' i wygranie walki z marszu.",
-   "Hito: Nika (Sun God)": "Bębny Wyzwolenia: Jeśli zginiesz mając opanowanie Mastered/Perfection, budzisz się (Awakened), ożywasz i wygrywasz walkę!",
-   "Ope Ope (Room)": "Shambles: Daje 1 gwarantowaną ucieczkę przed śmiercią na całą grę.",
-   "Hie Hie (Ice)": "Deep Freeze: Odporność na Klątwę Morza. Dodatkowo, jeśli szansa na wygraną wynosi <30%, owoc daje darmową ucieczkę przed walką.",
-   "Tori: Phoenix": "Błękitne Płomienie: Narzuca sztywne 80% szans na każdą ucieczkę po przegranej walce (ignoruje inne bonusy).",
-   "Yami Yami (Darkness)": "Nieskończona Grawitacja: Usuwa opcję 'Training Failed' z koła treningu i potężnie zwiększa szanse na szybki rozwój statystyk.",
-   "Nikyu Nikyu (Paw)": "Odbicie Bólu: Usuwa opcję 'Training Failed' i zamienia ją na gwarantowany 'Success'.",
-   "Pika Pika (Light)": "Prędkość Światła: Natychmiast winduje Twoją szybkość (Speed) do maksymalnego poziomu Pirate King Level.",
-   "Uo: Seiryu (Dragon)": "Opończa Smoka: System traktuje Bounty (potęgę) każdego przeciwnika jako o 20% mniejszą, drastycznie ułatwiając walki.",
-   "Soru Soru (Soul)": "Soul Pocus: Za każdą wygraną bitwę na stałe kradniesz duszę, dodając +20M Beli do swojego Bounty.",
-   "Magu Magu (Magma)": "Absolutna Ofensywa: +15% szans na wygraną w walce, ale Twoja szansa na ucieczkę po porażce spada drastycznie do 5%.",
-   "Mero Mero (Love)": "Kamienne Serce: Jeśli Twoja szansa na wygraną to minimum 65%, masz 50% szans na natychmiastowy One-Shot wroga.",
-   "Goro Goro (Lightning)": "Mantra: Błyskawice wzmacniają zmysły. Udany trening Observation Haki zawsze daje +1 dodatkowy poziom (Tier).",
-   "Yomi Yomi (Revive)": "Drugie Życie: Ożywasz raz po śmierci z wynikiem 'Escaped', ale tracisz 20% aktualnego Bounty jako zapłatę za wskrzeszenie.",
-   "Horo Horo (Ghost)": "Negatywne Duchy: 25% szans na One-Shot (natychmiastowa wygrana) przeciwko wrogowi, który nie posiada Conqueror's Haki.",
+   "Gura Gura (Quake)": "Power to Destroy the World: When facing an enemy, you have a 10-15% chance to land a 'One-Shot' and win instantly.",
+   "Hito: Nika (Sun God)": "Drums of Liberation: If killed while your mastery is Mastered/Perfection, you Awaken, revive, and win the battle!",
+   "Ope Ope (Room)": "Shambles: Grants exactly 1 guaranteed escape from death per game.",
+   "Hie Hie (Ice)": "Deep Freeze: Immune to the Sea Curse. Additionally, if your win chance is <30%, the fruit grants a free escape before the battle.",
+   "Tori: Phoenix": "Blue Flames: Enforces a strict 80% escape chance after every lost battle (overrides other bonuses).",
+   "Yami Yami (Darkness)": "Infinite Gravity: Removes 'Training Failed' from the training wheel and heavily boosts the chance of rapid stat growth.",
+   "Nikyu Nikyu (Paw)": "Pain Repel: Removes the 'Training Failed' option and converts it into a guaranteed 'Success'.",
+   "Pika Pika (Light)": "Speed of Light: Instantly maxes out your Speed stat to Pirate King Level.",
+   "Uo: Seiryu (Dragon)": "Dragon Scales: The system treats every enemy's Bounty (power) as 20% lower, drastically making battles easier.",
+   "Soru Soru (Soul)": "Soul Pocus: For every battle won, you permanently steal a soul, adding +20M Beli to your total Bounty.",
+   "Magu Magu (Magma)": "Absolute Offense: +15% win chance in battle, but your escape chance after a defeat drops drastically to 5%.",
+   "Mero Mero (Love)": "Stone Heart: If your base win chance is at least 65%, you have a 50% chance to instantly One-Shot the enemy.",
+   "Goro Goro (Lightning)": "Mantra: Lightning enhances your senses. A successful Observation Haki training always grants +1 additional Tier.",
+   "Yomi Yomi (Revive)": "Second Life: You revive once after dying with an 'Escaped' result, but lose 20% of your current Bounty as a toll.",
+   "Horo Horo (Ghost)": "Negative Hollow: 25% chance to One-Shot (instant win) any enemy that does NOT possess Conqueror's Haki.",
    
-   "Mastered (ACoC)": "Haki Pinnacle: (Wymaga Max wszystkich 3 Haki) Raz na walkę możesz przewidzieć śmiertelny cios i otrzymać darmowy Re-Spin przy Porażce!"
+   "Mastered (ACoC)": "Haki Pinnacle: (Requires Max in all 3 Haki types) Once per battle, you can foresee a fatal blow and get a free Re-Spin upon Defeat!"
 };
 
 let characterState = {}; 
@@ -200,7 +201,7 @@ function updateLiveSheet() {
               if (obs === "Mastered (Future Sight)" && arm === "Mastered (Internal Dest.)") {
                   ttText = tooltipData["Mastered (ACoC)"];
               } else {
-                  ttText = "Zaawansowane Haki Króla. Brakuje Ci jednak Max poziomu w innych dziedzinach, by osiągnąć cud 'Haki Pinnacle'.";
+                  ttText = "Advanced Conqueror's Haki. However, you lack Max level in other types to achieve the 'Haki Pinnacle' miracle.";
               }
           }
           

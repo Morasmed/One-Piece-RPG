@@ -84,6 +84,38 @@ const enemies = {
   "Belo Betty": 850000000, "Karasu": 900000000, "Lindbergh": 800000000, "Morley": 800000000, "Emporio Ivankov": 1000000000, "Ginny": 150000000, "Sabo (Flame Emperor)": 2500000000, "Monkey D. Dragon": 5000000000, "Enel": 500000000
 };
 
+// --- DANE DLA TOOLTIPÓW ---
+const tooltipData = {
+   "Lunarian": "Rasa Bogów: +300M Bounty. Gwarantowany potencjał 3 rodzajów Haki. Startowa siła min. Yonko Commander.",
+   "Spoiled Tenryubito": "Arystokrata: +500M Bounty i gwarantowany owoc Logia/Mythical. Zablokowane statystyki fizyczne (Civilian) i zero Haki.",
+   "Holy Knight": "Boski Rycerz: Elita rządu. Min. siła i szybkość na Warlord Level, potężne Haki i legendarna broń na start.",
+   "Fishman": "Rybolud: +10M Bounty. Mistrzowie wód – 85% szans na przeżycie wpadnięcia do morza. Gwarantowane Fish-Man Karate.",
+   "Mink": "Wojownik Sulong: +20M Bounty. Startowa szybkość min. Grand Line Pirate. Gwarantowany styl Electro.",
+   "Giant": "Olbrzym: +50M Bounty. Startowa siła min. Supernova. Ze względu na gabaryty, szybkość nigdy nie przekroczy Yonko Commander.",
+   "Cyborg": "Maszyna: +30M Bounty. Startowa potężna broń. Jako pół-maszyna masz 0% szans na przebudzenie Królewskiego Haki.",
+   "Will of D. (Monkey/Gol/Rocks)": "Wola D.: Śmiertelny wróg Bogów. Masz z góry zagwarantowany potencjał wszystkich 3 rodzajów Haki.",
+   "Logia": "Nietykalność: Zawsze daje pasywne +10% szans na wygraną w każdej walce.",
+   "Mythical Zoan": "Mityczna witalność: Dodaje stałe +30% do szans na ucieczkę po przegranej walce.",
+   "Zoan (Incl. Ancient)": "Zwierzęca Siła: Zwiększa szansę na Huge Success (+2 Tiers) podczas trenowania Siły i Szybkości.",
+   "Paramecia": "Kreatywność: Zwiększa szansę na Huge Success (+2 Tiers) podczas trenowania Battle IQ oraz Fruit Mastery.",
+   "Gura Gura (Quake)": "Moc niszczenia świata: Przy losowaniu przeciwnika masz 10-15% szans na rzucenie 'One-Shot' i wygranie walki z marszu.",
+   "Hito: Nika (Sun God)": "Bębny Wyzwolenia: Jeśli zginiesz mając opanowanie Mastered/Perfection, budzisz się (Awakened), ożywasz i wygrywasz walkę!",
+   "Ope Ope (Room)": "Shambles: Daje 1 gwarantowaną ucieczkę przed śmiercią na całą grę.",
+   "Hie Hie (Ice)": "Deep Freeze: Odporność na Klątwę Morza. Dodatkowo, jeśli szansa na wygraną wynosi <30%, owoc daje darmową ucieczkę przed walką.",
+   "Tori: Phoenix": "Błękitne Płomienie: Narzuca sztywne 80% szans na każdą ucieczkę po przegranej walce (ignoruje inne bonusy).",
+   "Yami Yami (Darkness)": "Nieskończona Grawitacja: Usuwa opcję 'Training Failed' z koła treningu i potężnie zwiększa szanse na szybki rozwój statystyk.",
+   "Nikyu Nikyu (Paw)": "Odbicie Bólu: Usuwa opcję 'Training Failed' i zamienia ją na gwarantowany 'Success'.",
+   "Pika Pika (Light)": "Prędkość Światła: Natychmiast winduje Twoją szybkość (Speed) do maksymalnego poziomu Pirate King Level.",
+   "Uo: Seiryu (Dragon)": "Opończa Smoka: System traktuje Bounty (potęgę) każdego przeciwnika jako o 20% mniejszą, drastycznie ułatwiając walki.",
+   "Soru Soru (Soul)": "Soul Pocus: Za każdą wygraną bitwę na stałe kradniesz duszę, dodając +20M Beli do swojego Bounty.",
+   "Magu Magu (Magma)": "Absolutna Ofensywa: +15% szans na wygraną w walce, ale Twoja szansa na ucieczkę po porażce spada drastycznie do 5%.",
+   "Mero Mero (Love)": "Kamienne Serce: Jeśli Twoja szansa na wygraną to minimum 65%, masz 50% szans na natychmiastowy One-Shot wroga.",
+   "Goro Goro (Lightning)": "Mantra: Błyskawice wzmacniają zmysły. Udany trening Observation Haki zawsze daje +1 dodatkowy poziom (Tier).",
+   "Yomi Yomi (Revive)": "Drugie Życie: Ożywasz raz po śmierci z wynikiem 'Escaped', ale tracisz 20% aktualnego Bounty jako zapłatę za wskrzeszenie.",
+   "Horo Horo (Ghost)": "Negatywne Duchy: 25% szans na One-Shot (natychmiastowa wygrana) przeciwko każdemu wrogowi, który nie posiada Conqueror's Haki.",
+   "Mastered (ACoC)": "Haki Pinnacle: (Wymaga Max wszystkich 3 Haki) Raz na walkę możesz przewidzieć śmiertelny cios i otrzymać darmowy Re-Spin przy Porażce!"
+};
+
 let characterState = {}; 
 let characterSheet = [];
 let currentStage = null;
@@ -93,7 +125,6 @@ let enemyBounty = 0;
 let victoryCount = 0; 
 let roadPoneglyphs = 0;
 let hasEscaped = false; 
-
 let inFinalWar = false;
 let finalBossTier = 0;
 
@@ -109,6 +140,14 @@ function createStage(badge, key, optionsObjArray) {
 }
 
 function toWeighted(arr) { return arr.map(a => ({label: a, weight: 10})); }
+
+function filterLevels(arr, minLabel, maxLabel) {
+  let minIdx = minLabel ? arr.findIndex(x => x.label === minLabel) : 0;
+  let maxIdx = maxLabel ? arr.findIndex(x => x.label === maxLabel) : arr.length - 1;
+  if (minIdx === -1) minIdx = 0;
+  if (maxIdx === -1) maxIdx = arr.length - 1;
+  return arr.slice(minIdx, maxIdx + 1);
+}
 
 function updateStatusBar() {
   let sb = document.getElementById("statusBar");
@@ -131,13 +170,25 @@ function updateLiveSheet() {
   let html = `<div class="live-sheet-header">WANTED</div>`;
   html += `<div class="live-sheet-bounty">${totalBounty.toLocaleString()} <br><span>BELI</span></div>`;
   
-  const displayKeys = ["Race", "Faction", "Lineage", "Devil Fruit", "Fruit Mastery", "Awakening", "Weapon", "Weapon Mastery", "Observation Haki", "Armament Haki", "Conqueror's Haki", "Strength", "Speed", "Battle IQ"];
+  // Dodałem "Fruit Category", by też wyświetlało tooltip!
+  const displayKeys = ["Race", "Faction", "Lineage", "Fruit Category", "Devil Fruit", "Fruit Mastery", "Awakening", "Weapon", "Weapon Mastery", "Observation Haki", "Armament Haki", "Conqueror's Haki", "Strength", "Speed", "Battle IQ"];
   
   displayKeys.forEach(k => {
       let item = characterSheet.find(e => e.key === k);
       if (item && item.val !== "None" && item.val !== "No Haki" && item.val !== "Not Awakened") {
           let shortKey = k.replace(" Haki", "");
-          html += `<div class="live-row"><span class="live-label">${shortKey}:</span><span class="live-val">${item.val}</span></div>`;
+          
+          let ttText = tooltipData[item.val];
+          if (k === "Conqueror's Haki" && item.val === "Mastered (ACoC)") {
+              let obs = characterSheet.find(e => e.key === "Observation Haki")?.val;
+              let arm = characterSheet.find(e => e.key === "Armament Haki")?.val;
+              if (obs === "Mastered (Future Sight)" && arm === "Mastered (Internal Dest.)") ttText = tooltipData["Mastered (ACoC)"];
+          }
+          
+          let valClass = ttText ? "live-val has-tooltip" : "live-val";
+          let ttHtml = ttText ? `<div class="tooltip-box">${ttText}</div>` : '';
+          
+          html += `<div class="live-row"><span class="live-label">${shortKey}:</span><span class="${valClass}">${item.val}</span>${ttHtml}</div>`;
       }
   });
   sheet.innerHTML = html;
@@ -168,21 +219,40 @@ function applyUpgrade(statName, tiers) {
 }
 
 function getNextStage() {
+  let fac = characterState["Faction"];
+  let race = characterState["Race"];
+  let lin = characterState["Lineage"] || "";
+
   switch(stepIndex) {
-    case 0: return createStage("⚓ 1. Race", "Race", [{label: "Human", weight: 45}, {label: "Fishman", weight: 15, pwr: 10000000}, {label: "Mink", weight: 10, pwr: 20000000}, {label: "Giant", weight: 8, pwr: 50000000}, {label: "Cyborg", weight: 8, pwr: 30000000}, {label: "Lunarian", weight: 4, pwr: 300000000}, {label: "Celestial Dragon", weight: 8, pwr: 100000000, color: '#f59e0b'}]);
+    case 0: return createStage("⚓ 1. Race", "Race", [
+      {label: "Human", weight: 45}, {label: "Fishman", weight: 15, pwr: 10000000}, {label: "Mink", weight: 10, pwr: 20000000}, 
+      {label: "Giant", weight: 8, pwr: 50000000}, {label: "Cyborg", weight: 8, pwr: 30000000}, 
+      {label: "Lunarian", weight: 4, pwr: 300000000, color: '#ef4444'}, {label: "Celestial Dragon", weight: 8, pwr: 100000000, color: '#f59e0b'}
+    ]);
+    
     case 1: {
-      let fOpts = [{label: "Pirate", weight: 40}, {label: "Marine", weight: 25}, {label: "Revolutionary", weight: 15}, {label: "Bounty Hunter", weight: 10}, {label: "Tenryubito Overlord", weight: 5, color: '#f59e0b'}, {label: "Holy Knight", weight: 5, color: '#8b5cf6'}];
-      if (characterState["Race"] === "Celestial Dragon") return createStage("👑 2. Status", "Faction", [{label: "Tenryubito Overlord", weight: 100, color: '#f59e0b'}]);
-      if (characterState["Race"] === "Holy Knight Bloodline") return createStage("⚔️ 2. Status", "Faction", [{label: "Holy Knight", weight: 100, color: '#8b5cf6'}]);
-      return createStage("🏴‍☠️ 2. Faction", "Faction", fOpts);
+      if (race === "Celestial Dragon") {
+          return createStage("👑 2. Status", "Faction", [
+              {label: "Spoiled Tenryubito", weight: 70, color: '#f59e0b', pwr: 500000000},
+              {label: "Holy Knight", weight: 30, color: '#8b5cf6', pwr: 200000000}
+          ]);
+      }
+      return createStage("🏴‍☠️ 2. Faction", "Faction", [
+          {label: "Pirate", weight: 40}, {label: "Marine", weight: 25}, 
+          {label: "Revolutionary", weight: 15}, {label: "Bounty Hunter", weight: 10}
+      ]);
     }
     case 2: {
-      let fac = characterState["Faction"];
-      if (fac === "Tenryubito Overlord" || fac === "Holy Knight") return createStage("👑 3. Noble Family", "Lineage", [{label: "Donquixote Family", weight: 15, pwr: 50000000}, {label: "Jaygarcia Family", weight: 10, pwr: 150000000}, {label: "Figarland Family", weight: 15, pwr: 150000000}, {label: "Marcus Family", weight: 10, pwr: 150000000}, {label: "Nefertari Family", weight: 10, pwr: 50000000}, {label: "Shepherd Family", weight: 10, pwr: 150000000}, {label: "Ethanbaron Family", weight: 10, pwr: 150000000}, {label: "Topman Family", weight: 10, pwr: 150000000}, {label: "Nerona Family", weight: 2, pwr: 300000000}, {label: "Manmayer Family", weight: 8, pwr: 80000000}]);
+      if (fac === "Spoiled Tenryubito" || fac === "Holy Knight") return createStage("👑 3. Noble Family", "Lineage", [{label: "Donquixote Family", weight: 15, pwr: 50000000}, {label: "Jaygarcia Family", weight: 10, pwr: 150000000}, {label: "Figarland Family", weight: 15, pwr: 150000000}, {label: "Marcus Family", weight: 10, pwr: 150000000}, {label: "Nefertari Family", weight: 10, pwr: 50000000}, {label: "Shepherd Family", weight: 10, pwr: 150000000}, {label: "Ethanbaron Family", weight: 10, pwr: 150000000}, {label: "Topman Family", weight: 10, pwr: 150000000}, {label: "Nerona Family", weight: 2, pwr: 300000000}, {label: "Manmayer Family", weight: 8, pwr: 80000000}]);
       else if (fac === "Pirate" || fac === "Revolutionary") return createStage("🧬 3. Lineage", "Lineage", [{label: "Will of D. (Monkey/Gol/Rocks)", weight: 15, pwr: 200000000}, {label: "Standard Bloodline", weight: 85, pwr: 0}]);
       else return createStage("🧬 3. Background", "Lineage", [{label: "Marine Hero Descendant", weight: 15, pwr: 100000000}, {label: "Standard Background", weight: 85, pwr: 0}]);
     }
-    case 3: return createStage("🍖 4. Fruit Type", "Fruit Category", [{label: "Paramecia", weight: 25}, {label: "Zoan (Incl. Ancient)", weight: 15}, {label: "Logia", weight: 10}, {label: "Mythical Zoan", weight: 5}, {label: "None", weight: 45}]);
+    case 3: {
+      if (fac === "Spoiled Tenryubito") {
+          return createStage("🍖 4. Fruit Type", "Fruit Category", [{label: "Logia", weight: 50}, {label: "Mythical Zoan", weight: 50}]);
+      }
+      return createStage("🍖 4. Fruit Type", "Fruit Category", [{label: "Paramecia", weight: 25}, {label: "Zoan (Incl. Ancient)", weight: 15}, {label: "Logia", weight: 10}, {label: "Mythical Zoan", weight: 5}, {label: "None", weight: 45}]);
+    }
     case 4: {
       if (characterState["Fruit Category"] !== "None") {
         let cat = characterState["Fruit Category"];
@@ -198,9 +268,14 @@ function getNextStage() {
       return createStage("💫 Awakening?", "Awakening", [{label: "AWAKENED!", weight: awkYes, pwr: 500000000, color: '#16a34a'}, {label: "Not Awakened", weight: awkNo, color: '#dc2626'}]);
     }
     case 7: {
+      if (fac === "Spoiled Tenryubito") return createStage("👑 Haki Potential", "Haki Potential", [{label: "No Haki", weight: 100, color: '#dc2626'}]);
+      if (race === "Lunarian" || lin.includes("Will of D.")) return createStage("👑 Haki Potential", "Haki Potential", [{label: "Supreme King (All 3)", weight: 100, color: '#f59e0b'}]);
+      
       let hOpts = [{label: "No Haki", weight: 20, pwr: 0, color: '#dc2626'}, {label: "Two Colors (Obs & Arm)", weight: 60, pwr: 0, color: '#2563eb'}, {label: "Supreme King (All 3)", weight: 20, pwr: 0, color: '#f59e0b'}];
-      let lin = characterState["Lineage"] || "";
-      if (lin.includes("Will of D.") || characterState["Race"] === "Celestial Dragon") hOpts[2].weight = 50; 
+      if (fac === "Holy Knight") hOpts = [{label: "Two Colors (Obs & Arm)", weight: 40, color: '#2563eb'}, {label: "Supreme King (All 3)", weight: 60, color: '#f59e0b'}];
+      if (fac === "Marine") hOpts = [{label: "Two Colors (Obs & Arm)", weight: 80, color: '#2563eb'}, {label: "Supreme King (All 3)", weight: 20, color: '#f59e0b'}];
+      if (race === "Cyborg") hOpts = [{label: "No Haki", weight: 30, color: '#dc2626'}, {label: "Two Colors (Obs & Arm)", weight: 70, color: '#2563eb'}];
+      
       return createStage("👑 Haki Potential", "Haki Potential", hOpts);
     }
     case 8: {
@@ -215,21 +290,59 @@ function getNextStage() {
       if (characterState["Haki Potential"] !== "Supreme King (All 3)") { stepIndex = 11; return getNextStage(); }
       return createStage("👑 Conqueror's", "Conqueror's Haki", [{label: "Basic", weight: 50, color: '#f59e0b'}, {label: "Intermediate", weight: 30, color: '#d97706'}, {label: "Advanced (ACoC)", weight: 10, color: '#b45309', pwr: 1000000000}]);
     }
-    case 11: return createStage("⚔️ Weapon", "Weapon", toWeighted(opWeapons));
+    case 11: {
+      if (race === "Cyborg") return createStage("⚔️ Weapon", "Weapon", toWeighted(["Cyborg Enhancements", "Pacifista Lasers"]));
+      if (fac === "Holy Knight") return createStage("⚔️ Weapon", "Weapon", toWeighted(["Supreme Grade Sword", "Great Grade Sword"]));
+      
+      let wList = [...opWeapons];
+      if (race === "Fishman") wList = wList.map(w => w === "Standard Flintlock" || w === "Sniper Rifle" ? "Fish-Man Karate" : w);
+      if (race === "Mink") wList = wList.map(w => w === "Standard Flintlock" || w === "Sniper Rifle" ? "Electro" : w);
+      
+      return createStage("⚔️ Weapon", "Weapon", toWeighted(wList));
+    }
     case 12: return createStage("🎯 Weapon Mastery", "Weapon Mastery", masteryLevels);
-    case 13: return createStage("💪 Strength/AP", "Strength", levelStats);
-    case 14: return createStage("⚡ Speed", "Speed", levelStats);
-    case 15: return createStage("🧠 Battle IQ", "Battle IQ", levelStats);
+    case 13: { 
+      let min = "Civilian", max = "Pirate King Level";
+      if (fac === "Spoiled Tenryubito") { min = "Civilian"; max = "Civilian"; }
+      else {
+          if (race === "Lunarian") min = "Yonko Commander";
+          else if (fac === "Holy Knight") min = "Warlord Level";
+          else if (race === "Giant") min = "Supernova Level";
+          else if (race === "Fishman" || fac === "Marine") min = "East Blue Rookie";
+      }
+      return createStage("💪 Strength/AP", "Strength", filterLevels(levelStats, min, max));
+    }
+    case 14: { 
+      let min = "Civilian", max = "Pirate King Level";
+      if (characterState["Devil Fruit"] === "Pika Pika (Light)") return createStage("⚡ Speed", "Speed", [{label: "Pirate King Level", weight: 100, color: '#f59e0b'}]); // Pika Pika auto-max
+      
+      if (fac === "Spoiled Tenryubito") { min = "Civilian"; max = "Civilian"; }
+      else {
+          if (fac === "Holy Knight") min = "Warlord Level";
+          else if (race === "Mink") min = "Grand Line Pirate";
+          else if (fac === "Marine") min = "East Blue Rookie";
+          if (race === "Giant") max = "Yonko Commander"; 
+      }
+      return createStage("⚡ Speed", "Speed", filterLevels(levelStats, min, max));
+    }
+    case 15: { 
+      let min = "Civilian", max = "Pirate King Level";
+      if (fac === "Spoiled Tenryubito") { min = "Civilian"; max = "Civilian"; }
+      else {
+          if (fac === "Bounty Hunter") min = "Supernova Level";
+          else if (fac === "Marine") min = "East Blue Rookie";
+      }
+      return createStage("🧠 Battle IQ", "Battle IQ", filterLevels(levelStats, min, max));
+    }
     
     // --- GŁÓWNA PĘTLA PODRÓŻY / WOJNY ---
     case 16: { 
-      let currFac = characterState["Faction"];
-      
       if (inFinalWar) {
-          let g = getGauntlet(currFac);
+          let g = getGauntlet(fac);
           if (finalBossTier < g.length) {
-              return createStage("⚔️ Final War", "Event", [
-                  {label: "Face " + g[finalBossTier], weight: 100, color: '#dc2626', pwr: 0}
+              stepIndex = 17; 
+              return createStage("👑 Final Legend", "Enemy", [
+                  {label: g[finalBossTier], weight: 100, color: '#dc2626'}
               ]);
           }
       }
@@ -253,9 +366,9 @@ function getNextStage() {
 
       let learnWeight = isLate ? 4 : 10;
       if (characterState["Fruit Category"] === "None") opts.push({label: "Found a Mysterious Fruit", weight: learnWeight, color: '#db2777', pwr: 0});
-      if (characterState["Haki Potential"] === "No Haki" && victoryCount >= 1) opts.push({label: "Haki Awakening", weight: learnWeight, color: '#9333ea', pwr: 0});
+      if (characterState["Haki Potential"] === "No Haki" && victoryCount >= 1 && fac !== "Spoiled Tenryubito") opts.push({label: "Haki Awakening", weight: learnWeight, color: '#9333ea', pwr: 0});
 
-      if (currFac === "Pirate") {
+      if (fac === "Pirate") {
           if (isEarly) {
               opts.push({label: "Clash with Warlord", weight: 25, pwr: 0}); opts.push({label: "Marine Ambush", weight: 25, pwr: 0}); opts.push({label: "Supernova Clash", weight: 20, pwr: 0});
               if (roadPoneglyphs < 4) opts.push({label: "Search for Road Poneglyph", weight: 15, pwr: 0});
@@ -269,7 +382,7 @@ function getNextStage() {
               if (goalWeight > 0) opts.push({label: "Reach Laugh Tale (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0});
           }
       } 
-      else if (currFac === "Marine") {
+      else if (fac === "Marine") {
           if (isEarly) { opts.push({label: "Raid Pirate Crew", weight: 30, pwr: 0}); opts.push({label: "Supernova Clash", weight: 25, pwr: 0}); opts.push({label: "Clash with Warlord", weight: 20, pwr: 0}); }
           else if (isMid) { opts.push({label: "Yonko Commander Duel", weight: 30, pwr: 0}); opts.push({label: "Revolutionary Encounter", weight: 25, pwr: 0}); }
           else if (isLate) {
@@ -278,7 +391,7 @@ function getNextStage() {
               if (goalWeight > 0) opts.push({label: "The Great Pirate Cleansing (FINAL GOAL)", weight: goalWeight, color: '#f59e0b', pwr: 0});
           }
       } 
-      else if (currFac === "Revolutionary") {
+      else if (fac === "Revolutionary") {
           if (isEarly) { opts.push({label: "Liberate Island", weight: 30, pwr: 0}); opts.push({label: "Marine Ambush", weight: 25, pwr: 0}); opts.push({label: "Clash with Cipher Pol", weight: 20, pwr: 0}); }
           else if (isMid) { opts.push({label: "Clash with Cipher Pol", weight: 30, pwr: 0}); opts.push({label: "Admiral Ambush", weight: 25, pwr: 0}); }
           else if (isLate) {
@@ -297,6 +410,14 @@ function getNextStage() {
           }
       }
       
+      // 🌊 KLĄTWA MORZA (10%)
+      if (characterState["Devil Fruit"] && characterState["Devil Fruit"] !== "None" && characterState["Devil Fruit"] !== "Hie Hie (Ice)") {
+          let tw = opts.reduce((s, o) => s + o.weight, 0);
+          let seaW = Math.round(tw / 9); // Zapewnia dokładnie 10% całości na kole (tw / (tw + tw/9) = 0.9)
+          if (seaW < 1) seaW = 1;
+          opts.push({label: "Fell into the Sea!", weight: seaW, color: '#0ea5e9', pwr: 0});
+      }
+      
       return createStage("🗺️ The Journey", "Event", opts);
     }
     case 17: { 
@@ -304,7 +425,15 @@ function getNextStage() {
 
       if (ev && ev.includes("FINAL GOAL")) {
           inFinalWar = true;
-          stepIndex = 16; return getNextStage(); 
+          characterState["Event"] = "Final War Entry"; 
+          let g = getGauntlet(characterState["Faction"]);
+          return createStage("👑 Final Legend", "Enemy", [{label: g[finalBossTier], weight: 100, color: '#dc2626'}]);
+      }
+      
+      if (ev === "Fell into the Sea!") {
+          let sW = characterState["Race"] === "Fishman" ? 85 : 70;
+          stepIndex = 50; // Przejdź do handleResult ignorując normalny workflow
+          return createStage("🌊 Sea Curse", "Rescue", [{label: "Saved by Crew", weight: sW, color: '#16a34a'}, {label: "Drowned", weight: 100 - sW, color: '#dc2626'}]);
       }
 
       if (ev && ev.startsWith("Face ")) {
@@ -359,18 +488,49 @@ function getNextStage() {
     }
     case 18: { 
       if (characterState["Enemy"]) {
-        enemyBounty = enemies[characterState["Enemy"]] || 1000000000;
-        let scaledPwr = totalBounty / 1000000;
+        let en = characterState["Enemy"];
+        enemyBounty = enemies[en] || 1000000000;
+        
+        let pBounty = totalBounty;
+        if (characterState["Devil Fruit"] === "Uo: Seiryu (Dragon)") enemyBounty *= 0.8; // Zmniejszenie bounty z Uo Uo
+        
+        let scaledPwr = pBounty / 1000000;
         let scaledEn = enemyBounty / 1000000;
         let winChance = Math.round((Math.pow(scaledPwr, 2) / (Math.pow(scaledPwr, 2) + Math.pow(scaledEn, 2))) * 100);
+        
+        if (characterState["Fruit Category"] === "Logia") winChance += 10;
+        if (characterState["Devil Fruit"] === "Magu Magu (Magma)") winChance += 15;
+        
         winChance = Math.max(5, Math.min(95, winChance)); 
+        
+        let df = characterState["Devil Fruit"];
+        let oneShotOptions = null;
+        
+        // --- SPECJALNE SKRYPTY OWOCOW ---
+        if (df === "Hie Hie (Ice)" && winChance < 30) {
+            oneShotOptions = [{label: "FROZEN ESCAPE", weight: 100, color: '#0ea5e9'}];
+        } else if (df === "Gura Gura (Quake)" && Math.random() < 0.15) {
+            oneShotOptions = [{label: "ONE-SHOT (Earthquake)", weight: 100, color: '#16a34a'}];
+        } else if (df === "Mero Mero (Love)" && winChance >= 65 && Math.random() < 0.5) {
+            oneShotOptions = [{label: "ONE-SHOT (Petrified)", weight: 100, color: '#db2777'}];
+        } else if (df === "Horo Horo (Ghost)") {
+            let hasCoC = ["Shanks", "Gol D. Roger", "Prime Whitebeard", "Rocks D. Xebec", "Kaido", "Big Mom", "Donquixote Doflamingo", "Boa Hancock", "Katakuri", "Prime Sengoku"].includes(en);
+            if (!hasCoC && Math.random() < 0.25) {
+                oneShotOptions = [{label: "ONE-SHOT (Depression)", weight: 100, color: '#8b5cf6'}];
+            }
+        }
+        
+        if (oneShotOptions) return createStage("🩸 Battle Survival", "Outcome", oneShotOptions);
+        
         return createStage("🩸 Battle Survival", "Outcome", [{label: "VICTORY", weight: winChance, color: '#16a34a'}, {label: "DEFEAT", weight: 100 - winChance, color: '#dc2626'}]);
       }
       stepIndex = 16; return getNextStage();
     }
     case 19: { 
       let o = characterState["Outcome"];
-      if (o === "VICTORY") {
+      if (o === "VICTORY" || o.includes("ONE-SHOT")) {
+         if (characterState["Devil Fruit"] === "Soru Soru (Soul)") totalBounty += 20000000; 
+         
          victoryCount++; updateLiveSheet();
          
          if (inFinalWar) {
@@ -386,6 +546,10 @@ function getNextStage() {
          } else {
              stepIndex = 21; return getNextStage(); 
          }
+      } else if (o === "FROZEN ESCAPE") {
+         hasEscaped = true;
+         characterState["Outcome"] = "ESCAPED";
+         stepIndex = 15; return getNextStage(); 
       } else {
          if (!hasEscaped) { 
              stepIndex = 20; return getNextStage(); 
@@ -396,14 +560,27 @@ function getNextStage() {
       }
     }
     case 20: {
-      return createStage("🏃 Desperate Escape", "Escape Attempt", [{label: "ESCAPED BARELY", weight: 20, color: '#eab308'}, {label: "CAPTURED / KILLED", weight: 80, color: '#dc2626'}]);
+      let escW = 20;
+      let df = characterState["Devil Fruit"];
+      let cat = characterState["Fruit Category"];
+      
+      if (df === "Tori: Phoenix") {
+          escW = 80;
+      } else {
+          if (cat === "Mythical Zoan") escW += 30; // Max 50%
+          if (df === "Magu Magu (Magma)") escW = 5;
+      }
+      
+      return createStage("🏃 Desperate Escape", "Escape Attempt", [{label: "ESCAPED BARELY", weight: escW, color: '#eab308'}, {label: "CAPTURED / KILLED", weight: 100 - escW, color: '#dc2626'}]);
     }
     
     case 21: { 
         let tOpts = [];
         
+        if (characterState["Speed"] !== "Pirate King Level" && characterState["Devil Fruit"] !== "Pika Pika (Light)") 
+            tOpts.push({label: "Speed", weight: 20, color: '#2563eb'});
+            
         if (characterState["Strength"] !== "Pirate King Level") tOpts.push({label: "Strength", weight: 20, color: '#dc2626'});
-        if (characterState["Speed"] !== "Pirate King Level") tOpts.push({label: "Speed", weight: 20, color: '#2563eb'});
         if (characterState["Battle IQ"] !== "Pirate King Level") tOpts.push({label: "Battle IQ", weight: 20, color: '#16a34a'});
         
         if (characterState["Weapon"] && characterState["Weapon"] !== "None" && characterState["Weapon Mastery"] !== "Perfection") 
@@ -428,12 +605,36 @@ function getNextStage() {
         return createStage("🏋️ Train Which Stat?", "Trained Stat", tOpts);
     }
     case 22: { 
-        return createStage("🎲 Training Outcome", "Training Outcome", [
-            {label: "Huge Success! (+2 Tiers)", weight: 10, color: '#10b981'},
-            {label: "Success! (+1 Tier)", weight: 50, color: '#3b82f6'},
-            {label: "Partial Success (+Bounty)", weight: 30, color: '#f59e0b'},
-            {label: "Training Failed", weight: 10, color: '#ef4444'}
-        ]);
+        let tOpts = [];
+        let df = characterState["Devil Fruit"];
+        let cat = characterState["Fruit Category"];
+        let stat = characterState["Trained Stat"];
+        
+        if (df === "Yami Yami (Darkness)") {
+            tOpts = [
+                {label: "Huge Success! (+2 Tiers)", weight: 30, color: '#10b981'},
+                {label: "Success! (+1 Tier)", weight: 50, color: '#3b82f6'},
+                {label: "Partial Success (+Bounty)", weight: 20, color: '#f59e0b'}
+            ];
+        } else if (df === "Nikyu Nikyu (Paw)") {
+            tOpts = [
+                {label: "Huge Success! (+2 Tiers)", weight: 10, color: '#10b981'},
+                {label: "Success! (+1 Tier)", weight: 60, color: '#3b82f6'},
+                {label: "Partial Success (+Bounty)", weight: 30, color: '#f59e0b'}
+            ];
+        } else {
+            let hugeW = 10;
+            if ((cat === "Zoan (Incl. Ancient)" || cat === "Mythical Zoan") && (stat === "Strength" || stat === "Speed")) hugeW = 25;
+            if (cat === "Paramecia" && (stat === "Battle IQ" || stat === "Fruit Mastery")) hugeW = 25;
+            
+            tOpts = [
+                {label: "Huge Success! (+2 Tiers)", weight: hugeW, color: '#10b981'},
+                {label: "Success! (+1 Tier)", weight: 50, color: '#3b82f6'},
+                {label: "Partial Success (+Bounty)", weight: 30, color: '#f59e0b'},
+                {label: "Training Failed", weight: 10, color: '#ef4444'}
+            ];
+        }
+        return createStage("🎲 Training Outcome", "Training Outcome", tOpts);
     }
 
     case 23: {
@@ -451,15 +652,16 @@ function getNextStage() {
     
     case 26: { 
       let finO = characterState["Outcome"];
+      let finalFac = characterState["Faction"];
+
       if (finO === "KILLED") {
           return createStage("⛓️ Fate", "Final Status", [{label: "Defeated & Imprisoned in Impel Down", weight: 50, color: '#dc2626'}, {label: "Executed by the World Government", weight: 50, color: '#8b0000'}]);
       }
       
-      let finalFac = characterState["Faction"];
       if (finalFac === "Pirate") return createStage("⚓ Pirate Destiny", "Final Status", [{label: "Found One Piece & Became King of the Pirates!", weight: 10, color: '#16a34a'}]);
       else if (finalFac === "Marine") return createStage("🪖 Marine Destiny", "Final Status", [{label: "Eradicated the Yonko & Promoted to Fleet Admiral!", weight: 10, color: '#2563eb'}]);
       else if (finalFac === "Revolutionary") return createStage("🔥 Revolution Destiny", "Final Status", [{label: "Stormed Mariejois & Liberated the World!", weight: 10, color: '#9333ea'}]);
-      else if (finalFac === "Tenryubito Overlord" || finalFac === "Holy Knight (God's Army)") return createStage("👑 Celestial Throne", "Final Status", [{label: "Secured Absolute Control Over Pangea Castle!", weight: 10, color: '#f59e0b'}]);
+      else if (finalFac === "Spoiled Tenryubito" || finalFac === "Holy Knight") return createStage("👑 Celestial Throne", "Final Status", [{label: "Secured Absolute Control Over Pangea Castle!", weight: 10, color: '#f59e0b'}]);
       else return createStage("⚡ Ultimate Destiny", "Final Status", [{label: "Achieved Absolute Dominance Over the Seas!", weight: 10, color: '#d97706'}]);
     }
 
@@ -486,16 +688,23 @@ function drawWheel(stage) {
   });
 }
 
-// --- NOWA, NIEZAWODNA ANIMACJA (USUNIĘTY BŁĄD CACHE) ---
 function spin() {
   initAudio();
   const btn = document.getElementById("spinBtn");
   if(btn) btn.disabled = true;
   
-  let targetRotation = 1800 + Math.floor(Math.random() * 360);
-  
   const cvs = document.getElementById("wheelCanvas");
   if(!cvs) return;
+
+  if (currentStage && currentStage.options.length === 1) {
+      let res = currentStage.options[0];
+      cvs.style.transition = 'none';
+      cvs.style.transform = `rotate(0deg)`;
+      handleResult(res);
+      return;
+  }
+  
+  let targetRotation = 1800 + Math.floor(Math.random() * 360);
   
   let finalDeg = targetRotation % 360;
   let pointerAngle = (360 - finalDeg + 90) % 360;
@@ -509,7 +718,6 @@ function spin() {
   isSpinning = true; lastTickSegment = -1; 
   trackSpinSound(targetRotation, performance.now(), 4500);
 
-  // Wymuszenie przez przeglądarkę odświeżenia klatki przed ruchem:
   cvs.style.transition = 'transform 4.5s cubic-bezier(0.12, 0.95, 0.2, 1)';
   setTimeout(() => {
       cvs.style.transform = `rotate(${targetRotation}deg)`;
@@ -524,9 +732,33 @@ function spin() {
 function handleResult(res) {
   let popupTitle = res.label;
   
+  // ⚡ CUD MISTRZA HAKI (HAKI PINNACLE)
+  if (res.label === "DEFEAT" && currentStage.key === "Outcome") {
+      let obs = characterState["Observation Haki"], arm = characterState["Armament Haki"], conq = characterState["Conqueror's Haki"];
+      if (obs === "Mastered (Future Sight)" && arm === "Mastered (Internal Dest.)" && conq === "Mastered (ACoC)" && !characterState["hakiPinnacleUsed"]) {
+           characterState["hakiPinnacleUsed"] = true;
+           let pVal = document.getElementById("popupResultValue");
+           if (pVal) pVal.innerText = "HAKI PINNACLE! You foresaw the fatal blow! (Re-Spin)";
+           let pLabel = document.querySelector(".popup-title");
+           if (pLabel) pLabel.innerText = "Miracle:";
+           let ts = document.getElementById("transitionScreen");
+           if(ts) ts.classList.add("active");
+           return; // Wracamy do koła walki, gracz dostaje darmowy rzut!
+      }
+  }
+  
+  if (res.label === "VICTORY" || res.label.includes("ONE-SHOT") || res.label === "ESCAPED BARELY") {
+      characterState["hakiPinnacleUsed"] = false;
+  }
+
   if (currentStage.key === "Training Outcome") {
       let stat = characterState["Trained Stat"];
       let tiers = res.label.includes("+2") ? 2 : (res.label.includes("+1") ? 1 : 0);
+      
+      if (stat === "Observation Haki" && characterState["Devil Fruit"] === "Goro Goro (Lightning)" && tiers > 0) {
+          tiers += 1;
+          popupTitle = "Mantra Boost! " + popupTitle;
+      }
       
       if (tiers > 0) {
           let upg = applyUpgrade(stat, tiers);
@@ -546,22 +778,59 @@ function handleResult(res) {
       }
       stepIndex = 15; 
   }
-  else if (currentStage.key === "Escape Attempt") {
-      characterState["Escape Attempt"] = res.label;
-      if (res.label === "ESCAPED BARELY") {
-          hasEscaped = true;
-          characterState["Outcome"] = "ESCAPED";
-          popupTitle = "You narrowly escaped with your life!";
+  else if (currentStage.key === "Rescue") {
+      if (res.label === "Saved by Crew") {
+          popupTitle = "You barely survived the sea!";
           stepIndex = 15; 
       } else {
           characterState["Outcome"] = "KILLED";
-          popupTitle = "Your journey ends here...";
+          popupTitle = "You drowned in the sea...";
+          stepIndex = 25; 
+      }
+  }
+  else if (currentStage.key === "Escape Attempt") {
+      characterState["Escape Attempt"] = res.label;
+      let df = characterState["Devil Fruit"];
+      
+      // 🌟 OSZUKANIE ŚMIERCI (NIKA, OPE, YOMI)
+      if (res.label === "CAPTURED / KILLED") {
+          if (df === "Ope Ope (Room)" && !characterState["opeOpeUsed"]) {
+              characterState["opeOpeUsed"] = true;
+              res.label = "ESCAPED BARELY";
+              popupTitle = "Room: Shambles! You teleported away!";
+          } else if (df === "Hito: Nika (Sun God)" && (characterState["Fruit Mastery"] === "Mastered" || characterState["Fruit Mastery"] === "Perfection") && !characterState["nikaUsed"]) {
+              characterState["nikaUsed"] = true;
+              characterState["Awakening"] = "AWAKENED!";
+              let exIdx = characterSheet.findIndex(e => e.key === "Awakening");
+              if (exIdx !== -1) characterSheet[exIdx].val = "AWAKENED!"; else characterSheet.push({key: "Awakening", val: "AWAKENED!"});
+              res.label = "VICTORY";
+              popupTitle = "Drums of Liberation! Gear 5 Revive!";
+          } else if (df === "Yomi Yomi (Revive)" && !characterState["yomiYomiUsed"]) {
+              characterState["yomiYomiUsed"] = true;
+              totalBounty = Math.floor(totalBounty * 0.8);
+              res.label = "ESCAPED BARELY";
+              popupTitle = "Revive! You lost 20% Bounty, but lived!";
+          }
+      }
+
+      if (res.label === "VICTORY") {
+          victoryCount++; updateLiveSheet();
+          characterState["Outcome"] = "VICTORY";
+          stepIndex = 20; 
+      } else if (res.label === "ESCAPED BARELY") {
+          hasEscaped = true;
+          characterState["Outcome"] = "ESCAPED";
+          if(popupTitle === "CAPTURED / KILLED") popupTitle = "You narrowly escaped with your life!";
+          stepIndex = 15; 
+      } else {
+          characterState["Outcome"] = "KILLED";
+          if(popupTitle === "CAPTURED / KILLED") popupTitle = "Your journey ends here...";
           stepIndex = 25; 
       }
   }
   else {
       characterState[currentStage.key] = res.label;
-      const ignoreKeys = ["Enemy", "Outcome", "Event", "Escape Attempt", "Training Outcome", "Trained Stat", "Haki Potential", "Late Devil Fruit Cat", "Late Devil Fruit"];
+      const ignoreKeys = ["Enemy", "Outcome", "Event", "Escape Attempt", "Training Outcome", "Trained Stat", "Haki Potential", "Late Devil Fruit Cat", "Late Devil Fruit", "Rescue"];
       
       if (!ignoreKeys.includes(currentStage.key)) {
          let existingIndex = characterSheet.findIndex(e => e.key === currentStage.key);
@@ -569,10 +838,19 @@ function handleResult(res) {
          else characterSheet.push({ key: currentStage.key, val: res.label });
       }
       
-      if (currentStage.key === "Late Devil Fruit") {
-          characterState["Devil Fruit"] = res.label;
-          characterSheet.push({ key: "Devil Fruit", val: res.label });
-          stepIndex = 15; 
+      if (currentStage.key === "Late Devil Fruit" || currentStage.key === "Devil Fruit") {
+          if (currentStage.key === "Late Devil Fruit") {
+              characterState["Devil Fruit"] = res.label;
+              characterSheet.push({ key: "Devil Fruit", val: res.label });
+          }
+          if (res.label === "Pika Pika (Light)") {
+              characterState["Speed"] = "Pirate King Level";
+              let sIndex = characterSheet.findIndex(e => e.key === "Speed");
+              if (sIndex !== -1) characterSheet[sIndex].val = "Pirate King Level";
+              else characterSheet.push({key: "Speed", val: "Pirate King Level"});
+              popupTitle = "Pika Pika! Speed maxed out!";
+          }
+          if (currentStage.key === "Late Devil Fruit") stepIndex = 15; 
       }
 
       if (res.pwr) totalBounty += res.pwr;
@@ -641,21 +919,28 @@ function prepareNextStage() {
   
   const cvs = document.getElementById("wheelCanvas");
   if(cvs) {
-      // Usunięto błędy w resrtowaniu rotacji koła
       cvs.style.transition = 'none';
       cvs.style.transform = 'rotate(0deg)';
+      void cvs.offsetWidth; 
   }
   
   drawWheel(currentStage);
   
   setTimeout(() => {
     const btn = document.getElementById("spinBtn");
-    if(btn) btn.disabled = false;
+    if(btn) {
+        btn.disabled = false;
+        if (currentStage && currentStage.options.length === 1) {
+            btn.innerText = "CONTINUE (100%)";
+        } else {
+            btn.innerText = "SPIN THE WHEEL";
+        }
+    }
   }, 50);
 }
 
 function showFinalSummary() {
-  let isGov = ["Tenryubito Overlord", "Holy Knight (God's Army)", "Marine"].includes(characterState["Faction"]);
+  let isGov = ["Spoiled Tenryubito", "Holy Knight", "Marine"].includes(characterState["Faction"]);
   let isPirate = characterState["Faction"] === "Pirate";
   
   let html = `
@@ -704,4 +989,7 @@ window.onload = () => {
   drawWheel(currentStage); 
   let sb = document.getElementById("stageBadge");
   if(sb) sb.innerText = currentStage.badge;
+  
+  const btn = document.getElementById("spinBtn");
+  if(btn && currentStage && currentStage.options.length === 1) btn.innerText = "CONTINUE (100%)";
 };

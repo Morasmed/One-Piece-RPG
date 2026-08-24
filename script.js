@@ -84,8 +84,7 @@ const enemies = {
   "Belo Betty": 850000000, "Karasu": 900000000, "Lindbergh": 800000000, "Morley": 800000000, "Emporio Ivankov": 1000000000, "Ginny": 150000000, "Sabo (Flame Emperor)": 2500000000, "Monkey D. Dragon": 5000000000, "Enel": 500000000
 };
 
-// --- ROZBUDOWANE DANE DLA TOOLTIPÓW ---
-// --- ROZBUDOWANE DANE DLA TOOLTIPÓW (ENGLISH) ---
+// --- DANE DLA TOOLTIPÓW (ENGLISH) ---
 const tooltipData = {
    "Human": "Human: The most versatile race, but lacks starting bonuses. You must build your power from absolute zero.",
    "Fishman": "Fishman: +10M Bounty. Masters of the sea – 85% chance to survive falling into the ocean. Guaranteed Fish-Man Karate.",
@@ -130,6 +129,7 @@ const tooltipData = {
    
    "Mastered (ACoC)": "Haki Pinnacle: (Requires Max in all 3 Haki types) Once per battle, you can foresee a fatal blow and get a free Re-Spin upon Defeat!"
 };
+
 // --- BAZA DANYCH CHANGELOGÓW ---
 const changelogHistory = [
     {
@@ -1077,19 +1077,47 @@ window.onload = () => {
   
   const btn = document.getElementById("spinBtn");
   if(btn && currentStage && currentStage.options.length === 1) btn.innerText = "CONTINUE (100%)";
-  // --- CHANGELOG MODAL LOGIC ---
+
+  // --- ROZBUDOWANY CHANGELOG MODAL ---
   const clBtn = document.getElementById("changelogBtn");
   const clModal = document.getElementById("changelogModal");
   const clClose = document.querySelector(".changelog-close");
+  const clSidebar = document.getElementById("changelogSidebar");
+  const clTitle = document.getElementById("changelogTitle");
+  const clText = document.getElementById("changelogText");
 
-  if (clBtn && clModal && clClose) {
+  if (clBtn && clModal && clClose && clSidebar) {
+      // Budowanie przycisków wersji
+      changelogHistory.forEach((log, index) => {
+          let b = document.createElement("button");
+          b.className = "version-btn";
+          b.innerText = log.version;
+          
+          b.addEventListener("click", () => {
+              // Zmiana aktywnego przycisku
+              document.querySelectorAll(".version-btn").forEach(btn => btn.classList.remove("active"));
+              b.classList.add("active");
+              
+              // Wczytanie tekstu
+              clTitle.innerText = log.version;
+              clText.innerText = log.text;
+          });
+          clSidebar.appendChild(b);
+      });
+
+      // Otwieranie modala
       clBtn.addEventListener("click", () => {
           clModal.classList.add("active");
+          // Automatyczne kliknięcie najnowszej wersji przy pierwszym otwarciu
+          if(clSidebar.firstChild && !document.querySelector(".version-btn.active")) {
+              clSidebar.firstChild.click();
+          }
       });
+
+      // Zamykanie
       clClose.addEventListener("click", () => {
           clModal.classList.remove("active");
       });
-      // Zamykanie przy kliknięciu poza okienko
       window.addEventListener("click", (e) => {
           if (e.target === clModal) {
               clModal.classList.remove("active");

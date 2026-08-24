@@ -84,20 +84,33 @@ const enemies = {
   "Belo Betty": 850000000, "Karasu": 900000000, "Lindbergh": 800000000, "Morley": 800000000, "Emporio Ivankov": 1000000000, "Ginny": 150000000, "Sabo (Flame Emperor)": 2500000000, "Monkey D. Dragon": 5000000000, "Enel": 500000000
 };
 
-// --- DANE DLA TOOLTIPÓW ---
+// --- ROZBUDOWANE DANE DLA TOOLTIPÓW ---
 const tooltipData = {
-   "Lunarian": "Rasa Bogów: +300M Bounty. Gwarantowany potencjał 3 rodzajów Haki. Startowa siła min. Yonko Commander.",
-   "Spoiled Tenryubito": "Arystokrata: +500M Bounty i gwarantowany owoc Logia/Mythical. Zablokowane statystyki fizyczne (Civilian) i zero Haki.",
-   "Holy Knight": "Boski Rycerz: Elita rządu. Min. siła i szybkość na Warlord Level, potężne Haki i legendarna broń na start.",
+   "Human": "Ludzie: Najbardziej wszechstronna rasa, ale pozbawiona startowych bonusów. Musisz zapracować na potęgę od absolutnego zera.",
    "Fishman": "Rybolud: +10M Bounty. Mistrzowie wód – 85% szans na przeżycie wpadnięcia do morza. Gwarantowane Fish-Man Karate.",
-   "Mink": "Wojownik Sulong: +20M Bounty. Startowa szybkość min. Grand Line Pirate. Gwarantowany styl Electro.",
+   "Mink": "Wojownik Sulong: +20M Bounty. Startowa szybkość min. Grand Line Pirate. Gwarantowany styl walki Electro.",
    "Giant": "Olbrzym: +50M Bounty. Startowa siła min. Supernova. Ze względu na gabaryty, szybkość nigdy nie przekroczy Yonko Commander.",
    "Cyborg": "Maszyna: +30M Bounty. Startowa potężna broń. Jako pół-maszyna masz 0% szans na przebudzenie Królewskiego Haki.",
+   "Lunarian": "Rasa Bogów: +300M Bounty. Gwarantowany potencjał 3 rodzajów Haki. Startowa siła min. Yonko Commander.",
+   "Celestial Dragon": "Niebiański Smok: Omijasz standardowe losowanie frakcji i stajesz się Arystokratą lub elitarnym Boskim Rycerzem.",
+   
+   "Pirate": "Pirat: Wolność na morzach! Twoim ostatecznym celem jest odnalezienie 4 Poneglyphów i dotarcie do Laugh Tale.",
+   "Marine": "Marynarka: Walczysz o sprawiedliwość. Gwarantowany startowy poziom siły (min. East Blue) i wczesne Haki.",
+   "Revolutionary": "Rewolucjonista: Twoim celem jest obalenie Rządu. Zmierzysz się z najpotężniejszymi agentami CP0 i Admirałami.",
+   "Bounty Hunter": "Łowca Nagród: Polujesz na piratów dla zysku. Twój Battle IQ jest automatycznie podwyższony na starcie.",
+   "Spoiled Tenryubito": "Arystokrata: +500M Bounty i gwarantowany owoc Logia/Mythical. Zablokowane statystyki fizyczne (Civilian) i zero Haki.",
+   "Holy Knight": "Boski Rycerz: Elita rządu. Min. siła i szybkość na Warlord Level, potężne Haki i legendarna broń na start.",
+   
+   "Standard Bloodline": "Zwykły Rodowód: Brak specjalnych modyfikatorów genetycznych czy historycznych.",
+   "Marine Hero Descendant": "Potomek Bohatera: Startujesz z +100M Bounty dzięki potężnej reputacji swojej rodziny w szeregach Marynarki.",
    "Will of D. (Monkey/Gol/Rocks)": "Wola D.: Śmiertelny wróg Bogów. Masz z góry zagwarantowany potencjał wszystkich 3 rodzajów Haki.",
+
    "Logia": "Nietykalność: Zawsze daje pasywne +10% szans na wygraną w każdej walce.",
    "Mythical Zoan": "Mityczna witalność: Dodaje stałe +30% do szans na ucieczkę po przegranej walce.",
    "Zoan (Incl. Ancient)": "Zwierzęca Siła: Zwiększa szansę na Huge Success (+2 Tiers) podczas trenowania Siły i Szybkości.",
    "Paramecia": "Kreatywność: Zwiększa szansę na Huge Success (+2 Tiers) podczas trenowania Battle IQ oraz Fruit Mastery.",
+   "None": "Brak Owocu: Walczysz polegając wyłącznie na czystym Haki, własnej sile i technice (oraz nie utoniesz w morzu!).",
+
    "Gura Gura (Quake)": "Moc niszczenia świata: Przy losowaniu przeciwnika masz 10-15% szans na rzucenie 'One-Shot' i wygranie walki z marszu.",
    "Hito: Nika (Sun God)": "Bębny Wyzwolenia: Jeśli zginiesz mając opanowanie Mastered/Perfection, budzisz się (Awakened), ożywasz i wygrywasz walkę!",
    "Ope Ope (Room)": "Shambles: Daje 1 gwarantowaną ucieczkę przed śmiercią na całą grę.",
@@ -112,7 +125,8 @@ const tooltipData = {
    "Mero Mero (Love)": "Kamienne Serce: Jeśli Twoja szansa na wygraną to minimum 65%, masz 50% szans na natychmiastowy One-Shot wroga.",
    "Goro Goro (Lightning)": "Mantra: Błyskawice wzmacniają zmysły. Udany trening Observation Haki zawsze daje +1 dodatkowy poziom (Tier).",
    "Yomi Yomi (Revive)": "Drugie Życie: Ożywasz raz po śmierci z wynikiem 'Escaped', ale tracisz 20% aktualnego Bounty jako zapłatę za wskrzeszenie.",
-   "Horo Horo (Ghost)": "Negatywne Duchy: 25% szans na One-Shot (natychmiastowa wygrana) przeciwko każdemu wrogowi, który nie posiada Conqueror's Haki.",
+   "Horo Horo (Ghost)": "Negatywne Duchy: 25% szans na One-Shot (natychmiastowa wygrana) przeciwko wrogowi, który nie posiada Conqueror's Haki.",
+   
    "Mastered (ACoC)": "Haki Pinnacle: (Wymaga Max wszystkich 3 Haki) Raz na walkę możesz przewidzieć śmiertelny cios i otrzymać darmowy Re-Spin przy Porażce!"
 };
 
@@ -170,7 +184,6 @@ function updateLiveSheet() {
   let html = `<div class="live-sheet-header">WANTED</div>`;
   html += `<div class="live-sheet-bounty">${totalBounty.toLocaleString()} <br><span>BELI</span></div>`;
   
-  // Dodałem "Fruit Category", by też wyświetlało tooltip!
   const displayKeys = ["Race", "Faction", "Lineage", "Fruit Category", "Devil Fruit", "Fruit Mastery", "Awakening", "Weapon", "Weapon Mastery", "Observation Haki", "Armament Haki", "Conqueror's Haki", "Strength", "Speed", "Battle IQ"];
   
   displayKeys.forEach(k => {
@@ -179,10 +192,16 @@ function updateLiveSheet() {
           let shortKey = k.replace(" Haki", "");
           
           let ttText = tooltipData[item.val];
+          
+          // Specjalny warunek dla Haki Pinnacle
           if (k === "Conqueror's Haki" && item.val === "Mastered (ACoC)") {
               let obs = characterSheet.find(e => e.key === "Observation Haki")?.val;
               let arm = characterSheet.find(e => e.key === "Armament Haki")?.val;
-              if (obs === "Mastered (Future Sight)" && arm === "Mastered (Internal Dest.)") ttText = tooltipData["Mastered (ACoC)"];
+              if (obs === "Mastered (Future Sight)" && arm === "Mastered (Internal Dest.)") {
+                  ttText = tooltipData["Mastered (ACoC)"];
+              } else {
+                  ttText = "Zaawansowane Haki Króla. Brakuje Ci jednak Max poziomu w innych dziedzinach, by osiągnąć cud 'Haki Pinnacle'.";
+              }
           }
           
           let valClass = ttText ? "live-val has-tooltip" : "live-val";
@@ -413,7 +432,7 @@ function getNextStage() {
       // 🌊 KLĄTWA MORZA (10%)
       if (characterState["Devil Fruit"] && characterState["Devil Fruit"] !== "None" && characterState["Devil Fruit"] !== "Hie Hie (Ice)") {
           let tw = opts.reduce((s, o) => s + o.weight, 0);
-          let seaW = Math.round(tw / 9); // Zapewnia dokładnie 10% całości na kole (tw / (tw + tw/9) = 0.9)
+          let seaW = Math.round(tw / 9); 
           if (seaW < 1) seaW = 1;
           opts.push({label: "Fell into the Sea!", weight: seaW, color: '#0ea5e9', pwr: 0});
       }
@@ -432,7 +451,7 @@ function getNextStage() {
       
       if (ev === "Fell into the Sea!") {
           let sW = characterState["Race"] === "Fishman" ? 85 : 70;
-          stepIndex = 50; // Przejdź do handleResult ignorując normalny workflow
+          stepIndex = 50; 
           return createStage("🌊 Sea Curse", "Rescue", [{label: "Saved by Crew", weight: sW, color: '#16a34a'}, {label: "Drowned", weight: 100 - sW, color: '#dc2626'}]);
       }
 
@@ -492,7 +511,7 @@ function getNextStage() {
         enemyBounty = enemies[en] || 1000000000;
         
         let pBounty = totalBounty;
-        if (characterState["Devil Fruit"] === "Uo: Seiryu (Dragon)") enemyBounty *= 0.8; // Zmniejszenie bounty z Uo Uo
+        if (characterState["Devil Fruit"] === "Uo: Seiryu (Dragon)") enemyBounty *= 0.8; 
         
         let scaledPwr = pBounty / 1000000;
         let scaledEn = enemyBounty / 1000000;
@@ -506,7 +525,6 @@ function getNextStage() {
         let df = characterState["Devil Fruit"];
         let oneShotOptions = null;
         
-        // --- SPECJALNE SKRYPTY OWOCOW ---
         if (df === "Hie Hie (Ice)" && winChance < 30) {
             oneShotOptions = [{label: "FROZEN ESCAPE", weight: 100, color: '#0ea5e9'}];
         } else if (df === "Gura Gura (Quake)" && Math.random() < 0.15) {
@@ -567,7 +585,7 @@ function getNextStage() {
       if (df === "Tori: Phoenix") {
           escW = 80;
       } else {
-          if (cat === "Mythical Zoan") escW += 30; // Max 50%
+          if (cat === "Mythical Zoan") escW += 30; 
           if (df === "Magu Magu (Magma)") escW = 5;
       }
       
@@ -743,7 +761,7 @@ function handleResult(res) {
            if (pLabel) pLabel.innerText = "Miracle:";
            let ts = document.getElementById("transitionScreen");
            if(ts) ts.classList.add("active");
-           return; // Wracamy do koła walki, gracz dostaje darmowy rzut!
+           return; 
       }
   }
   
@@ -792,7 +810,6 @@ function handleResult(res) {
       characterState["Escape Attempt"] = res.label;
       let df = characterState["Devil Fruit"];
       
-      // 🌟 OSZUKANIE ŚMIERCI (NIKA, OPE, YOMI)
       if (res.label === "CAPTURED / KILLED") {
           if (df === "Ope Ope (Room)" && !characterState["opeOpeUsed"]) {
               characterState["opeOpeUsed"] = true;

@@ -1,63 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>One Piece - Ultimate Adventure RPG</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Piece: The Journey RPG</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- PRZYCISK I OKIENKO CHANGELOGA -->
-<button id="changelogBtn" class="changelog-btn">Patch Notes</button>
 
-<div id="changelogModal" class="changelog-modal">
-  <div class="changelog-content">
-    <span class="changelog-close">&times;</span>
-    <div class="changelog-layout">
-        <!-- Lewy panel z listą wersji -->
-        <div class="changelog-sidebar" id="changelogSidebar"></div>
-        
-        <!-- Prawy panel z wyświetlanym tekstem -->
-        <div class="changelog-body">
-            <h2 id="changelogTitle">Select Version</h2>
-            <pre id="changelogText">Select a version from the left menu to see the update details.</pre>
+    <div class="game-container">
+        <!-- Status Bar -->
+        <div id="statusBar" class="status-bar">Journey Progress: 0 | Bounty: 0</div>
+
+        <!-- Stage Badge -->
+        <div id="stageBadge" class="stage-badge">Loading...</div>
+
+        <!-- Wheel Container -->
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <canvas id="wheelCanvas" width="800" height="800"></canvas>
+        </div>
+
+        <!-- Spin Button -->
+        <button id="spinBtn" class="spin-btn">SPIN THE WHEEL</button>
+    </div>
+
+    <!-- Transition / Result Modal -->
+    <div id="transitionScreen" class="transition-modal">
+        <div class="transition-content">
+            <h2 class="popup-title">You Rolled:</h2>
+            <div id="popupResultValue" class="popup-result-value">---</div>
+            <div id="transitionNextName" class="transition-next-name">Next up: ---</div>
+            <button id="continueBtn" class="continue-btn">CONTINUE</button>
         </div>
     </div>
-  </div>
-</div>
-  <div class="side-art left"></div>
-  <div class="side-art right"></div>
 
-  <div class="app-screen">
-    <div class="header-box">
-      <div class="badge-stage" id="stageBadge">LOADING...</div>
-      <div class="status-bar" id="statusBar">Wins: 0 | Bounty: 0 Beli</div>
-      <div class="current-result-text" id="resultDisplay">Ready</div>
+    <!-- Final Summary Card Modal -->
+    <div id="summaryCard" class="summary-modal">
+        <div class="summary-content">
+            <div id="cardContainer"></div>
+            <button id="restartBtn" class="restart-btn">NEW JOURNEY</button>
+        </div>
     </div>
 
-    <div class="wheel-container">
-      <div class="pointer"></div>
-      <div class="center-hub"></div>
-      <canvas id="wheelCanvas" width="800" height="800"></canvas>
-    </div>
-
-    <button class="action-btn" id="spinBtn">SPIN THE WHEEL</button>
-
-    <div class="overlay-backdrop" id="transitionScreen">
-      <div class="popup-box">
-        <div class="popup-title" id="popupTitleLabel">You Rolled:</div>
-        <div class="popup-value" id="popupResultValue">-</div>
-        <div class="popup-next" id="transitionNextName">Next up: Category</div>
-        <button class="action-btn" id="continueBtn" style="width: 100%; margin: 0;">CONTINUE</button>
-      </div>
-    </div>
-
-    <div class="summary-overlay" id="summaryCard">
-      <div id="cardContainer"></div>
-      <button class="action-btn" id="restartBtn" style="margin-top: 25px; width: 100%; max-width: none;">NEW ADVENTURE</button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

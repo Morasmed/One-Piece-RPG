@@ -66,7 +66,7 @@ const obsHakiLevels = [{ label: "Basic", pwr: 50000000 }, { label: "Intermediate
 const armHakiLevels = [{ label: "Basic", pwr: 50000000 }, { label: "Intermediate", pwr: 150000000 }, { label: "Advanced (Internal Dest.)", pwr: 400000000 }, { label: "Mastered (Internal Dest.)", pwr: 1000000000 }];
 const conqHakiLevels = [{ label: "Basic", pwr: 100000000 }, { label: "Intermediate", pwr: 300000000 }, { label: "Advanced (ACoC)", pwr: 1000000000 }, { label: "Mastered (ACoC)", pwr: 2000000000 }];
 
-const opWeapons = ["Supreme Grade Sword", "Great Grade Sword", "Skillful Grade Sword", "Black Blade", "Clima-Tact", "Germa Raid Suit", "Seastone Jitte", "Seastone Knuckles", "Pacifista Lasers", "Kuja Snake Bow", "Iron Mace (Kanabo)", "Sniper Rifle", "Cyborg Enhancements", "Dial Arsenal", "Pop Greens", "Fish-Man Karate Water Bullets", "Standard Flintlock", "Kikoku", "Raiu"];
+const opWeapons = ["Supreme Grade Sword", "Great Grade Sword", "Skillful Grade Sword", "Black Blade", "Cursed Sword (Kitetsu)", "Clima-Tact", "Germa Raid Suit", "Seastone Jitte", "Seastone Knuckles", "Pacifista Lasers", "Kuja Snake Bow", "Iron Mace (Kanabo)", "Sniper Rifle", "Cyborg Enhancements", "Dial Arsenal", "Pop Greens", "Fish-Man Karate Water Bullets", "Standard Flintlock", "Kikoku", "Raiu"];
 const opFruitsParamecia = ["Gura Gura (Quake)", "Ope Ope (Room)", "Zushi Zushi (Gravity)", "Ito Ito (String)", "Mochi Mochi", "Nikyu Nikyu (Paw)", "Doku Doku (Poison)", "Soru Soru (Soul)", "Gomu Gomu (Gum)", "Bari Bari (Barrier)", "Bara Bara (Chop)", "Mero Mero (Love)", "Horo Horo (Ghost)", "Yomi Yomi (Revive)", "Jiki Jiki (Magnet)", "Kage Kage (Shadow)", "Horu Horu (Hormone)", "Fuwa Fuwa (Float)", "Supa Supa (Dice)", "Bomu Bomu (Bomb)", "Bane Bane (Spring)", "Kilo Kilo (Weight)", "Ton Ton (Ton)", "Woshu Woshu (Wash)", "Choki Choki (Snip)", "Sui Sui (Swim)", "Memo Memo (Memory)", "Buki Buki (Weapon)", "Doru Doru (Wax)", "Mane Mane (Clone)", "Toge Toge (Spike)", "Noko Noko (Mushroom)", "Sube Sube (Smooth)", "Hira Hira (Flag)", "Ishi Ishi (Stone)"];
 const opFruitsLogia = ["Mera Mera (Fire)", "Goro Goro (Lightning)", "Hie Hie (Ice)", "Magu Magu (Magma)", "Pika Pika (Light)", "Yami Yami (Darkness)", "Suna Suna (Sand)", "Moku Moku (Smoke)", "Mori Mori (Woods)", "Gasu Gasu (Gas)", "Yuki Yuki (Snow)", "Numa Numa (Swamp)"];
 const opFruitsZoan = ["Neko: Leopard", "Inu: Wolf", "Ushi: Giraffe", "Zou: Elephant", "Mogu: Mole", "Tori: Falcon", "Inu: Dachshund", "Inu: Jackal", "Ushi: Bison", "Hito: Human", "Kumo: Rosamygale", "Hebi: Anaconda", "Hebi: Cobra", "Kame: Turtle"];
@@ -86,117 +86,61 @@ const enemies = {
 
 // --- DANE DLA TOOLTIPÓW (ENGLISH) ---
 const tooltipData = {
-   "Human": "Human: The most versatile race, but lacks starting bonuses. You must build your power from absolute zero.",
+   "Human": "Human: Versatile and resilient. Training Failure chance is cut in half, allowing for steady self-improvement.",
    "Fishman": "Fishman: +10M Bounty. Masters of the sea – 85% chance to survive falling into the ocean. Guaranteed Fish-Man Karate.",
    "Mink": "Sulong Warrior: +20M Bounty. Starting speed min. Grand Line Pirate. Guaranteed Electro fighting style.",
-   "Giant": "Giant: +50M Bounty. Starting strength min. Supernova. Due to your massive size, speed will never exceed Yonko Commander.",
-   "Cyborg": "Cyborg: +30M Bounty. Starts with a powerful weapon. As a half-machine, you have a 0% chance of awakening Conqueror's Haki.",
-   "Lunarian": "Race of Gods: +300M Bounty. Guaranteed potential for all 3 types of Haki. Starting strength min. Yonko Commander.",
-   "Celestial Dragon": "Celestial Dragon: You bypass the standard faction roll and become a World Noble or an elite Holy Knight.",
+   "Giant": "Giant: +50M Bounty. Starting strength min. Supernova. Massive size gives weakness to precision attacks (-10% win chance vs technology).",
+   "Cyborg": "Cyborg: +30M Bounty. Steel body grants +20% higher chance to survive a defeat. 0% chance for Conqueror's Haki.",
+   "Lunarian": "Race of Gods: +300M Bounty. Guaranteed potential for all 3 Haki types. Hunted by the Government (more frequent ambushes).",
+   "Celestial Dragon": "Celestial Dragon: Bypass standard factions. Choose between absolute political immunity or military elite.",
    
-   "Pirate": "Pirate: Freedom on the seas! Your ultimate goal is to find 4 Road Poneglyphs and reach Laugh Tale.",
-   "Marine": "Marine: Fighting for absolute justice. Guaranteed starting strength level (min. East Blue) and early Haki.",
-   "Revolutionary": "Revolutionary: Your goal is to overthrow the World Government. You will face the strongest CP0 agents and Admirals.",
-   "Bounty Hunter": "Bounty Hunter: Hunting pirates for profit. Your Battle IQ is automatically boosted at the start.",
-   "Spoiled Tenryubito": "Aristocrat: +500M starting Bounty and a guaranteed Logia/Mythical fruit. Physical stats are locked (Civilian) with zero Haki.",
-   "Holy Knight": "Holy Knight: Government elite. Min. strength and speed at Warlord Level, powerful Haki, and a legendary weapon at the start.",
+   "Pirate": "Pirate: Freedom on the seas! Find 4 Road Poneglyphs and reach Laugh Tale.",
+   "Marine": "Marine: Fighting for absolute justice. Guaranteed starting strength level and early Haki.",
+   "Revolutionary": "Revolutionary: Overthrow the World Government. Face elite CP0 agents and Admirals.",
+   "Bounty Hunter": "Bounty Hunter: Hunt pirates for profit with a boosted starting Battle IQ.",
+   "Spoiled Tenryubito": "Aristocrat: +500M starting Bounty, guaranteed Logia/Mythical fruit. Protected by CP0, but Battle IQ is locked at Civilian and stats max out at Supernova.",
+   "Holy Knight": "Holy Knight: Government elite. Min. strength and speed at Warlord Level, powerful Haki, and a legendary weapon.",
    
    "Standard Bloodline": "Standard Bloodline: No special genetic or historical modifiers.",
-   "Marine Hero Descendant": "Hero's Descendant: Start with +100M Bounty thanks to your family's powerful reputation in the Marines.",
-   "Will of D. (Monkey/Gol/Rocks)": "Will of D.: The natural enemy of the Gods. You are guaranteed the potential to unlock all 3 types of Haki.",
+   "Marine Hero Descendant": "Hero's Descendant: Start with +100M Bounty thanks to family reputation.",
+   "Will of D. (Monkey/Gol/Rocks)": "Will of D.: Natural enemy of the Gods. Guaranteed potential to unlock all 3 types of Haki.",
 
-   "Logia": "Intangibility: Always provides a passive +10% win chance in every battle.",
+   "Logia": "Intangibility: Passive +10% win chance in every battle (bypassed by Advanced Armament Haki or Fish-Man Karate).",
    "Mythical Zoan": "Mythical Vitality: Adds a flat +30% chance to escape after losing a battle.",
-   "Zoan (Incl. Ancient)": "Animal Strength: Increases the chance of a Huge Success (+2 Tiers) when training Strength and Speed.",
-   "Paramecia": "Creativity: Increases the chance of a Huge Success (+2 Tiers) when training Battle IQ and Fruit Mastery.",
-   "None": "No Devil Fruit: You fight relying purely on Haki, physical strength, and technique (and you won't drown!).",
+   "Zoan (Incl. Ancient)": "Animal Strength: Increases chance for Huge Success (+2 Tiers) when training Strength and Speed.",
+   "Paramecia": "Creativity: Increases chance for Huge Success (+2 Tiers) when training Battle IQ and Fruit Mastery.",
+   "None": "No Devil Fruit: Rely purely on Haki, physical strength, and technique (and immunity to drowning).",
 
-   "Gura Gura (Quake)": "Power to Destroy the World: When facing an enemy, you have a 10-15% chance to land a 'One-Shot' and win instantly.",
-   "Hito: Nika (Sun God)": "Drums of Liberation: If killed while your mastery is Mastered/Perfection, you Awaken, revive, and win the battle!",
-   "Ope Ope (Room)": "Shambles: Grants exactly 1 guaranteed escape from death per game.",
-   "Hie Hie (Ice)": "Deep Freeze: Immune to the Sea Curse. Additionally, if your win chance is <30%, the fruit grants a free escape before the battle.",
-   "Tori: Phoenix": "Blue Flames: Enforces a strict 80% escape chance after every lost battle (overrides other bonuses).",
-   "Yami Yami (Darkness)": "Infinite Gravity: Removes 'Training Failed' from the training wheel and heavily boosts the chance of rapid stat growth.",
-   "Nikyu Nikyu (Paw)": "Pain Repel: Removes the 'Training Failed' option and converts it into a guaranteed 'Success'.",
-   "Pika Pika (Light)": "Speed of Light: Instantly maxes out your Speed stat to Pirate King Level.",
-   "Uo: Seiryu (Dragon)": "Dragon Scales: The system treats every enemy's Bounty (power) as 20% lower, drastically making battles easier.",
-   "Soru Soru (Soul)": "Soul Pocus: For every battle won, you permanently steal a soul, adding +20M Beli to your total Bounty.",
-   "Magu Magu (Magma)": "Absolute Offense: +15% win chance in battle, but your escape chance after a defeat drops drastically to 5%.",
-   "Mero Mero (Love)": "Stone Heart: If your base win chance is at least 65%, you have a 50% chance to instantly One-Shot the enemy.",
-   "Goro Goro (Lightning)": "Mantra: Lightning enhances your senses. A successful Observation Haki training always grants +1 additional Tier.",
-   "Yomi Yomi (Revive)": "Second Life: You revive once after dying with an 'Escaped' result, but lose 20% of your current Bounty as a toll.",
-   "Horo Horo (Ghost)": "Negative Hollow: 25% chance to One-Shot (instant win) any enemy that does NOT possess Conqueror's Haki.",
+   "Gura Gura (Quake)": "Power to Destroy the World: 10-15% chance to land an instant 'One-Shot' win.",
+   "Hito: Nika (Sun God)": "Drums of Liberation: If killed with Mastered+ mastery, awaken Gear 5, revive, and win instantly!",
+   "Ope Ope (Room)": "Shambles: Grants 1 guaranteed escape from death per game.",
+   "Hie Hie (Ice)": "Deep Freeze: Sea Curse immunity + free escape if win chance is <30%.",
+   "Tori: Phoenix": "Blue Flames: Strict 80% escape chance after a lost battle.",
+   "Yami Yami (Darkness)": "Infinite Gravity: Removes 'Training Failed' and boosts rapid stat growth.",
+   "Nikyu Nikyu (Paw)": "Pain Repel: Converts 'Training Failed' into a guaranteed 'Success'.",
+   "Pika Pika (Light)": "Speed of Light: Instantly maxes out Speed to Pirate King Level.",
+   "Uo: Seiryu (Dragon)": "Dragon Scales: Treats enemy Bounty as 20% lower during battle calculations.",
+   "Soru Soru (Soul)": "Soul Pocus: Permanently steals +20M Beli for every battle won.",
+   "Magu Magu (Magma)": "Absolute Offense: +15% win chance, but escape chance after defeat drops to 5%.",
+   "Mero Mero (Love)": "Stone Heart: 50% chance to One-Shot if base win chance is 65%+.",
+   "Goro Goro (Lightning)": "Mantra: Observation Haki training grants +1 extra Tier.",
+   "Yomi Yomi (Revive)": "Second Life: Revive once after death, losing 20% of current Bounty.",
+   "Horo Horo (Ghost)": "Negative Hollow: 25% chance to One-Shot non-Conqueror's enemies.",
    
-   "Mastered (ACoC)": "Haki Pinnacle: (Requires Max in all 3 Haki types) Once per battle, you can foresee a fatal blow and get a free Re-Spin upon Defeat!"
+   "Supreme Grade Sword": "Supreme Blade: Capable of evolving into a Black Blade upon reaching Perfection Mastery and max Armament Haki.",
+   "Great Grade Sword": "Great Blade: Capable of evolving into a Black Blade.",
+   "Cursed Sword (Kitetsu)": "Cursed Blade: +20% win chance boost, but carries a 5% risk per battle to turn a victory into sudden defeat.",
+   "Germa Raid Suit": "Advanced Tech: Automatically triggers a free escape if battle win chance is <20%.",
+   "Pacifista Lasers": "Armor Piercing: If enemy Bounty exceeds yours, lasers reduce their power advantage by 15%.",
+   "Sniper Rifle": "Precision: Synergizes with Observation Haki to grant a 20% assassination chance against Commanders.",
+   "Fish-Man Karate": "Water Combat: Completely bypasses and nullifies the enemy's Logia evasion/win bonus.",
+   "Electro": "Mink Tech: 15% chance to paralyze the enemy at the start of battle, halving their effective Bounty.",
+   "Iron Mace (Kanabo)": "Brutal Force: Synergizes with ACoC Haki to grant 1.5x larger Beli rewards per victory.",
+
+   "Advanced (Future Sight)": "Future Sight: Grants a 15-20% chance to automatically bypass and avoid roadside ambushes.",
+   "Advanced (Internal Dest.)": "Internal Destruction: Ignores and nullifies Logia defensive passives.",
+   "Mastered (ACoC)": "Supreme King Domination & Pinnacle: Automatically defeats weaklings (<300M Bounty) without a fight, grants +10% win chance vs other Conqueror users, and acts as a 1-time Re-Spin miracle upon defeat!"
 };
-
-// --- BAZA DANYCH CHANGELOGÓW ---
-const changelogHistory = [
-    {
-        version: "v1.0 - Ultimate Update",
-        text: `ONE PIECE: THE JOURNEY - CHANGELOG (The Ultimate Update)
-
-1. Engine Optimization & Quality of Life
-- Wheel Animation Fix: Implemented a new system based on requestAnimationFrame and forced reflows, completely eliminating stuttering animations and aggressive browser caching issues.
-- Auto-Skip (100% Chance): If there is only one option on the wheel, the spin button changes to "CONTINUE (100%)" and instantly provides the result.
-- UI Responsiveness: Fixed the disappearing Wanted Poster on narrower screens.
-
-2. Races & Lineage Overhaul
-- Fishman: +10M Bounty, min. Strength: East Blue, guaranteed Fish-Man Karate, 85% chance to survive falling into the sea.
-- Mink: +20M Bounty, min. Speed: Grand Line, guaranteed Electro fighting style.
-- Giant: +50M Bounty, min. Strength: Supernova. Max Speed is permanently locked at Yonko Commander.
-- Cyborg: +30M Bounty, guaranteed unique weapon (Lasers/Enhancements), 0% chance to awaken Conqueror's Haki.
-- Lunarian: +300M Bounty, min. Strength: Yonko Commander, guaranteed potential for all 3 types of Haki.
-- Celestial Dragon (Split Paths):
-  -- Spoiled Tenryubito: +500M starting Bounty, guaranteed Logia/Mythical fruit. Physical stats locked at "Civilian" with zero Haki.
-  -- Holy Knight: +200M Bounty, min. Strength & Speed: Warlord, a powerful legendary weapon, and minimum 2 types of Haki.
-- Will of D.: Automatically guarantees the potential to unlock all 3 types of Haki.
-
-3. Passive Fruit Category Bonuses
-- Logia: +10% win chance in every battle.
-- Zoan / Ancient Zoan: Increased chance for "Huge Success! (+2 Tiers)" when training Strength and Speed.
-- Paramecia: Increased chance for "Huge Success! (+2 Tiers)" when training Battle IQ and Fruit Mastery.
-- Mythical Zoan: Passive +30% chance to successfully escape ("ESCAPED BARELY") after a defeat.
-
-4. Unique Legendary Fruit Scripts
-- Hito Hito, Model: Nika: If killed (with Mastered+ mastery), you automatically awaken Gear 5, revive, and win the battle.
-- Yami Yami: Removes "Training Failed" from the training wheel and heavily boosts +2 Tiers chances.
-- Nikyu Nikyu: Repels the pain of training. Replaces "Training Failed" with a guaranteed "Success! (+1 Tier)".
-- Gura Gura: 10-15% chance in every battle to cast "One-Shot (Earthquake)" for a free win.
-- Mero Mero: 50% chance for a "One-Shot (Petrified)" win (only if base win chance is 65%+).
-- Ope Ope: Grants exactly 1 guaranteed escape from death ("Room: Shambles") per playthrough.
-- Hie Hie: Total immunity to the Sea Curse. Grants "FROZEN ESCAPE" before a battle if win chance is <30%.
-- Pika Pika: Instantly boosts Speed to Pirate King Level.
-- Tori Tori, Model: Phoenix: Forces your escape chance after a defeat to a strict 80%.
-- Soru Soru: Soul steal! Every battle won permanently adds +20,000,000 to your overall Bounty.
-- Magu Magu: +15% win chance, but escape chance after defeat drops drastically to 5%.
-- Goro Goro: Every successful Observation Haki training grants +1 free extra Tier.
-- Horo Horo: 25% chance to One-Shot a depressed enemy (unless they possess Conqueror's Haki).
-- Uo Uo, Model: Seiryu: The game treats every enemy's Bounty as 20% lower.
-- Yomi Yomi: Second Life. Revive once after being killed, but lose 20% of your current Bounty.
-
-5. The Sea Curse (Fell into the Sea)
-- Devil Fruit users (except Hie Hie) have a 10% chance of rolling drowning events.
-- 70% chance to be saved vs 30% Game Over (85% save chance for Fishmen).
-
-6. Haki Pinnacle (Miracle)
-- Requirements: All 3 Haki types maxed out (Mastered).
-- Effect: Once per battle, if you roll "DEFEAT", activates future sight, canceling the defeat and granting a free Re-spin.
-
-7. Interactive UI (Tooltips)
-- Special stats on the Wanted Poster are highlighted. Hovering reveals tooltip explanations.`
-    },
-    {
-        version: "v0.5 - Beta Release",
-        text: `EARLY BETA RELEASE
-
-- Created the core game engine.
-- Implemented the spinning wheel mechanics and probability weights.
-- Added base stats: Strength, Speed, Battle IQ.
-- Created the wanted poster display system.
-- Added the basic progression loop (Journey vs Final War).`
-    }
-];
 
 let characterState = {}; 
 let characterSheet = [];
@@ -258,10 +202,8 @@ function updateLiveSheet() {
       let item = characterSheet.find(e => e.key === k);
       if (item && item.val !== "None" && item.val !== "No Haki" && item.val !== "Not Awakened") {
           let shortKey = k.replace(" Haki", "");
-          
           let ttText = tooltipData[item.val];
           
-          // Specjalny warunek dla Haki Pinnacle
           if (k === "Conqueror's Haki" && item.val === "Mastered (ACoC)") {
               let obs = characterSheet.find(e => e.key === "Observation Haki")?.val;
               let arm = characterSheet.find(e => e.key === "Armament Haki")?.val;
@@ -390,7 +332,7 @@ function getNextStage() {
     case 12: return createStage("🎯 Weapon Mastery", "Weapon Mastery", masteryLevels);
     case 13: { 
       let min = "Civilian", max = "Pirate King Level";
-      if (fac === "Spoiled Tenryubito") { min = "Civilian"; max = "Civilian"; }
+      if (fac === "Spoiled Tenryubito") { min = "Civilian"; max = "Supernova Level"; }
       else {
           if (race === "Lunarian") min = "Yonko Commander";
           else if (fac === "Holy Knight") min = "Warlord Level";
@@ -401,9 +343,9 @@ function getNextStage() {
     }
     case 14: { 
       let min = "Civilian", max = "Pirate King Level";
-      if (characterState["Devil Fruit"] === "Pika Pika (Light)") return createStage("⚡ Speed", "Speed", [{label: "Pirate King Level", weight: 100, color: '#f59e0b'}]); // Pika Pika auto-max
+      if (characterState["Devil Fruit"] === "Pika Pika (Light)") return createStage("⚡ Speed", "Speed", [{label: "Pirate King Level", weight: 100, color: '#f59e0b'}]); 
       
-      if (fac === "Spoiled Tenryubito") { min = "Civilian"; max = "Civilian"; }
+      if (fac === "Spoiled Tenryubito") { min = "Civilian"; max = "Supernova Level"; }
       else {
           if (fac === "Holy Knight") min = "Warlord Level";
           else if (race === "Mink") min = "Grand Line Pirate";
@@ -497,6 +439,11 @@ function getNextStage() {
           }
       }
       
+      // Lunariańska podatność na zasadzki Rządu
+      if (race === "Lunarian") {
+          opts.push({label: "Marine Ambush", weight: 15, pwr: 0});
+      }
+
       // 🌊 KLĄTWA MORZA (10%)
       if (characterState["Devil Fruit"] && characterState["Devil Fruit"] !== "None" && characterState["Devil Fruit"] !== "Hie Hie (Ice)") {
           let tw = opts.reduce((s, o) => s + o.weight, 0);
@@ -528,6 +475,13 @@ function getNextStage() {
           return createStage("👑 Final Legend", "Enemy", [{label: g[finalBossTier], weight: 100, color: '#dc2626'}]);
       }
 
+      // Observation Haki (Future Sight) może ominąć zasadzkę
+      if ((ev === "Marine Ambush" || ev === "Admiral Ambush") && characterState["Observation Haki"] === "Advanced (Future Sight)" && Math.random() < 0.2) {
+          totalBounty += 20000000;
+          victoryCount++; updateStatusBar(); updateLiveSheet();
+          stepIndex = 16; return getNextStage();
+      }
+
       let storyEvents = ["Discover Sunken Treasure", "Grand Banquet", "Navigate a Deadly Anomaly", "Meet a Legendary Mentor", "Recruit a Powerful Ally", "Discover an Ancient Ruin", "Underworld Auction"];
       if (storyEvents.includes(ev)) {
           if (ev === "Discover Sunken Treasure") totalBounty += 100000000;
@@ -553,7 +507,6 @@ function getNextStage() {
           stepIndex = 16; return getNextStage(); 
       }
       if (ev === "Found a Mysterious Fruit") { stepIndex = 23; return getNextStage(); }
-      
       if (ev === "Intense Training") { stepIndex = 21; return getNextStage(); }
 
       if (ev === "Liberate Island" || ev === "Search for Road Poneglyph") {
@@ -578,19 +531,40 @@ function getNextStage() {
         let en = characterState["Enemy"];
         enemyBounty = enemies[en] || 1000000000;
         
+        // Tenryubito Immunity dla Marynarki / Rządu
+        let fac = characterState["Faction"];
+        let isMarineGovEnemy = ["Captain Koby", "Vice Admiral Smoker", "Vice Admiral Momonga", "Admiral Ryokugyu", "Admiral Fujitora", "Admiral Kizaru", "Admiral Aokiji", "Fleet Admiral Akainu", "Magellan", "Rob Lucci (CP0)", "Kaku (CP0)", "Stussy (CP0)", "Guernika (CP0)", "Maha (CP0)", "Joseph (CP0)", "Gismonda (CP0)"].includes(en);
+        if (fac === "Spoiled Tenryubito" && isMarineGovEnemy) {
+            return createStage("👑 Celestial Immunity", "Outcome", [{label: "VICTORY", weight: 100, color: '#f59e0b'}]);
+        }
+
+        // Conqueror's Dominacja słabych (<300M)
+        if (characterState["Conqueror's Haki"] === "Mastered (ACoC)" && enemyBounty <= 300000000) {
+            return createStage("👑 Supreme King Domination", "Outcome", [{label: "VICTORY", weight: 100, color: '#f59e0b'}]);
+        }
+
         let pBounty = totalBounty;
         if (characterState["Devil Fruit"] === "Uo: Seiryu (Dragon)") enemyBounty *= 0.8; 
-        
+        if (characterState["Weapon"] === "Pacifista Lasers" && enemyBounty > pBounty) enemyBounty *= 0.85;
+
         let scaledPwr = pBounty / 1000000;
         let scaledEn = enemyBounty / 1000000;
         let winChance = Math.round((Math.pow(scaledPwr, 2) / (Math.pow(scaledPwr, 2) + Math.pow(scaledEn, 2))) * 100);
         
-        if (characterState["Fruit Category"] === "Logia") winChance += 10;
-        if (characterState["Devil Fruit"] === "Magu Magu (Magma)") winChance += 15;
+        // Pasywka Logii (o ile nie skasowana przez Armament Haki lub Fish-Man Karate)
+        let hasAdvancedArm = characterState["Armament Haki"] === "Advanced (Internal Dest.)";
+        let hasFishmanWater = characterState["Weapon"] === "Fish-Man Karate";
+        if (characterState["Fruit Category"] === "Logia" && !hasAdvancedArm && !hasFishmanWater) winChance += 10;
         
+        if (characterState["Devil Fruit"] === "Magu Magu (Magma)") winChance += 15;
+        if (characterState["Weapon"] === "Cursed Sword (Kitetsu)") winChance += 20;
+        if (characterState["Race"] === "Giant" && ["Sniper Rifle", "Pacifista Lasers"].includes(characterState["Weapon"])) winChance -= 10;
+        if (characterState["Conqueror's Haki"] === "Mastered (ACoC)" && ["Emperor Buggy", "Blackbeard", "Big Mom", "Kaido", "Shanks", "Gol D. Roger", "Rocks D. Xebec"].includes(en)) winChance += 10;
+
         winChance = Math.max(5, Math.min(95, winChance)); 
         
         let df = characterState["Devil Fruit"];
+        let wp = characterState["Weapon"];
         let oneShotOptions = null;
         
         if (df === "Hie Hie (Ice)" && winChance < 30) {
@@ -599,6 +573,12 @@ function getNextStage() {
             oneShotOptions = [{label: "ONE-SHOT (Earthquake)", weight: 100, color: '#16a34a'}];
         } else if (df === "Mero Mero (Love)" && winChance >= 65 && Math.random() < 0.5) {
             oneShotOptions = [{label: "ONE-SHOT (Petrified)", weight: 100, color: '#db2777'}];
+        } else if (wp === "Sniper Rifle" && characterState["Observation Haki"] === "Advanced (Future Sight)" && Math.random() < 0.2) {
+            oneShotOptions = [{label: "HEADSHOT (Assassination)", weight: 100, color: '#8b5cf6'}];
+        } else if (wp === "Electro" && Math.random() < 0.15) {
+            oneShotOptions = [{label: "ELECTRO PARALYSIS", weight: 100, color: '#3b82f6'}];
+        } else if (wp === "Cursed Sword (Kitetsu)" && Math.random() < 0.05) {
+            oneShotOptions = [{label: "CURSED BLADE RAGE", weight: 100, color: '#dc2626'}];
         } else if (df === "Horo Horo (Ghost)") {
             let hasCoC = ["Shanks", "Gol D. Roger", "Prime Whitebeard", "Rocks D. Xebec", "Kaido", "Big Mom", "Donquixote Doflamingo", "Boa Hancock", "Katakuri", "Prime Sengoku"].includes(en);
             if (!hasCoC && Math.random() < 0.25) {
@@ -607,6 +587,9 @@ function getNextStage() {
         }
         
         if (oneShotOptions) return createStage("🩸 Battle Survival", "Outcome", oneShotOptions);
+        if (wp === "Cursed Sword (Kitetsu)" && Math.random() < 0.05) {
+            return createStage("🩸 Battle Survival", "Outcome", [{label: "DEFEAT", weight: 100, color: '#dc2626'}]);
+        }
         
         return createStage("🩸 Battle Survival", "Outcome", [{label: "VICTORY", weight: winChance, color: '#16a34a'}, {label: "DEFEAT", weight: 100 - winChance, color: '#dc2626'}]);
       }
@@ -614,9 +597,19 @@ function getNextStage() {
     }
     case 19: { 
       let o = characterState["Outcome"];
-      if (o === "VICTORY" || o.includes("ONE-SHOT")) {
+      if (o === "VICTORY" || o.includes("ONE-SHOT") || o.includes("HEADSHOT") || o.includes("ELECTRO")) {
          if (characterState["Devil Fruit"] === "Soru Soru (Soul)") totalBounty += 20000000; 
+         if (characterState["Weapon"] === "Iron Mace (Kanabo)" && characterState["Conqueror's Haki"] === "Mastered (ACoC)") totalBounty += 50000000;
          
+         // Sprawdzenie ewolucji w Czarne Ostrze (Black Blade)
+         let wp = characterState["Weapon"];
+         if ((wp === "Supreme Grade Sword" || wp === "Great Grade Sword") && characterState["Weapon Mastery"] === "Perfection" && characterState["Armament Haki"] === "Mastered (Internal Dest.)") {
+             characterState["Weapon"] = "Black Blade";
+             let wIdx = characterSheet.findIndex(e => e.key === "Weapon");
+             if(wIdx !== -1) characterSheet[wIdx].val = "Black Blade";
+             totalBounty += 300000000;
+         }
+
          victoryCount++; updateLiveSheet();
          
          if (inFinalWar) {
@@ -649,9 +642,12 @@ function getNextStage() {
       let escW = 20;
       let df = characterState["Devil Fruit"];
       let cat = characterState["Fruit Category"];
+      let wp = characterState["Weapon"];
       
       if (df === "Tori: Phoenix") {
           escW = 80;
+      } else if (wp === "Germa Raid Suit") {
+          escW = 100; // Gwarantowana ucieczka przez plecak odrzutowy
       } else {
           if (cat === "Mythical Zoan") escW += 30; 
           if (df === "Magu Magu (Magma)") escW = 5;
@@ -695,6 +691,7 @@ function getNextStage() {
         let df = characterState["Devil Fruit"];
         let cat = characterState["Fruit Category"];
         let stat = characterState["Trained Stat"];
+        let race = characterState["Race"];
         
         if (df === "Yami Yami (Darkness)") {
             tOpts = [
@@ -710,6 +707,7 @@ function getNextStage() {
             ];
         } else {
             let hugeW = 10;
+            let failW = race === "Human" ? 5 : 10; // Człowiek ma zmniejszone szanse na porażkę o połowę!
             if ((cat === "Zoan (Incl. Ancient)" || cat === "Mythical Zoan") && (stat === "Strength" || stat === "Speed")) hugeW = 25;
             if (cat === "Paramecia" && (stat === "Battle IQ" || stat === "Fruit Mastery")) hugeW = 25;
             
@@ -717,7 +715,7 @@ function getNextStage() {
                 {label: "Huge Success! (+2 Tiers)", weight: hugeW, color: '#10b981'},
                 {label: "Success! (+1 Tier)", weight: 50, color: '#3b82f6'},
                 {label: "Partial Success (+Bounty)", weight: 30, color: '#f59e0b'},
-                {label: "Training Failed", weight: 10, color: '#ef4444'}
+                {label: "Training Failed", weight: failW, color: '#ef4444'}
             ];
         }
         return createStage("🎲 Training Outcome", "Training Outcome", tOpts);
@@ -833,7 +831,7 @@ function handleResult(res) {
       }
   }
   
-  if (res.label === "VICTORY" || res.label.includes("ONE-SHOT") || res.label === "ESCAPED BARELY") {
+  if (res.label === "VICTORY" || res.label.includes("ONE-SHOT") || res.label.includes("HEADSHOT") || res.label.includes("ELECTRO") || res.label === "ESCAPED BARELY") {
       characterState["hakiPinnacleUsed"] = false;
   }
 
@@ -879,7 +877,11 @@ function handleResult(res) {
       let df = characterState["Devil Fruit"];
       
       if (res.label === "CAPTURED / KILLED") {
-          if (df === "Ope Ope (Room)" && !characterState["opeOpeUsed"]) {
+          // Cyborg passivka: +20% szansy na przeżycie śmierci
+          if (characterState["Race"] === "Cyborg" && Math.random() < 0.2) {
+              res.label = "ESCAPED BARELY";
+              popupTitle = "Cyborg Enhancement! You repaired yourself and escaped!";
+          } else if (df === "Ope Ope (Room)" && !characterState["opeOpeUsed"]) {
               characterState["opeOpeUsed"] = true;
               res.label = "ESCAPED BARELY";
               popupTitle = "Room: Shambles! You teleported away!";
@@ -1077,51 +1079,4 @@ window.onload = () => {
   
   const btn = document.getElementById("spinBtn");
   if(btn && currentStage && currentStage.options.length === 1) btn.innerText = "CONTINUE (100%)";
-
-  // --- ROZBUDOWANY CHANGELOG MODAL ---
-  const clBtn = document.getElementById("changelogBtn");
-  const clModal = document.getElementById("changelogModal");
-  const clClose = document.querySelector(".changelog-close");
-  const clSidebar = document.getElementById("changelogSidebar");
-  const clTitle = document.getElementById("changelogTitle");
-  const clText = document.getElementById("changelogText");
-
-  if (clBtn && clModal && clClose && clSidebar) {
-      // Budowanie przycisków wersji
-      changelogHistory.forEach((log, index) => {
-          let b = document.createElement("button");
-          b.className = "version-btn";
-          b.innerText = log.version;
-          
-          b.addEventListener("click", () => {
-              // Zmiana aktywnego przycisku
-              document.querySelectorAll(".version-btn").forEach(btn => btn.classList.remove("active"));
-              b.classList.add("active");
-              
-              // Wczytanie tekstu
-              clTitle.innerText = log.version;
-              clText.innerText = log.text;
-          });
-          clSidebar.appendChild(b);
-      });
-
-      // Otwieranie modala
-      clBtn.addEventListener("click", () => {
-          clModal.classList.add("active");
-          // Automatyczne kliknięcie najnowszej wersji przy pierwszym otwarciu
-          if(clSidebar.firstChild && !document.querySelector(".version-btn.active")) {
-              clSidebar.firstChild.click();
-          }
-      });
-
-      // Zamykanie
-      clClose.addEventListener("click", () => {
-          clModal.classList.remove("active");
-      });
-      window.addEventListener("click", (e) => {
-          if (e.target === clModal) {
-              clModal.classList.remove("active");
-          }
-      });
-  }
 };

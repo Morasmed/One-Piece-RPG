@@ -8,21 +8,24 @@
 </head>
 <body>
 
-    <div class="game-container">
-        <!-- Status Bar -->
-        <div id="statusBar" class="status-bar">Journey Progress: 0 | Bounty: 0</div>
-
-        <!-- Stage Badge -->
-        <div id="stageBadge" class="stage-badge">Loading...</div>
+    <!-- Główny kontener gry, który trzyma koło i interfejs w ramce -->
+    <div class="app-screen">
+        <div class="header-box">
+            <!-- Stage Badge -->
+            <div id="stageBadge" class="badge-stage">Loading...</div>
+            <!-- Status Bar -->
+            <div id="statusBar" class="status-bar">Journey Progress: 0 | Bounty: 0</div>
+        </div>
 
         <!-- Wheel Container -->
         <div class="wheel-container">
+            <div class="center-hub"></div>
             <div class="pointer"></div>
             <canvas id="wheelCanvas" width="800" height="800"></canvas>
         </div>
 
         <!-- Spin Button -->
-        <button id="spinBtn" class="spin-btn">SPIN THE WHEEL</button>
+        <button id="spinBtn" class="action-btn">SPIN THE WHEEL</button>
     </div>
 
     <!-- Transition / Result Modal -->

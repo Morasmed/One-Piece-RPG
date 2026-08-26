@@ -218,3 +218,33 @@ body::after {
   .side-art { display: none !important; }
   .tooltip-box { left: 50%; top: 110%; transform: translateX(-50%); }
 }
+/* --- NAPRAWA WYNIKU I MODALA --- */
+.transition-modal {
+    display: none;
+    position: fixed;
+    z-index: 9998;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+}
+
+.transition-modal.active {
+    display: flex;
+}
+
+.transition-content {
+    background-color: #2b1d0c;
+    border: 4px solid #f59e0b;
+    border-radius: 12px;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    color: #f3f4f6;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+}

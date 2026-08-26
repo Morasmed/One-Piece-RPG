@@ -114,8 +114,8 @@ const tooltipData = {
    "Gura Gura (Quake)": "Power to Destroy the World: 10-15% chance to land an instant 'One-Shot' win.",
    "Hito: Nika (Sun God)": "Drums of Liberation: If killed with Mastered+ mastery, awaken Gear 5, revive, and win instantly!",
    "Ope Ope (Room)": "Shambles: Grants 1 guaranteed escape from death per game.",
-   "Hie Hie (Ice)": "Deep Freeze: Sea Curse immunity + free escape if win chance is <30%.",
-   "Tori: Phoenix": "Blue Flames: Strict 80% escape chance after a lost battle.",
+   "Hie Hie (Ice)": "Deep Freeze: Sea Curse immunity. If win chance is <30%, grants a 25% chance for a free escape.",
+  "Tori: Phoenix": "Blue Flames: Strict 80% escape chance after a lost battle.",
    "Yami Yami (Darkness)": "Infinite Gravity: Removes 'Training Failed' and boosts rapid stat growth.",
    "Nikyu Nikyu (Paw)": "Pain Repel: Converts 'Training Failed' into a guaranteed 'Success'.",
    "Pika Pika (Light)": "Speed of Light: Instantly maxes out Speed to Pirate King Level.",
@@ -567,8 +567,9 @@ function getNextStage() {
         let wp = characterState["Weapon"];
         let oneShotOptions = null;
         
-        if (df === "Hie Hie (Ice)" && winChance < 30) {
-            oneShotOptions = [{label: "FROZEN ESCAPE", weight: 100, color: '#0ea5e9'}];
+      if (df === "Hie Hie (Ice)" && winChance < 30 && Math.random() < 0.25) {
+    oneShotOptions = [{label: "FROZEN ESCAPE", weight: 100, color: '#0ea5e9'}];
+}
         } else if (df === "Gura Gura (Quake)" && Math.random() < 0.15) {
             oneShotOptions = [{label: "ONE-SHOT (Earthquake)", weight: 100, color: '#16a34a'}];
         } else if (df === "Mero Mero (Love)" && winChance >= 65 && Math.random() < 0.5) {

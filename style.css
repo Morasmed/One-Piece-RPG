@@ -248,3 +248,21 @@ body::after {
     color: #f3f4f6;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
 }
+/* --- STYLY PLAKATU KOŃCOWEGO (WANTED POSTER) --- */
+.wanted-poster { 
+    background: #e6c280; 
+    border: 5px solid #3e2723; 
+    padding: 20px; 
+    border-radius: 4px; 
+    color: #3e2723; 
+    font-family: 'Times New Roman', serif; 
+    box-shadow: inset 0 0 30px rgba(92, 58, 33, 0.6); 
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); 
+    margin: 0 auto;
+}
+.wanted-title { font-size: 2.2rem; font-weight: 900; text-align: center; letter-spacing: 5px; margin-bottom: 5px; }
+.wanted-doa { text-align: center; font-size: 0.9rem; font-weight: 900; letter-spacing: 3px; border-bottom: 2px solid #3e2723; padding-bottom: 10px; margin-bottom: 15px; }
+.wanted-bounty { font-size: 1.5rem; font-weight: 900; text-align: center; border-top: 3px solid #3e2723; padding-top: 12px; margin-top: 12px; letter-spacing: 2px; }
+.card-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; border-bottom: 1px dashed #8b4513; padding-bottom: 5px; }
+.card-label { font-weight: 900; color: #5c3a21; text-transform: uppercase; width: 45%; text-align: left; }
+.card-val { font-weight: 900; color: #8b0000; text-align: right; width: 55%; font-size: 0.9rem;}

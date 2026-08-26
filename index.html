@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Piece: The Journey RPG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Boczne statki dekoracyjne (Going Merry i Thousand Sunny) -->
+    <div class="side-art left"></div>
+    <div class="side-art right"></div>
+
+    <!-- Główny kontener gry -->
+    <div class="app-screen">
+        <div class="header-box">
+            <!-- Stage Badge -->
+            <div id="stageBadge" class="badge-stage">Loading...</div>
+            <!-- Status Bar -->
+            <div id="statusBar" class="status-bar">Journey Progress: 0 | Bounty: 0</div>
+        </div>
+
+        <!-- Wheel Container -->
+        <div class="wheel-container">
+            <div class="center-hub"></div>
+            <div class="pointer"></div>
+            <canvas id="wheelCanvas" width="800" height="800"></canvas>
+        </div>
+
+        <!-- Spin Button -->
+        <button id="spinBtn" class="action-btn">SPIN THE WHEEL</button>
+    </div>
+
+    <!-- Transition / Result Modal -->
+    <div id="transitionScreen" class="transition-modal">
+        <div class="transition-content">
+            <h2 class="popup-title">You Rolled:</h2>
+            <div id="popupResultValue" class="popup-result-value">---</div>
+            <div id="transitionNextName" class="transition-next-name">Next up: ---</div>
+            <button id="continueBtn" class="continue-btn">CONTINUE</button>
+        </div>
+    </div>
+
+    <!-- Final Summary Card Modal -->
+    <div id="summaryCard" class="summary-modal">
+        <div class="summary-content">
+            <div id="cardContainer"></div>
+            <button id="restartBtn" class="restart-btn">NEW JOURNEY</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -193,9 +193,11 @@ function updateLiveSheet() {
   
   if(characterSheet.length > 0) sheet.classList.add("active");
   
-  let html = `<div class="live-sheet-header">WANTED</div>`;
+    // Nowy przycisk X, który zamyka plakat i resetuje tekst głównego przycisku
+  let html = `<div class="close-sheet-x" onclick="document.getElementById('liveSheet').classList.remove('mobile-visible'); document.getElementById('mobileStatsBtn').innerText = '📋 VIEW STATS';">✖</div>`;
+  html += `<div class="live-sheet-header">WANTED</div>`;
   html += `<div class="live-sheet-bounty">${totalBounty.toLocaleString()} <br><span>BELI</span></div>`;
-  
+
   const displayKeys = ["Race", "Faction", "Lineage", "Fruit Category", "Devil Fruit", "Fruit Mastery", "Awakening", "Weapon", "Weapon Mastery", "Observation Haki", "Armament Haki", "Conqueror's Haki", "Strength", "Speed", "Battle IQ"];
   
   displayKeys.forEach(k => {

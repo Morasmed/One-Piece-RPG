@@ -213,11 +213,47 @@ body::after {
 }
 
 /* --- RESPONSYYWNOŚĆ (MOBILE) --- */
+/* --- PRZYCISK STATYSTYK (UKRYTY NA PC) --- */
+.mobile-stats-btn {
+    display: none; 
+    background: #8b0000; 
+    color: #fff; 
+    border: 2px solid #f59e0b; 
+    padding: 6px 16px; 
+    font-size: 0.9rem; 
+    font-weight: bold; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    margin-top: 5px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5); 
+    text-transform: uppercase; 
+}
+
+/* --- RESPONSYWNOŚĆ (MOBILE) --- */
 @media (max-width: 1000px) { 
+  .mobile-stats-btn { display: inline-block; } /* Pokazuje przycisk na telefonach */
+  
+  /* Logika chowania i pokazywania Listu Gończego */
   .live-sheet { display: none !important; } 
+  
+  .live-sheet.active.mobile-visible {
+      display: block !important;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 380px;
+      max-height: 85vh;
+      overflow-y: auto !important; /* Pozwala przewijać statystyki palcem */
+      z-index: 10000;
+      box-shadow: 0 0 0 100vw rgba(0,0,0,0.85); /* Tworzy ciemne tło za listem */
+  }
+
   .side-art { display: none !important; }
   .tooltip-box { left: 50%; top: 110%; transform: translateX(-50%); }
 }
+
 /* --- NAPRAWA WYNIKU I MODALA --- */
 .transition-modal {
     display: none;

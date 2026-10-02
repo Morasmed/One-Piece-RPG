@@ -1070,6 +1070,19 @@ window.onload = () => {
   const rbtn = document.getElementById("restartBtn");
   if(rbtn) rbtn.addEventListener("click", () => location.reload());
 
+  // --- NOWY KOD DLA PRZYCISKU STATYSTYK NA MOBILE ---
+  const statsBtn = document.getElementById("mobileStatsBtn");
+  if(statsBtn) {
+      statsBtn.addEventListener("click", () => {
+          let sheet = document.getElementById("liveSheet");
+          if (sheet) {
+              sheet.classList.toggle("mobile-visible");
+              statsBtn.innerText = sheet.classList.contains("mobile-visible") ? "❌ CLOSE STATS" : "📋 VIEW STATS";
+          }
+      });
+  }
+  // ---------------------------------------------------
+
   updateStatusBar();
   updateLiveSheet();
   currentStage = getNextStage(); 

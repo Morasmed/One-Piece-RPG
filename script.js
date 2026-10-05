@@ -1028,15 +1028,58 @@ function prepareNextStage() {
   }, 50);
 }
 
+// --- NOWY SYSTEM TYTUŁÓW I OSIĄGNIĘĆ ---
+function generateTitles() {
+    let titles = [];
+    let c = characterState;
+
+    if (totalBounty >= 1000000000) titles.push("Billion-Beli Threat");
+    if (c["Weapon"] === "Black Blade") titles.push("Sword God");
+    if (c["Observation Haki"] === "Mastered (Future Sight)" && c["Armament Haki"] === "Mastered (Internal Dest.)" && c["Conqueror's Haki"] === "Mastered (ACoC)") titles.push("Haki Pinnacle");
+    if (c["Devil Fruit"] === "Hito: Nika (Sun God)" && c["Awakening"] === "AWAKENED!") titles.push("Warrior of Liberation");
+    if (c["Fruit Category"] === "None" && totalBounty >= 500000000) titles.push("Pure Haki Monster");
+    if (hasEscaped) titles.push("The Great Survivor");
+    if (c["Final Status"] && c["Final Status"].includes("King of the Pirates")) titles.push("Pirate King");
+    if (c["Faction"] === "Marine" && totalBounty > 2000000000) titles.push("Hero of the Marines");
+    
+    if (titles.length === 0) titles.push("Promising Rookie");
+    return titles;
+}
+
+function saveRun(titles) {
+    let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
+    let newRun = {
+        date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+        bounty: totalBounty,
+        faction: characterState["Faction"] || "Unknown",
+        status: characterState["Final Status"] || characterState["Outcome"] || "Unknown",
+        titles: titles.join(" | ")
+    };
+    runs.unshift(newRun); 
+    if (runs.length > 15) runs.pop(); // Przechowuje 15 ostatnich gier
+    localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
+}
+
 function showFinalSummary() {
   let isGov = ["Spoiled Tenryubito", "Holy Knight", "Marine"].includes(characterState["Faction"]);
   let isPirate = characterState["Faction"] === "Pirate";
+  
+  // Generowanie tytułów i zapis przed wyświetleniem
+  let earnedTitles = generateTitles();
+  saveRun(earnedTitles);
   
   let html = `
     <div class="wanted-poster">
       <div class="wanted-title">${isGov ? "WORLD GOV DOSSIER" : "WANTED"}</div>
       ${isGov ? "" : '<div class="wanted-doa">DEAD OR ALIVE</div>'}
-      <div style="margin: 20px 0;">`;
+      
+      <!-- Sekcja wygranych tytułów na liście gończym -->
+      <div style="text-align:center; margin-bottom: 15px; padding: 10px; background: rgba(0,0,0,0.05); border: 2px dashed #8b4513;">
+          <span style="font-size:0.8rem; color:#5c3a21; font-weight:bold; text-transform:uppercase;">EARNED TITLES:</span><br>
+          <span style="font-size:0.95rem; color:#8b0000; font-weight:900;">🏆 ${earnedTitles.join(" 🏆 ")}</span>
+      </div>
+
+      <div style="margin: 10px 0;">`;
   
   characterSheet.forEach(i => {
     if (i.key === "Fruit Category" || i.key === "Final Status") return; 
@@ -1049,17 +1092,42 @@ function showFinalSummary() {
         <span style="font-size:1rem; color:#8b0000; display:block; margin-bottom:5px;">FINAL FATE:</span>
         <span style="font-size:1.3rem;">${characterState["Final Status"] || "Unknown"}</span>
       </div>
-      ${isPirate && characterState["Outcome"] !== "KILLED" ? `<div style="text-align:center; margin-top:10px; font-weight:bold; color:#5c3a21;">Road Poneglyphs Found: ${roadPoneglyphs}/4</div>` : ''}
     </div>`;
     
   let cc = document.getElementById("cardContainer");
   if(cc) cc.innerHTML = html;
-  
-  let sc = document.getElementById("summaryCard");
-  if(sc) sc.classList.add("active");
+  document.getElementById("summaryCard").classList.add("active");
   
   let live = document.getElementById("liveSheet");
-  if(live) live.style.display = "none";
+  if(live) live.classList.remove("mobile-visible");
+}
+
+function loadHistory() {
+    let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
+    let hc = document.getElementById("historyContainer");
+    if (!hc) return;
+
+    if (runs.length === 0) {
+        hc.innerHTML = "<p style='text-align:center; color:#9ca3af;'>No past journeys recorded yet. Spin the wheel to create your legacy!</p>";
+        return;
+    }
+
+    let html = "";
+    runs.forEach((r, i) => {
+        let isDead = r.status.includes("Imprisoned") || r.status.includes("Executed") || r.status === "KILLED";
+        let statusColor = isDead ? "#ef4444" : "#10b981";
+        html += `
+        <div class="history-entry">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">
+                <span style="font-size:0.9rem; color:#fff; font-weight:bold;">Run #${runs.length - i}</span>
+                <span style="font-size:0.75rem; color:#9ca3af;">${r.date}</span>
+            </div>
+            <div style="font-size:0.85rem; margin-bottom:3px;"><strong>Faction:</strong> ${r.faction} | <strong>Bounty:</strong> ${r.bounty.toLocaleString()}</div>
+            <div style="font-size:0.85rem; margin-bottom:5px; color:${statusColor};"><strong>Fate:</strong> ${r.status}</div>
+            <div class="history-titles">🏆 ${r.titles}</div>
+        </div>`;
+    });
+    hc.innerHTML = html;
 }
 
 window.onload = () => {
@@ -1082,6 +1150,22 @@ window.onload = () => {
               statsBtn.innerText = sheet.classList.contains("mobile-visible") ? "❌ CLOSE STATS" : "📋 VIEW STATS";
           }
       });
+      // --- OBSŁUGA MODALA HISTORII ---
+  const histBtn = document.getElementById("historyBtn");
+  if(histBtn) {
+      histBtn.addEventListener("click", () => {
+          loadHistory(); // Ładuje najnowsze wpisy z localStorage
+          document.getElementById("historyModal").classList.add("active");
+      });
+  }
+
+  const closeHist = document.getElementById("closeHistoryBtn");
+  if(closeHist) {
+      closeHist.addEventListener("click", () => {
+          document.getElementById("historyModal").classList.remove("active");
+      });
+  }
+    
   }
   // ---------------------------------------------------
 

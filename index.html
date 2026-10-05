@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One Piece: The Journey RPG</title>
-        <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#022a54">
-<link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
 
     <!-- Główny kontener gry -->
     <div class="app-screen">
-            <div class="header-box">
+        <div class="header-box">
             <!-- Stage Badge -->
             <div id="stageBadge" class="badge-stage">Loading...</div>
             <!-- Status Bar -->
@@ -29,21 +29,6 @@
             <button id="historyBtn" class="mobile-stats-btn" style="background:#1e3a8a; border-color:#3b82f6;">📜 RUN HISTORY</button>
         </div>
 
-        <!-- ... tu jest reszta kółka itp. ... -->
-        
-            
-    <!-- NOWY MODAL: HALL OF FAME -->
-    <div id="historyModal" class="summary-modal">
-        <div class="summary-content" style="max-height: 85vh; overflow-y: auto;">
-            <h2 class="popup-title" style="color: #3b82f6;">Hall of Fame</h2>
-            <div id="historyContainer"></div>
-            <button id="closeHistoryBtn" class="continue-btn" style="background: #3b82f6; color: #fff;">CLOSE HISTORY</button>
-        </div>
-    </div>
-                    
-                </div>
-        
-
         <!-- Wheel Container -->
         <div class="wheel-container">
             <div class="center-hub"></div>
@@ -53,6 +38,15 @@
 
         <!-- Spin Button -->
         <button id="spinBtn" class="action-btn">SPIN THE WHEEL</button>
+    </div>
+
+    <!-- NOWY MODAL: HALL OF FAME -->
+    <div id="historyModal" class="summary-modal">
+        <div class="summary-content" style="max-height: 85vh; overflow-y: auto;">
+            <h2 class="popup-title" style="color: #3b82f6;">Hall of Fame</h2>
+            <div id="historyContainer"></div>
+            <button id="closeHistoryBtn" class="continue-btn" style="background: #3b82f6; color: #fff;">CLOSE HISTORY</button>
+        </div>
     </div>
 
     <!-- Transition / Result Modal -->
@@ -76,3 +70,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+

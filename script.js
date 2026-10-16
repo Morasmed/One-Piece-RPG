@@ -1026,13 +1026,17 @@ function prepareNextStage() {
     }
   }, 50);
 }
-
-// --- NOWA / ODTWORZONA FUNKCJA PODSUMOWANIA KOŃCOWEGO ---
+// --- BEZPIECZNE PODSUMOWANIE KOŃCOWE ---
 function showFinalSummary() {
   let isGov = ["Spoiled Tenryubito", "Holy Knight", "Marine"].includes(characterState["Faction"]);
   
-  let earnedTitles = generateTitles();
-  saveRun(earnedTitles);
+  let earnedTitles = [];
+  try {
+      earnedTitles = generateTitles();
+      saveRun(earnedTitles);
+  } catch (e) {
+      console.error("Błąd podczas zapisywania runu:", e);
+  }
   
   let html = `
     <div class="wanted-poster">
@@ -1041,7 +1045,7 @@ function showFinalSummary() {
       
       <div style="text-align:center; margin-bottom: 15px; padding: 10px; background: rgba(0,0,0,0.05); border: 2px dashed #8b4513;">
           <span style="font-size:0.8rem; color:#5c3a21; font-weight:bold; text-transform:uppercase;">EARNED TITLES:</span><br>
-          <span style="font-size:0.95rem; color:#8b0000; font-weight:900;">🏆 ${earnedTitles.join(" 🏆 ")}</span>
+          <span style="font-size:0.95rem; color:#8b0000; font-weight:900;">🏆 ${earnedTitles.length ? earnedTitles.join(" 🏆 ") : "Promising Rookie"}</span>
       </div>
 
       <div style="margin: 10px 0;">`;
@@ -1055,7 +1059,7 @@ function showFinalSummary() {
   html += `</div>
       <div class="wanted-bounty">
         <span style="font-size:1rem; color:#8b0000; display:block; margin-bottom:5px;">FINAL FATE:</span>
-        <span style="font-size:1.3rem;">${characterState["Final Status"] || "Unknown"}</span>
+        <span style="font-size:1.3rem;">${characterState["Final Status"] || characterState["Outcome"] || "Unknown"}</span>
       </div>
     </div>`;
     
@@ -1069,10 +1073,10 @@ function showFinalSummary() {
   if(live) live.classList.remove("mobile-visible");
 }
 
-// --- ROZBUDOWANY SYSTEM TYTUŁÓW ---
+// --- GENEROWANIE TYTUŁÓW ---
 function generateTitles() {
     let titles = [];
-    let c = characterState;
+    let c = characterState || {};
     let bounty = totalBounty || 0;
 
     if (bounty >= 1000000000) titles.push("Billion-Beli Threat");
@@ -1085,10 +1089,11 @@ function generateTitles() {
     if (c["Faction"] === "Revolutionary") titles.push("Fighter for Freedom");
 
     if (c["Weapon"] === "Black Blade") titles.push("Sword God");
+    
     if (c["Observation Haki"] && c["Armament Haki"] && c["Conqueror's Haki"] &&
-        c["Observation Haki"].includes("Mastered") && 
-        c["Armament Haki"].includes("Mastered") && 
-        c["Conqueror's Haki"].includes("Mastered")) {
+        String(c["Observation Haki"]).includes("Mastered") && 
+        String(c["Armament Haki"]).includes("Mastered") && 
+        String(c["Conqueror's Haki"]).includes("Mastered")) {
         titles.push("Haki Pinnacle");
     }
     
@@ -1097,35 +1102,50 @@ function generateTitles() {
     }
 
     if (c["Devil Fruit"] === "Hito: Nika (Sun God)") titles.push("Warrior of Liberation");
-    if (c["Final Status"] && c["Final Status"].includes("King of the Pirates")) titles.push("Pirate King");
+    if (c["Final Status"] && String(c["Final Status"]).includes("King of the Pirates")) titles.push("Pirate King");
 
     if (titles.length === 0) titles.push("Promising Rookie");
     return titles;
 }
 
-// --- ZAPISOWANIE Z UNIKALNYM ID DO USUWANIA ---
+// --- BEZPIECZNE ZAPISYWANIE ---
 function saveRun(titles) {
-    let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
-    let newRun = {
-        id: Date.now(),
-        date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-        bounty: totalBounty,
-        faction: characterState["Faction"] || "Unknown",
-        status: characterState["Final Status"] || characterState["Outcome"] || "Unknown",
-        titles: titles.join(" | ")
-    };
-    runs.unshift(newRun); 
-    if (runs.length > 20) runs.pop();
-    localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
+    try {
+        let rawRuns = localStorage.getItem("opJourneyRuns");
+        let runs = rawRuns ? JSON.parse(rawRuns) : [];
+        if (!Array.isArray(runs)) runs = [];
+
+        let newRun = {
+            id: Date.now(),
+            date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+            bounty: totalBounty || 0,
+            faction: characterState["Faction"] || "Unknown",
+            status: characterState["Final Status"] || characterState["Outcome"] || "Unknown",
+            titles: Array.isArray(titles) ? titles.join(" | ") : "Promising Rookie"
+        };
+
+        runs.unshift(newRun); 
+        if (runs.length > 20) runs.pop();
+        localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
+    } catch (e) {
+        console.error("Błąd pamięci localStorage przy zapisie:", e);
+    }
 }
 
-// --- HISTORIA I USUWANIE RUNÓW ---
+// --- BEZPIECZNE ŁADOWANIE I USUWANIE HISTORII ---
 function loadHistory() {
-    let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
     let hc = document.getElementById("historyContainer");
     if (!hc) return;
 
-    // Automatyczne dodanie id starym zapisom, które go nie mają
+    let runs = [];
+    try {
+        let rawRuns = localStorage.getItem("opJourneyRuns");
+        runs = rawRuns ? JSON.parse(rawRuns) : [];
+        if (!Array.isArray(runs)) runs = [];
+    } catch (e) {
+        runs = [];
+    }
+
     let hasChanges = false;
     runs.forEach((r, idx) => {
         if (!r.id) {
@@ -1133,8 +1153,9 @@ function loadHistory() {
             hasChanges = true;
         }
     });
+
     if (hasChanges) {
-        localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
+        try { localStorage.setItem("opJourneyRuns", JSON.stringify(runs)); } catch(e){}
     }
 
     if (runs.length === 0) {
@@ -1144,29 +1165,36 @@ function loadHistory() {
 
     let html = "";
     runs.forEach((r, i) => {
-        let isDead = r.status.includes("Imprisoned") || r.status.includes("Executed") || r.status === "KILLED";
+        let statusText = r.status || "";
+        let isDead = statusText.includes("Imprisoned") || statusText.includes("Executed") || statusText === "KILLED";
         let statusColor = isDead ? "#ef4444" : "#10b981";
         html += `
         <div class="history-entry">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">
                 <span style="font-size:0.9rem; color:#fff; font-weight:bold;">Run #${runs.length - i}</span>
-                <span style="font-size:0.75rem; color:#9ca3af;">${r.date}</span>
+                <span style="font-size:0.75rem; color:#9ca3af;">${r.date || ''}</span>
                 <button class="delete-run-btn" onclick="deleteRun(${r.id})">🗑️</button>
             </div>
-            <div style="font-size:0.85rem; margin-bottom:3px;"><strong>Faction:</strong> ${r.faction} | <strong>Bounty:</strong> ${r.bounty.toLocaleString()} BELI</div>
-            <div style="font-size:0.85rem; margin-bottom:5px; color:${statusColor};"><strong>Fate:</strong> ${r.status}</div>
-            <div class="history-titles">🏆 ${r.titles}</div>
+            <div style="font-size:0.85rem; margin-bottom:3px;"><strong>Faction:</strong> ${r.faction} | <strong>Bounty:</strong> ${(r.bounty || 0).toLocaleString()} BELI</div>
+            <div style="font-size:0.85rem; margin-bottom:5px; color:${statusColor};"><strong>Fate:</strong> ${statusText}</div>
+            <div class="history-titles">🏆 ${r.titles || ''}</div>
         </div>`;
     });
     hc.innerHTML = html;
 }
 
-// Funkcja usuwająca konkretny run po jego ID
 function deleteRun(id) {
     if (!id) return;
-    let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
-    runs = runs.filter(r => r.id !== id);
-    localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
+    try {
+        let rawRuns = localStorage.getItem("opJourneyRuns");
+        let runs = rawRuns ? JSON.parse(rawRuns) : [];
+        if (Array.isArray(runs)) {
+            runs = runs.filter(r => r.id !== id);
+            localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
+        }
+    } catch (e) {
+        console.error("Błąd przy usuwaniu:", e);
+    }
     loadHistory();
 }
 

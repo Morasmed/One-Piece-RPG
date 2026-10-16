@@ -347,3 +347,17 @@ body::after {
     font-size: 0.85rem;
     text-transform: uppercase;
 }
+/* --- PRZYCISK USUWANIA W HALL OF FAME --- */
+.delete-run-btn {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.delete-run-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+}

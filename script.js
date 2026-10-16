@@ -1028,27 +1028,48 @@ function prepareNextStage() {
   }, 50);
 }
 
-// --- NOWY SYSTEM TYTUŁÓW I OSIĄGNIĘĆ ---
+// --- ROZBUDOWANY SYSTEM TYTUŁÓW ---
 function generateTitles() {
     let titles = [];
     let c = characterState;
+    let bounty = totalBounty || 0;
 
-    if (totalBounty >= 1000000000) titles.push("Billion-Beli Threat");
+    // Tytuły za Bounty
+    if (bounty >= 1000000000) titles.push("Billion-Beli Threat");
+    else if (bounty >= 500000000) titles.push("Super Rookie");
+    else if (bounty < 50000000) titles.push("Lucky Novice");
+
+    // Tytuły za Rasę / Frakcję
+    if (c["Race"] === "Cyborg") titles.push("Iron Demon");
+    if (c["Faction"] === "Spoiled Tenryubito") titles.push("Heavenly Dragon");
+    if (c["Faction"] === "Marine" && bounty > 500000000) titles.push("Hero of the Marines");
+    if (c["Faction"] === "Revolutionary") titles.push("Fighter for Freedom");
+
+    // Tytuły za Umiejętności i Owoc
     if (c["Weapon"] === "Black Blade") titles.push("Sword God");
-    if (c["Observation Haki"] === "Mastered (Future Sight)" && c["Armament Haki"] === "Mastered (Internal Dest.)" && c["Conqueror's Haki"] === "Mastered (ACoC)") titles.push("Haki Pinnacle");
-    if (c["Devil Fruit"] === "Hito: Nika (Sun God)" && c["Awakening"] === "AWAKENED!") titles.push("Warrior of Liberation");
-    if (c["Fruit Category"] === "None" && totalBounty >= 500000000) titles.push("Pure Haki Monster");
-    if (hasEscaped) titles.push("The Great Survivor");
-    if (c["Final Status"] && c["Final Status"].includes("King of the Pirates")) titles.push("Pirate King");
-    if (c["Faction"] === "Marine" && totalBounty > 2000000000) titles.push("Hero of the Marines");
+    if (c["Observation Haki"] && c["Armament Haki"] && c["Conqueror's Haki"] &&
+        c["Observation Haki"].includes("Mastered") && 
+        c["Armament Haki"].includes("Mastered") && 
+        c["Conqueror's Haki"].includes("Mastered")) {
+        titles.push("Haki Pinnacle");
+    }
     
+    if ((!c["Devil Fruit"] || c["Devil Fruit"] === "None") && bounty >= 300000000) {
+        titles.push("Pure Haki Monster");
+    }
+
+    if (c["Devil Fruit"] === "Hito: Nika (Sun God)") titles.push("Warrior of Liberation");
+    if (c["Final Status"] && c["Final Status"].includes("King of the Pirates")) titles.push("Pirate King");
+
     if (titles.length === 0) titles.push("Promising Rookie");
     return titles;
 }
 
+// --- ZAPISOWANIE Z UNIKALNYM ID DO USUWANIA ---
 function saveRun(titles) {
     let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
     let newRun = {
+        id: Date.now(), // Unikalne ID do kasowania wpisu
         date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
         bounty: totalBounty,
         faction: characterState["Faction"] || "Unknown",
@@ -1056,59 +1077,18 @@ function saveRun(titles) {
         titles: titles.join(" | ")
     };
     runs.unshift(newRun); 
-    if (runs.length > 15) runs.pop(); // Przechowuje 15 ostatnich gier
+    if (runs.length > 20) runs.pop(); // Przechowuje 20 ostatnich gier
     localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
 }
 
-function showFinalSummary() {
-  let isGov = ["Spoiled Tenryubito", "Holy Knight", "Marine"].includes(characterState["Faction"]);
-  let isPirate = characterState["Faction"] === "Pirate";
-  
-  // Generowanie tytułów i zapis przed wyświetleniem
-  let earnedTitles = generateTitles();
-  saveRun(earnedTitles);
-  
-  let html = `
-    <div class="wanted-poster">
-      <div class="wanted-title">${isGov ? "WORLD GOV DOSSIER" : "WANTED"}</div>
-      ${isGov ? "" : '<div class="wanted-doa">DEAD OR ALIVE</div>'}
-      
-      <!-- Sekcja wygranych tytułów na liście gończym -->
-      <div style="text-align:center; margin-bottom: 15px; padding: 10px; background: rgba(0,0,0,0.05); border: 2px dashed #8b4513;">
-          <span style="font-size:0.8rem; color:#5c3a21; font-weight:bold; text-transform:uppercase;">EARNED TITLES:</span><br>
-          <span style="font-size:0.95rem; color:#8b0000; font-weight:900;">🏆 ${earnedTitles.join(" 🏆 ")}</span>
-      </div>
-
-      <div style="margin: 10px 0;">`;
-  
-  characterSheet.forEach(i => {
-    if (i.key === "Fruit Category" || i.key === "Final Status") return; 
-    let shortKey = i.key.replace(" Haki", "");
-    html += `<div class="card-row"><span class="card-label" style="color:#5c3a21;">${shortKey}</span><span class="card-val" style="color:#3e2723;">${i.val}</span></div>`;
-  });
-  
-  html += `</div>
-      <div class="wanted-bounty">
-        <span style="font-size:1rem; color:#8b0000; display:block; margin-bottom:5px;">FINAL FATE:</span>
-        <span style="font-size:1.3rem;">${characterState["Final Status"] || "Unknown"}</span>
-      </div>
-    </div>`;
-    
-  let cc = document.getElementById("cardContainer");
-  if(cc) cc.innerHTML = html;
-  document.getElementById("summaryCard").classList.add("active");
-  
-  let live = document.getElementById("liveSheet");
-  if(live) live.classList.remove("mobile-visible");
-}
-
+// --- HISTORIA I USUWANIE RUNÓW ---
 function loadHistory() {
     let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
     let hc = document.getElementById("historyContainer");
     if (!hc) return;
 
     if (runs.length === 0) {
-        hc.innerHTML = "<p style='text-align:center; color:#9ca3af;'>No past journeys recorded yet. Spin the wheel to create your legacy!</p>";
+        hc.innerHTML = "<p style='text-align:center; color:#9ca3af;'>No past journeys recorded yet.</p>";
         return;
     }
 
@@ -1118,11 +1098,13 @@ function loadHistory() {
         let statusColor = isDead ? "#ef4444" : "#10b981";
         html += `
         <div class="history-entry">
-            <div style="display:flex; justify-content:space-between; margin-bottom:5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">
                 <span style="font-size:0.9rem; color:#fff; font-weight:bold;">Run #${runs.length - i}</span>
                 <span style="font-size:0.75rem; color:#9ca3af;">${r.date}</span>
+                <!-- PRZYCISK USUWANIA WPISU -->
+                <button class="delete-run-btn" onclick="deleteRun(${r.id})">🗑️</button>
             </div>
-            <div style="font-size:0.85rem; margin-bottom:3px;"><strong>Faction:</strong> ${r.faction} | <strong>Bounty:</strong> ${r.bounty.toLocaleString()}</div>
+            <div style="font-size:0.85rem; margin-bottom:3px;"><strong>Faction:</strong> ${r.faction} | <strong>Bounty:</strong> ${r.bounty.toLocaleString()} BELI</div>
             <div style="font-size:0.85rem; margin-bottom:5px; color:${statusColor};"><strong>Fate:</strong> ${r.status}</div>
             <div class="history-titles">🏆 ${r.titles}</div>
         </div>`;
@@ -1130,6 +1112,14 @@ function loadHistory() {
     hc.innerHTML = html;
 }
 
+// Funkcja usuwająca konkretny run po kliknięciu kosza
+function deleteRun(id) {
+    let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
+    runs = runs.filter(r => r.id !== id);
+    localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
+    loadHistory(); // Odświeża widok bez przeładowania strony
+}
+  
 window.onload = () => {
   const sbtn = document.getElementById("spinBtn");
   if(sbtn) sbtn.addEventListener("click", spin);

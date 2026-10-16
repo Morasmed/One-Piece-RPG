@@ -617,7 +617,7 @@ function getNextStage() {
              finalBossTier++;
              let g = getGauntlet(characterState["Faction"]);
              if (finalBossTier >= g.length) {
-                 stepIndex = 26; return getNextStage(); 
+                 stepIndex = 25; return getNextStage(); 
              } else {
                  totalBounty += 1000000000; 
                  updateLiveSheet();
@@ -635,7 +635,7 @@ function getNextStage() {
              stepIndex = 20; return getNextStage(); 
          } else { 
              characterState["Outcome"] = "KILLED";
-             stepIndex = 26; return getNextStage(); 
+             stepIndex = 25; return getNextStage(); 
          }
       }
     }
@@ -878,7 +878,6 @@ function handleResult(res) {
       let df = characterState["Devil Fruit"];
       
       if (res.label === "CAPTURED / KILLED") {
-          // Cyborg passivka: +20% szansy na przeżycie śmierci
           if (characterState["Race"] === "Cyborg" && Math.random() < 0.2) {
               res.label = "ESCAPED BARELY";
               popupTitle = "Cyborg Enhancement! You repaired yourself and escaped!";
@@ -1026,6 +1025,7 @@ function prepareNextStage() {
     }
   }, 50);
 }
+
 // --- BEZPIECZNE PODSUMOWANIE KOŃCOWE ---
 function showFinalSummary() {
   let isGov = ["Spoiled Tenryubito", "Holy Knight", "Marine"].includes(characterState["Faction"]);
@@ -1198,7 +1198,16 @@ function deleteRun(id) {
     loadHistory();
 }
 
-  // PRZYCISK STATYSTYK NA MOBILE
+window.onload = () => {
+  const sbtn = document.getElementById("spinBtn");
+  if(sbtn) sbtn.addEventListener("click", spin);
+  
+  const cbtn = document.getElementById("continueBtn");
+  if(cbtn) cbtn.addEventListener("click", prepareNextStage);
+  
+  const rbtn = document.getElementById("restartBtn");
+  if(rbtn) rbtn.addEventListener("click", () => location.reload());
+
   const statsBtn = document.getElementById("mobileStatsBtn");
   if(statsBtn) {
       statsBtn.addEventListener("click", () => {
@@ -1210,7 +1219,6 @@ function deleteRun(id) {
       });
   }
 
-  // OBSŁUGA MODALA HISTORII
   const histBtn = document.getElementById("historyBtn");
   if(histBtn) {
       histBtn.addEventListener("click", () => {

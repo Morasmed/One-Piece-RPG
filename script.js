@@ -193,7 +193,6 @@ function updateLiveSheet() {
   
   if(characterSheet.length > 0) sheet.classList.add("active");
   
-    // Nowy przycisk X, który zamyka plakat i resetuje tekst głównego przycisku
   let html = `<div class="close-sheet-x" onclick="document.getElementById('liveSheet').classList.remove('mobile-visible'); document.getElementById('mobileStatsBtn').innerText = '📋 VIEW STATS';">✖</div>`;
   html += `<div class="live-sheet-header">WANTED</div>`;
   html += `<div class="live-sheet-bounty">${totalBounty.toLocaleString()} <br><span>BELI</span></div>`;
@@ -709,7 +708,7 @@ function getNextStage() {
             ];
         } else {
             let hugeW = 10;
-            let failW = race === "Human" ? 5 : 10; // Człowiek ma zmniejszone szanse na porażkę o połowę!
+            let failW = race === "Human" ? 5 : 10;
             if ((cat === "Zoan (Incl. Ancient)" || cat === "Mythical Zoan") && (stat === "Strength" || stat === "Speed")) hugeW = 25;
             if (cat === "Paramecia" && (stat === "Battle IQ" || stat === "Fruit Mastery")) hugeW = 25;
             
@@ -1028,24 +1027,63 @@ function prepareNextStage() {
   }, 50);
 }
 
+// --- NOWA / ODTWORZONA FUNKCJA PODSUMOWANIA KOŃCOWEGO ---
+function showFinalSummary() {
+  let isGov = ["Spoiled Tenryubito", "Holy Knight", "Marine"].includes(characterState["Faction"]);
+  
+  let earnedTitles = generateTitles();
+  saveRun(earnedTitles);
+  
+  let html = `
+    <div class="wanted-poster">
+      <div class="wanted-title">${isGov ? "WORLD GOV DOSSIER" : "WANTED"}</div>
+      ${isGov ? "" : '<div class="wanted-doa">DEAD OR ALIVE</div>'}
+      
+      <div style="text-align:center; margin-bottom: 15px; padding: 10px; background: rgba(0,0,0,0.05); border: 2px dashed #8b4513;">
+          <span style="font-size:0.8rem; color:#5c3a21; font-weight:bold; text-transform:uppercase;">EARNED TITLES:</span><br>
+          <span style="font-size:0.95rem; color:#8b0000; font-weight:900;">🏆 ${earnedTitles.join(" 🏆 ")}</span>
+      </div>
+
+      <div style="margin: 10px 0;">`;
+  
+  characterSheet.forEach(i => {
+    if (i.key === "Fruit Category" || i.key === "Final Status") return; 
+    let shortKey = i.key.replace(" Haki", "");
+    html += `<div class="card-row"><span class="card-label" style="color:#5c3a21;">${shortKey}</span><span class="card-val" style="color:#3e2723;">${i.val}</span></div>`;
+  });
+  
+  html += `</div>
+      <div class="wanted-bounty">
+        <span style="font-size:1rem; color:#8b0000; display:block; margin-bottom:5px;">FINAL FATE:</span>
+        <span style="font-size:1.3rem;">${characterState["Final Status"] || "Unknown"}</span>
+      </div>
+    </div>`;
+    
+  let cc = document.getElementById("cardContainer");
+  if(cc) cc.innerHTML = html;
+  
+  let sc = document.getElementById("summaryCard");
+  if(sc) sc.classList.add("active");
+  
+  let live = document.getElementById("liveSheet");
+  if(live) live.classList.remove("mobile-visible");
+}
+
 // --- ROZBUDOWANY SYSTEM TYTUŁÓW ---
 function generateTitles() {
     let titles = [];
     let c = characterState;
     let bounty = totalBounty || 0;
 
-    // Tytuły za Bounty
     if (bounty >= 1000000000) titles.push("Billion-Beli Threat");
     else if (bounty >= 500000000) titles.push("Super Rookie");
     else if (bounty < 50000000) titles.push("Lucky Novice");
 
-    // Tytuły za Rasę / Frakcję
     if (c["Race"] === "Cyborg") titles.push("Iron Demon");
     if (c["Faction"] === "Spoiled Tenryubito") titles.push("Heavenly Dragon");
     if (c["Faction"] === "Marine" && bounty > 500000000) titles.push("Hero of the Marines");
     if (c["Faction"] === "Revolutionary") titles.push("Fighter for Freedom");
 
-    // Tytuły za Umiejętności i Owoc
     if (c["Weapon"] === "Black Blade") titles.push("Sword God");
     if (c["Observation Haki"] && c["Armament Haki"] && c["Conqueror's Haki"] &&
         c["Observation Haki"].includes("Mastered") && 
@@ -1069,7 +1107,7 @@ function generateTitles() {
 function saveRun(titles) {
     let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
     let newRun = {
-        id: Date.now(), // Unikalne ID do kasowania wpisu
+        id: Date.now(),
         date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
         bounty: totalBounty,
         faction: characterState["Faction"] || "Unknown",
@@ -1077,7 +1115,7 @@ function saveRun(titles) {
         titles: titles.join(" | ")
     };
     runs.unshift(newRun); 
-    if (runs.length > 20) runs.pop(); // Przechowuje 20 ostatnich gier
+    if (runs.length > 20) runs.pop();
     localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
 }
 
@@ -1101,7 +1139,6 @@ function loadHistory() {
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">
                 <span style="font-size:0.9rem; color:#fff; font-weight:bold;">Run #${runs.length - i}</span>
                 <span style="font-size:0.75rem; color:#9ca3af;">${r.date}</span>
-                <!-- PRZYCISK USUWANIA WPISU -->
                 <button class="delete-run-btn" onclick="deleteRun(${r.id})">🗑️</button>
             </div>
             <div style="font-size:0.85rem; margin-bottom:3px;"><strong>Faction:</strong> ${r.faction} | <strong>Bounty:</strong> ${r.bounty.toLocaleString()} BELI</div>
@@ -1112,12 +1149,11 @@ function loadHistory() {
     hc.innerHTML = html;
 }
 
-// Funkcja usuwająca konkretny run po kliknięciu kosza
 function deleteRun(id) {
     let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
     runs = runs.filter(r => r.id !== id);
     localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
-    loadHistory(); // Odświeża widok bez przeładowania strony
+    loadHistory();
 }
   
 window.onload = () => {
@@ -1130,7 +1166,7 @@ window.onload = () => {
   const rbtn = document.getElementById("restartBtn");
   if(rbtn) rbtn.addEventListener("click", () => location.reload());
 
-  // --- NOWY KOD DLA PRZYCISKU STATYSTYK NA MOBILE ---
+  // PRZYCISK STATYSTYK NA MOBILE
   const statsBtn = document.getElementById("mobileStatsBtn");
   if(statsBtn) {
       statsBtn.addEventListener("click", () => {
@@ -1140,24 +1176,25 @@ window.onload = () => {
               statsBtn.innerText = sheet.classList.contains("mobile-visible") ? "❌ CLOSE STATS" : "📋 VIEW STATS";
           }
       });
-      // --- OBSŁUGA MODALA HISTORII ---
+  }
+
+  // OBSŁUGA MODALA HISTORII
   const histBtn = document.getElementById("historyBtn");
   if(histBtn) {
       histBtn.addEventListener("click", () => {
-          loadHistory(); // Ładuje najnowsze wpisy z localStorage
-          document.getElementById("historyModal").classList.add("active");
+          loadHistory();
+          let hm = document.getElementById("historyModal");
+          if(hm) hm.classList.add("active");
       });
   }
 
   const closeHist = document.getElementById("closeHistoryBtn");
   if(closeHist) {
       closeHist.addEventListener("click", () => {
-          document.getElementById("historyModal").classList.remove("active");
+          let hm = document.getElementById("historyModal");
+          if(hm) hm.classList.remove("active");
       });
   }
-    
-  }
-  // ---------------------------------------------------
 
   updateStatusBar();
   updateLiveSheet();

@@ -1125,6 +1125,18 @@ function loadHistory() {
     let hc = document.getElementById("historyContainer");
     if (!hc) return;
 
+    // Automatyczne dodanie id starym zapisom, które go nie mają
+    let hasChanges = false;
+    runs.forEach((r, idx) => {
+        if (!r.id) {
+            r.id = Date.now() + idx;
+            hasChanges = true;
+        }
+    });
+    if (hasChanges) {
+        localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
+    }
+
     if (runs.length === 0) {
         hc.innerHTML = "<p style='text-align:center; color:#9ca3af;'>No past journeys recorded yet.</p>";
         return;
@@ -1149,22 +1161,14 @@ function loadHistory() {
     hc.innerHTML = html;
 }
 
+// Funkcja usuwająca konkretny run po jego ID
 function deleteRun(id) {
+    if (!id) return;
     let runs = JSON.parse(localStorage.getItem("opJourneyRuns") || "[]");
     runs = runs.filter(r => r.id !== id);
     localStorage.setItem("opJourneyRuns", JSON.stringify(runs));
     loadHistory();
 }
-  
-window.onload = () => {
-  const sbtn = document.getElementById("spinBtn");
-  if(sbtn) sbtn.addEventListener("click", spin);
-  
-  const cbtn = document.getElementById("continueBtn");
-  if(cbtn) cbtn.addEventListener("click", prepareNextStage);
-  
-  const rbtn = document.getElementById("restartBtn");
-  if(rbtn) rbtn.addEventListener("click", () => location.reload());
 
   // PRZYCISK STATYSTYK NA MOBILE
   const statsBtn = document.getElementById("mobileStatsBtn");
